@@ -18,6 +18,64 @@
  * (mediante $1, $2, $3, etc.).
  */
 
+token StartPatternAction(char * lexeme) {
+	LogDebug("StartPatternAction: '%s'.", lexeme);
+	yylval.token = START;
+	return START;
+}
+
+token EndPatternAction(char * lexeme) {
+	LogDebug("EndPatternAction: '%s'.", lexeme);
+	yylval.token = END;
+	return END;
+}
+
+token CreateTrackPatternAction(char * lexeme) {
+	LogDebug("EndPatternAction: '%s'.", lexeme);
+	yylval.token = CREATE_T;
+	return CREATE_T;
+}
+
+token AddToTrackPatternAction(char * lexeme) {
+	LogDebug("EndPatternAction: '%s'.", lexeme);
+	yylval.token = ADD;
+	return ADD;
+}
+
+token SubtractPatternAction(const char * lexeme) {
+	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
+	yylval.token = SUB;
+	return SUB;
+}
+
+token CreateSongPatternAction(char * lexeme) {
+	LogDebug("EndPatternAction: '%s'.", lexeme);
+	yylval.token = CREATE_S;
+	return CREATE_S;
+}
+
+token OpenParenthesisPatternAction(const char * lexeme) {
+	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
+	yylval.token = OPEN_PARENTHESIS;
+	return OPEN_PARENTHESIS;
+}
+
+token CloseParenthesisPatternAction(const char * lexeme) {
+	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
+	yylval.token = CLOSE_PARENTHESIS;
+	return CLOSE_PARENTHESIS;
+}
+
+token ChordPatternAction(const char * lexeme) {
+	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
+	yylval.token = CHORD;
+	return CHORD;
+}
+/*
+
+LOS DE LA CATEDRA
+
+*/
 void BeginCommentPatternAction() {
 	LogDebug("BeginCommentPatternAction.");
 }

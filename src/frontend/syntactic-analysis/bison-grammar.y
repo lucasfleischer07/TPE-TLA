@@ -27,6 +27,19 @@
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
+//Nuestros
+%token <token> ADD
+%token <token> SUB
+%token <token> OPEN_PARENTHESIS
+%token <token> CLOSE_PARENTHESIS
+%token <token> START
+%token <token> END
+%token <token> CREATE_T
+%token <token> CREATE_S
+%token <token> CHORD
+
+
+//catedra
 %token <token> ADD
 %token <token> SUB
 %token <token> MUL
