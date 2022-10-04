@@ -19,9 +19,9 @@ int CodeGrammarAction(const int left, const int right);
 int DefinitionsGrammarAction(const int left,const int right);
 int DefinitionGrammarAction(const int value);
 
-int SongGrammarAction(const int value);
-int TrackGrammarActionGrammarAction(const int value);
-int NoteGrammarAction(const int value);
+int SongGrammarAction(const int left, const int right);
+int TrackGrammarAction(const int left, const int right);
+int NoteGrammarAction(const int left, const int right);
 
 int InstructionGrammarAction(const int value);
 int InstructionsGrammarAction(const int left, const int right);
@@ -29,11 +29,12 @@ int InstructionsGrammarAction(const int left, const int right);
 int SimpleExpressionGrammarAction(const int value);
 int DoubleExpressionGrammarAction(const int value);
 
-int RhythmExpressionGrammarAction(const int left, const int right);
-int NoteFullDefinitionExpressionGrammarAction(const int left, const int right);
+int NoteValueExpressionGrammarAction(const int left, const int right);
+int RhythmExpressionGrammarAction(const int left, const int middle, const int right);
+int NoteFullDefinitionExpressionGrammarAction(const int left, const int middleLeft,const int middleRight, const int right);
 int TrackInstrumentGrammarAction(const int left, const int right);
 int TempoExpressionGrammarAction(const int left, const int right);
-void MultiplicationExpressionGrammarAction(const int left, const int right);
+int MultiplicationExpressionGrammarAction(const int left, const int middle, const int right);
 int ParentesisExpressionGramarAction(const int value);
 int RepetitionGrammarAction(const int left, const int right);
 

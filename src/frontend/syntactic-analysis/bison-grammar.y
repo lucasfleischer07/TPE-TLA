@@ -27,19 +27,16 @@
 	int song;
 	int track;
 	int note;
+	int tempo;
+	int integer;
+	int instrument;
+	int note_value;
+	int rhythm;
+	int chord;
 
 	// Terminales.
 	token token;
-	char* string;
-	int integer;
-	tempo tempo;
-	song songT;
-	track trackT;
-	note noteT;
-	scale scale;
-	rhythm rhythm;
-	chord chord;
-	instrument instrument;
+
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
@@ -48,8 +45,9 @@
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_BRACE
 %token <token> CLOSE_BRACE
-
-
+%token <token> SONG
+%token <token> NOTE
+%token <token> TRACK
 
  /* Operadores aritméticos */
 %token <token> ADD
@@ -61,12 +59,13 @@
 /* Palabras reservadas */
 %token <tempo> TEMPO_VALUE
 %token <integer> REPETITION
-%token <songT> SONG_NAME
-%token <trackT> TRACK_NAME
-%token <noteT> NOTE_NAME
+%token <song> SONG_NAME
+%token <track> TRACK_NAME
+%token <note> NOTE_NAME
 %token <rhythm> RHYTHM_VALUE
-%token <chord> CDDHORD_VALUE
+%token <chord> CHORD_VALUE
 %token <instrument> INSTRUMENT
+%token <note_value> NOTE_VALUE 
 
 
 // Tipos de dato para los no-terminales generados desde Bison.
@@ -88,6 +87,7 @@
 %left MULT DIV
 
 
+
 // El símbolo inicial de la gramatica.
 %start program
 
@@ -97,17 +97,15 @@ program: code														{$$ = ProgramGrammarAction($1); }
 	; 
 
 code: definitions instructionsArray									{$$ = CodeGrammarAction($1,$2); } 
-	| definitions
 	;
 
 definitions: definition definitions									{$$ = DefinitionsGrammarAction($1,$2); }	
 	| definition													{$$ = DefinitionGrammarAction($1); }
 	;
 
-definition: song													{$$ = SongGrammarAction($1); }
-	| track															{$$ = TrackGrammarAction($1); }
-	| note															{$$ = NoteGrammarAction($1); }
-	|lambda
+definition:SONG song												{$$ = SongGrammarAction($1,$2); }
+| TRACK track														{$$ = TrackGrammarAction($1,$2); }
+| NOTE note															{$$ = NoteGrammarAction($1,$2); }
 	;
 
 
@@ -120,15 +118,15 @@ instruction: singleExpression 										{$$ = SimpleExpressionGrammarAction($1);
 	| doubleExpression												{$$ = DoubleExpressionGrammarAction($1);}
 	;
 
-
-singleExpression: note RHYTHM_VALUE 								{$$ = RhythmExpressionGrammarAction($1,$2);}
-	| note RHYTHM_VALUE CHORD_VALUE 								{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3);}
+singleExpression: note NOTE_VALUE									{$$ = NoteValueExpressionGrammarAction($1,$2);}
+	| note NOTE_VALUE RHYTHM_VALUE 									{$$ = RhythmExpressionGrammarAction($1,$2,$3);}
+	| note NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 						{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
 	| track  INSTRUMENT												{$$ = TrackInstrumentGrammarAction($1, $2);}
 	| track TEMPO_VALUE												{$$ = TempoExpressionGrammarAction($1, $2);}
 	| track MULT TEMPO_VALUE										{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
-	| OPEN_PARENTHESIS track CLOSE_PARENTHESIS						{$$ = ParentesisExpressionGramarAction($2)}
-	| track															{$$ = TrackGrammarAction($1);}
-	| note															{$$ = NoteGrammarAction($1);}
+	| OPEN_PARENTHESIS track CLOSE_PARENTHESIS						{$$ = ParentesisExpressionGramarAction($2);}
+	| track															{$$ = TrackTermGrammarAction($1);}
+	| note															{$$ = NoteTermGrammarAction($1);}
 	| song OPEN_BRACE REPETITION CLOSE_BRACE						{$$ = RepetitionGrammarAction($1,$3);}
 	;
 

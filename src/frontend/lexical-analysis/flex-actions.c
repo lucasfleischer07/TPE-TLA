@@ -18,27 +18,41 @@
  * (mediante $1, $2, $3, etc.).
  */
 
-token StartPatternAction(char * lexeme) {
-	LogDebug("StartPatternAction: '%s'.", lexeme);
-	yylval.token = START;
-	return START;
-}
+// token StartPatternAction(char * lexeme) {
+// 	LogDebug("StartPatternAction: '%s'.", lexeme);
+// 	yylval.token = START;
+// 	return START;
+// }
 
-token EndPatternAction(char * lexeme) {
-	LogDebug("EndPatternAction: '%s'.", lexeme);
-	yylval.token = END;
-	return END;
-}
+// token EndPatternAction(char * lexeme) {
+// 	LogDebug("EndPatternAction: '%s'.", lexeme);
+// 	yylval.token = END;
+// 	return END;
+// }
 
-token SongPatternAction(char * lexeme) {
+token SongDefinitionPatternAction(char * lexeme) {
 	LogDebug("SongPatternAction: '%s'.", lexeme);
-	yylval.token = ;
-	return END;
+	yylval.token = SONG;
+	return SONG;
 }
 
+token NoteDefinitionPatternAction(char * lexeme) {
+	LogDebug("NotePatternAction: '%s'.", lexeme);
+	yylval.token = NOTE;
+	return NOTE;
+}
 
-// TODO: FALTA EL ADD PATTERN ACTION
+token TrackDefinitionPatternAction(char * lexeme) {
+	LogDebug("TrackPatternAction: '%s'.", lexeme);
+	yylval.token = TRACK;
+	return TRACK;
+}
 
+token AddPatternAction(char * lexeme) {
+	LogDebug("AddToTrackPatternAction: '%s'.", lexeme);
+	yylval.token = ADD;
+	return ADD;
+}
 
 token RepeatPatternAction(char * lexeme) {
 	LogDebug("RepeatPatternAction: '%s'.", lexeme);
@@ -46,23 +60,15 @@ token RepeatPatternAction(char * lexeme) {
 	return REPETITION;
 }
 
-
-token AddToTrackPatternAction(char * lexeme) {
-	LogDebug("AddToTrackPatternAction: '%s'.", lexeme);
-	yylval.token = ADD;
-	return ADD;
-}
-
-
-token SubtractPatternAction(const char * lexeme) {
+token SubstractPatternAction(const char * lexeme) {
 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
 	yylval.token = SUB;
 	return SUB;
 }
 
 
-token DivideOperatorPatternAction(const char * lexeme) {
-	LogDebug("DivisionOperatorPatternAction: '%s'.", lexeme);
+token DividePatternAction(const char * lexeme) {
+	LogDebug("DivisionPatternAction: '%s'.", lexeme);
 	yylval.token = DIV;
 	return DIV;
 }
@@ -98,9 +104,16 @@ token CloseBracePatternAction(const char * lexeme) {
 
 token NotePatternAction(const char * lexeme) {
 	LogDebug("NotePatternAction: '%s'.", lexeme);
-	yylval.token = SCALE;
-	return SCALE;
+	yylval.token = NOTE_VALUE;
+	return NOTE_VALUE;
 }
+
+token IntegerPatternAction(const char * lexeme) {
+	LogDebug("IntegerPatternAction: '%s'", lexeme);
+	yylval.token = REPETITION;
+	return REPETITION;
+}
+
 
 
 token ChordPatternAction(const char * lexeme) {
@@ -118,7 +131,7 @@ token TempoPatternAction(const char * lexeme) {
 
 
 token RhythmPatternAction(const char * lexeme) {
-	LogDebug("DurationPatternAction: '%s'.", lexeme);
+	LogDebug("RhythmPatternAction: '%s'.", lexeme);
 	yylval.token = RHYTHM_VALUE;
 	return RHYTHM_VALUE;
 }
@@ -126,28 +139,23 @@ token RhythmPatternAction(const char * lexeme) {
 
 token InstrumentPatternAction(const char * lexeme) {
 	LogDebug("InstrumentPatternAction: '%s'.", lexeme);
-	yylval.token = INST_VALUE;
-	return INST_VALUE;
+	yylval.token = INSTRUMENT;
+	return INSTRUMENT;
 }
 
 
-token UnknownPatternAction(const char * lexeme, const int length) {
-	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
+token UnknownPatternAction(const char * lexeme) {
+	LogDebug("UnknownPatternAction: '%s'.", lexeme);
 	yylval.token = YYUNDEF;
 	// Al emitir este token, el compilador aborta la ejecución.
 	return YYUNDEF;
 }
 
 
-void IgnoredPatternAction(const char * lexeme, const int length) {
-	LogDebug("IgnoredPatternAction: '%s' (length = %d).", lexeme, length);
+token IgnoredPatternAction(const char * lexeme) {
+	LogDebug("IgnoredPatternAction: '%s'", lexeme);
 	// Como no debe hacer nada con el patrón, solo se loguea en consola.
 }
-
-
-
-
-
 
 
 /* LOS DE LA CATEDRA */
@@ -179,24 +187,19 @@ token DivisionOperatorPatternAction(const char * lexeme) {
 
 
 
-token DurationPatternAction(const char * lexeme) {
-	LogDebug("Duration: '%s' ", lexeme);
-	yylval.token = DURATION;
-	return DURATION;
-}
+// token DurationPatternAction(const char * lexeme) {
+// 	LogDebug("Duration: '%s' ", lexeme);
+// 	yylval.token = DURATION;
+// 	return DURATION;
+// }
 
 
 token MultiplicationOperatorPatternAction(const char * lexeme) {
 	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = MUL;
-	return MUL;
+	yylval.token = MULT;
+	return MULT;
 }
 
-token OpenParenthesisPatternAction(const char * lexeme) {
-	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = OPEN_PARENTHESIS;
-	return OPEN_PARENTHESIS;
-}
 
 token SubtractionOperatorPatternAction(const char * lexeme) {
 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);

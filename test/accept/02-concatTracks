@@ -1,4 +1,5 @@
-#definicion de las variables
+// #definicion de las variables
+
 track track1;
 track track2;
 
@@ -7,7 +8,8 @@ note nota2;
 
 
 song contatSong;
-#operaciones
+
+// #operaciones
 nota1 do q G-Major;
 nota2 re h C-Major;
 track1 + nota1;
@@ -19,7 +21,7 @@ track2 + nota1;
 concatSong + track1;
 concatSong + track2;
 
-return concatSong;
+// return concatSong;
 
 
 

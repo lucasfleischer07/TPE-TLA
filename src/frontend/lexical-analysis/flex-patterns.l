@@ -13,44 +13,34 @@
 /* Dispone una variable global "yylineno" con el número de línea actual. */
 %option yylineno
 
+
 /* Patrones reutilizables. */
 endline			    \n
 whitespace		    [ \f\n\r\t\v]
+integer 	        [0-9]+          
 tempo               ([0-9]){1,2}((\.)([0-9]){1})?
-string              \"[^\n\r]*\" 
+duration            (q|qqq|h|w)
 rhythm              (q|qqq|h|w)
 note                (do|re|mi|fa|sol|la|si|r)#?
 instrument          (P|F)
 chord               (G-Major|C-Major)
-integer             [0-9]+
+
 
 %%
 
-"start"                                     { return StartPatternAction(yytext); }
-"end"                                       { return EndPatternAction(yytext); }    
-"song"                                      { return SongPatterAction(yytext); }
-"note"                                      { return NotePatternAction(yytext); }
-"track"                                     { return TrackPatternAction(yytext); }
+"song"                                      { return SongDefinitionPatternAction(yytext); }
+"note"                                      { return NoteDefinitionPatternAction(yytext); }
+"track"                                     { return TrackDefinitionPatternAction(yytext); }
 
 "+"                                         { return AddPatternAction(yytext); }
 "*"                                         { return RepeatPatternAction(yytext); }
-"-"                                         { return SubstactPatternAction(yytext); }
+"-"                                         { return SubstractPatternAction(yytext); }
+"{"                                         { return OpenBracePatternAction(yytext); }
+"}"                                         { return CloseBracePatternAction(yytext); }
 "/"                                         { return DividePatternAction(yytext); }
 "("											{ return OpenParenthesisPatternAction(yytext); }
 ")"											{ return CloseParenthesisPatternAction(yytext); }
-"{"											{ return OpenBracePatternAction(yytext); }
-"}"											{ return CloseBracePatternAction(yytext); }
-";"                                         { return DelimiterPatternAction(yytext); }
 
-/*DE ACA NO METIMOS NINGUNA*/
-"print"                                     { return PrintPatternAction(yytext); }
-"print_to_chords"                           { return PrintToChordsPatternAction(yytext); }
-"concat_notes"                              { return ConcatNotesPatternAction(yytext); }
-"to_notes"                                  { return ToNotesPatternAction(yytext); }
-"to_chord"                                  { return ToChordPatternAction(yytext); }
-"create_music_score"                        { return CreateMusicScorePatternAction(yytext); }
-"is_note"                                   { return IsNotePatternAction(yytext); }
-"is_chord"                                  { return IsChordPatternAction(yytext); }
 
 {chord}                                     { return ChordPatternAction(yytext);}
 {note}                                      { return NotePatternAction(yytext);}
@@ -60,8 +50,8 @@ integer             [0-9]+
 {instrument}                                { return InstrumentPatternAction(yytext); }
 
 {integer}									{ return IntegerPatternAction(yytext); }
-{string}                                    { return StringPatternAction(yytext); }
 {whitespace}								{ return IgnoredPatternAction(yytext); }
 .											{ return UnknownPatternAction(yytext); }
 
 %%
+

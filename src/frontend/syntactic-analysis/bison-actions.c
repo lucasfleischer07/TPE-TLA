@@ -63,18 +63,18 @@ int DefinitionGrammarAction(const int value) {
 	return 1;
 }
 
-int SongGrammarAction(const int value) {
-	LogDebug("\tSongGrammarAction(%d)", value);
+int SongGrammarAction(const int left, const int right) {
+	LogDebug("\tSongGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int TrackGrammarActionGrammarAction(const int value) {
-	LogDebug("\tTrackGrammarActionGrammarAction(%d)", value);
+int TrackGrammarAction(const int left, const int right) {
+	LogDebug("\tTrackGrammarActionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int NoteGrammarAction(const int value) {
-	LogDebug("\tNoteGrammarAction(%d)", value);
+int NoteGrammarAction(const int left, const int right) {
+	LogDebug("\tNoteGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
@@ -104,13 +104,18 @@ int DoubleExpressionGrammarAction(const int value) {
 	return 1;
 }
 
-int RhythmExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tRhythmExpressionGrammarAction(%d, %d)", left, right);
+int NoteValueExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tNoteValueExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int NoteFullDefinitionExpressionGrammarAction(const int left, const int middle, const int right) {
-	LogDebug("\tNoteFullDefinitionExpressionGrammarAction(%d, %d)", left, middle, right);
+int RhythmExpressionGrammarAction(const int left, const int middle, const int right) {
+	LogDebug("\tRhythmExpressionGrammarAction(%d, %d,%d)", left, middle,right);
+	return 1;
+}
+
+int NoteFullDefinitionExpressionGrammarAction(const int left, const int middleLeft,const int middleRight, const int right) {
+	LogDebug("\tNoteFullDefinitionExpressionGrammarAction(%d, %d, %d, %d)", left, middleLeft,middleRight, right);
 	return 1;
 }
 
@@ -124,8 +129,9 @@ int TempoExpressionGrammarAction(const int left, const int right) {
 	return 1;
 }
 
-void MultiplicationExpressionGrammarAction(const int left, const int middle, const int right) {
+int MultiplicationExpressionGrammarAction(const int left, const int middle, const int right) {
 	LogDebug("\tMultiplicationExpressionGrammarAction(%d, %d, %d)", left, middle, right);
+	return 1;
 }
 
 int ParentesisExpressionGramarAction(const int value) {

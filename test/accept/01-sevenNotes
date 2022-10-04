@@ -1,8 +1,3 @@
-
-# (uso: program->code-> definitions instuctionsArray-> definition instructionArray->
-# note instructionArray->note instruction-> note singleExpression->
-# NOTE_NAME note RHYTHM_VALUE CHORD_VALUE -> note1 note do G-Major)
-
 note1 note do G-Major;
 note2 note re G-Major;
 note3 note re C-Major;
@@ -11,10 +6,6 @@ note5 note fa G-Major;
 note6 note sol G-Major;
 note7 note la C-Major;
 
-
-# (uso: program->code-> definitions instuctionsArray-> definition instructionArray->
-# track instructionArray->  TRACK_NAME doubleExpression->  TRACK_NAME TRACK_NAME ADD singleExpression->
-# TRACK_NAME TRACK_NAME ADD note1-> track1 track1 + note1)
 
 track1 + note1;
 track1 + note2;
@@ -26,3 +17,4 @@ track1 + note6;
 track1 + note7;
 
 return track1;
+

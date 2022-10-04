@@ -1,4 +1,4 @@
-#definicion de las variables
+// #definicion de las variables
 track track1 track2;
 
 note nota1 do note2 re nota3 mi;

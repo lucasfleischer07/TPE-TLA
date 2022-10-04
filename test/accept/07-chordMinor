@@ -7,9 +7,9 @@ note nota3;
 
 song song1;
 #Operacion
-note nota1 re q G-Mayor;
-nota2 do h C-Mayor;
-nota3 mi qqq C-Mayor;
+note nota1 re q C-Mayor;
+nota2 do h G-Mayor;
+nota3 mi qqq G-Mayor;
 track1 + nota1;
 track1 + nota2;
 track1 + nota3;

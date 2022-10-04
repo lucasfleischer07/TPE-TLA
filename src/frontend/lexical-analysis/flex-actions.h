@@ -19,38 +19,37 @@
  * largo de aquello que se va a almacenar.
  */
 
-token IntegerPatternAction(const char * lexeme, const int length);
+token IntegerPatternAction(const char * lexeme);
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
-token UnknownPatternAction(const char * lexeme, const int length);
+token UnknownPatternAction(const char * lexeme);
 
 // Regla que no hace nada, permite ignorar parte de la entrada.
-void IgnoredPatternAction(const char * lexeme, const int length);
+token IgnoredPatternAction(const char * lexeme);
 
 // * NUESTRAS!!!!
-token StartPatternAction(char * lexeme);
-token EndPatternAction(char * lexeme);
-token SongPatternAction(char * lexeme);
+// token StartPatternAction(char * lexeme);
+// token EndPatternAction(char * lexeme);
+
+token SongDefinitionPatternAction(char * lexeme);
+token NoteDefinitionPatternAction(char * lexeme);
+token TrackDefinitionPatternAction(char * lexeme);
+
+token AddPatternAction(char * lexeme);
+token SubstractPatternAction(const char * lexeme);
+
+
 token RepeatPatternAction(char * lexeme);
-token AddToTrackPatternAction(char * lexeme);
-token SubtractPatternAction(const char * lexeme);
-token DivideOperatorPatternAction(const char * lexeme);
+token DividePatternAction(const char * lexeme);
 token OpenParenthesisPatternAction(const char * lexeme);
 token CloseParenthesisAction(const char * lexeme);
 token OpenBracePatternAction(const char * lexeme);
 token CloseBracePatternAction(const char * lexeme);
-token NotePatternAction(const char * lexeme);
 token ChordPatternAction(const char * lexeme);
+token NotePatternAction(const char * lexeme);
 token TempoPatternAction(const char * lexeme);
 token RhythmPatternAction(const char * lexeme);
 token InstrumentPatternAction(const char * lexeme);
-
-// Patrón desconocido, permite abortar debido a un error de sintaxis.
-token UnknownPatternAction(const char * lexeme, const int length);
-
-// Regla que no hace nada, permite ignorar parte de la entrada.
-void IgnoredPatternAction(const char * lexeme, const int length);
-
 
 
 
