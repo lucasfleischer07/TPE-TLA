@@ -1,0 +1,5 @@
+song mySong;
+track track1;
+track track2;
+note1 note do G-Major;
+track1 track2 add note1;

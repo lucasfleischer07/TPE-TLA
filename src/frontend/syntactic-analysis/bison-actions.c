@@ -30,6 +30,7 @@ void yyerror(const char * string) {
 */
 int ProgramGrammarAction(const int value) {
 	LogDebug("\tProgramGrammarAction(%d)", value);
+	return 1;
 	/*
 	* "state" es una variable global que almacena el estado del compilador,
 	* cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
@@ -47,42 +48,133 @@ int ProgramGrammarAction(const int value) {
 	return value;
 }
 
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tAdditionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Add(leftValue, rightValue);
+int CodeGrammarAction(const int left, const int right) {
+	LogDebug("\tCodeGrammarAction(%d, %d", left, right);
+	return 1;
 }
 
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tSubtractionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Subtract(leftValue, rightValue);
+int DefinitionsGrammarAction(const int left,const int right) {
+	LogDebug("\tDefinitionsGrammarAction(%d, %d)", left, right);
+	return 1;
 }
 
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tMultiplicationExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Multiply(leftValue, rightValue);
+int DefinitionGrammarAction(const int value) {
+	LogDebug("\tDefinitionsGrammarAction(%d)", value);
+	return 1;
 }
 
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tDivisionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Divide(leftValue, rightValue);
+int SongGrammarAction(const int value) {
+	LogDebug("\tSongGrammarAction(%d)", value);
+	return 1;
 }
 
-int FactorExpressionGrammarAction(const int value) {
-	LogDebug("\tFactorExpressionGrammarAction(%d)", value);
-	return value;
+int TrackGrammarActionGrammarAction(const int value) {
+	LogDebug("\tTrackGrammarActionGrammarAction(%d)", value);
+	return 1;
 }
 
-int ExpressionFactorGrammarAction(const int value) {
-	LogDebug("\tExpressionFactorGrammarAction(%d)", value);
-	return value;
+int NoteGrammarAction(const int value) {
+	LogDebug("\tNoteGrammarAction(%d)", value);
+	return 1;
 }
 
-int ConstantFactorGrammarAction(const int value) {
-	LogDebug("\tConstantFactorGrammarAction(%d)", value);
-	return value;
+int RepetitionGrammarAction(const int left, const int right){
+	LogDebug("\tInstructionGrammarAction(%d, %d)", left, right);
+	return 1;
 }
 
-int IntegerConstantGrammarAction(const int value) {
-	LogDebug("\tIntegerConstantGrammarAction(%d)", value);
-	return value;
+int InstructionGrammarAction(const int value) {
+	LogDebug("\tInstructionGrammarAction(%d)", value);
+	return 1;
 }
+
+
+int InstructionsGrammarAction(const int left, const int right) {
+	LogDebug("\tSimpleExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int SimpleExpressionGrammarAction(const int value) {
+	LogDebug("\tSimpleExpressionGrammarAction(%d)", value);
+	return 1;
+}
+
+int DoubleExpressionGrammarAction(const int value) {
+	LogDebug("\tDoubleExpressionGrammarAction(%d)", value);
+	return 1;
+}
+
+int RhythmExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tRhythmExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int NoteFullDefinitionExpressionGrammarAction(const int left, const int middle, const int right) {
+	LogDebug("\tNoteFullDefinitionExpressionGrammarAction(%d, %d)", left, middle, right);
+	return 1;
+}
+
+int TrackInstrumentGrammarAction(const int left, const int right) {
+	LogDebug("\tTrackInstrumentGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int TempoExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tTempoExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+void MultiplicationExpressionGrammarAction(const int left, const int middle, const int right) {
+	LogDebug("\tMultiplicationExpressionGrammarAction(%d, %d, %d)", left, middle, right);
+}
+
+int ParentesisExpressionGramarAction(const int value) {
+	LogDebug("\tDefinitionsGrammarAction(%d)", value);
+	return 1;
+}
+
+int SongAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tSongAdditionExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int TrackAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int SubstractionNoteExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tSubstractionNoteExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int SubstractionTrackExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tSubstractionTrackExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int TrackSubstractionNoteExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int DivisionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tDivisionExpressionGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+int SongTermGrammarAction(const int value) {
+	LogDebug("\tSongTermGrammarAction(%d)",value);
+	return 1;
+}
+
+int TrackTermGrammarAction(const int value) {
+	LogDebug("\tTrackTermGrammarAction(%d)", value);
+	return 1;
+}
+
+int NoteTermGrammarAction(const int value) {
+	LogDebug("\tNoteTermGrammarAction(%d)", value);
+	return 1;
+}
+

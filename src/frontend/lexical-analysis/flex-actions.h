@@ -19,6 +19,42 @@
  * largo de aquello que se va a almacenar.
  */
 
+token IntegerPatternAction(const char * lexeme, const int length);
+
+// Patrón desconocido, permite abortar debido a un error de sintaxis.
+token UnknownPatternAction(const char * lexeme, const int length);
+
+// Regla que no hace nada, permite ignorar parte de la entrada.
+void IgnoredPatternAction(const char * lexeme, const int length);
+
+// * NUESTRAS!!!!
+token StartPatternAction(char * lexeme);
+token EndPatternAction(char * lexeme);
+token SongPatternAction(char * lexeme);
+token RepeatPatternAction(char * lexeme);
+token AddToTrackPatternAction(char * lexeme);
+token SubtractPatternAction(const char * lexeme);
+token DivideOperatorPatternAction(const char * lexeme);
+token OpenParenthesisPatternAction(const char * lexeme);
+token CloseParenthesisAction(const char * lexeme);
+token OpenBracePatternAction(const char * lexeme);
+token CloseBracePatternAction(const char * lexeme);
+token NotePatternAction(const char * lexeme);
+token ChordPatternAction(const char * lexeme);
+token TempoPatternAction(const char * lexeme);
+token RhythmPatternAction(const char * lexeme);
+token InstrumentPatternAction(const char * lexeme);
+
+// Patrón desconocido, permite abortar debido a un error de sintaxis.
+token UnknownPatternAction(const char * lexeme, const int length);
+
+// Regla que no hace nada, permite ignorar parte de la entrada.
+void IgnoredPatternAction(const char * lexeme, const int length);
+
+
+
+
+// * CATEDRA!!!!
 // Bloque de comentarios multilínea.
 void BeginCommentPatternAction();
 void EndCommentPatternAction();
@@ -27,15 +63,8 @@ void EndCommentPatternAction();
 token AdditionOperatorPatternAction(const char * lexeme);
 token CloseParenthesisPatternAction(const char * lexeme);
 token DivisionOperatorPatternAction(const char * lexeme);
-token IntegerPatternAction(const char * lexeme, const int length);
 token MultiplicationOperatorPatternAction(const char * lexeme);
 token OpenParenthesisPatternAction(const char * lexeme);
 token SubtractionOperatorPatternAction(const char * lexeme);
-
-// Patrón desconocido, permite abortar debido a un error de sintaxis.
-token UnknownPatternAction(const char * lexeme, const int length);
-
-// Regla que no hace nada, permite ignorar parte de la entrada.
-void IgnoredPatternAction(const char * lexeme, const int length);
 
 #endif

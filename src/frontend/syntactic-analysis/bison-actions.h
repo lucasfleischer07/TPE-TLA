@@ -14,18 +14,40 @@
 // Programa.
 int ProgramGrammarAction(const int value);
 
-// Expresión.
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue);
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
-int FactorExpressionGrammarAction(const int value);
+int CodeGrammarAction(const int left, const int right);
 
-// Factores.
-int ExpressionFactorGrammarAction(const int value);
-int ConstantFactorGrammarAction(const int value);
+int DefinitionsGrammarAction(const int left,const int right);
+int DefinitionGrammarAction(const int value);
 
-// Constantes.
-int IntegerConstantGrammarAction(const int value);
+int SongGrammarAction(const int value);
+int TrackGrammarActionGrammarAction(const int value);
+int NoteGrammarAction(const int value);
+
+int InstructionGrammarAction(const int value);
+int InstructionsGrammarAction(const int left, const int right);
+
+int SimpleExpressionGrammarAction(const int value);
+int DoubleExpressionGrammarAction(const int value);
+
+int RhythmExpressionGrammarAction(const int left, const int right);
+int NoteFullDefinitionExpressionGrammarAction(const int left, const int right);
+int TrackInstrumentGrammarAction(const int left, const int right);
+int TempoExpressionGrammarAction(const int left, const int right);
+void MultiplicationExpressionGrammarAction(const int left, const int right);
+int ParentesisExpressionGramarAction(const int value);
+int RepetitionGrammarAction(const int left, const int right);
+
+int SongAdditionExpressionGrammarAction(const int left, const int right);
+int TrackAdditionExpressionGrammarAction(const int left, const int right);
+int SubstractionNoteExpressionGrammarAction(const int left, const int right);
+int SubstractionTrackExpressionGrammarAction(const int left, const int right);
+int TrackSubstractionNoteExpressionGrammarAction(const int left, const int right);
+int DivisionExpressionGrammarAction(const int left, const int right);
+
+int SongTermGrammarAction(const int value);
+
+int TrackTermGrammarAction(const int value);
+
+int NoteTermGrammarAction(const int value);
 
 #endif
