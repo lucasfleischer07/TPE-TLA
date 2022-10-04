@@ -1,1 +1,29 @@
-# lo hago co
+#definicion de las variables
+track track1;
+track track2;
+
+note nota1;
+note nota2;
+
+
+song contatSong;
+#operaciones
+nota1 do q G-Major;
+nota2 re h C-Major;
+track1 + nota1;
+track1 + nota1;
+
+track2 + nota2;
+track2 + nota1;
+
+concatSong + track1;
+concatSong + track2;
+
+return concatSong;
+
+
+
+
+
+
+

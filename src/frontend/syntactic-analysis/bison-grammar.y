@@ -65,7 +65,7 @@
 %token <trackT> TRACK_NAME
 %token <noteT> NOTE_NAME
 %token <rhythm> RHYTHM_VALUE
-%token <chord> CHORD_VALUE
+%token <chord> CDDHORD_VALUE
 %token <instrument> INSTRUMENT
 
 

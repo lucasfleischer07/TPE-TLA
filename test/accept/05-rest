@@ -1,0 +1,19 @@
+#definicion de las variables
+track track1;
+
+note nota1;
+note nota2;
+
+song finalSong;
+
+#Operacion
+nota1 re q G-Mayor;
+nota2 r w;
+track1 + nota1;
+track1 + nota2;
+track1 + nota2;
+
+finalSong + track1;
+
+
+return finalSong;
