@@ -39,35 +39,21 @@ token NoteDefinitionPatternAction(char * lexeme);
 token TrackDefinitionPatternAction(char * lexeme);
 
 token AddPatternAction(char * lexeme);
-token SubstractPatternAction(const char * lexeme);
-
-token VariablePatternAction(char * lexeme, const int length);
-
 token RepeatPatternAction(char * lexeme);
-token DividePatternAction(const char * lexeme);
-token OpenParenthesisPatternAction(const char * lexeme);
-token CloseParenthesisAction(const char * lexeme);
+token SubstractPatternAction(const char * lexeme);
 token OpenBracePatternAction(const char * lexeme);
 token CloseBracePatternAction(const char * lexeme);
+token DividePatternAction(const char * lexeme);
+token OpenParenthesisPatternAction(const char * lexeme);
+token CloseParenthesisPatternAction(const char * lexeme);
+
 token ChordPatternAction(const char * lexeme);
 token NotePatternAction(const char * lexeme);
+
 token TempoPatternAction(const char * lexeme);
 token RhythmPatternAction(const char * lexeme);
 token InstrumentPatternAction(const char * lexeme);
 
-
-
-// * CATEDRA!!!!
-// Bloque de comentarios multilínea.
-void BeginCommentPatternAction();
-void EndCommentPatternAction();
-
-// Patrones terminales del lenguaje diseñado.
-token AdditionOperatorPatternAction(const char * lexeme);
-token CloseParenthesisPatternAction(const char * lexeme);
-token DivisionOperatorPatternAction(const char * lexeme);
-token MultiplicationOperatorPatternAction(const char * lexeme);
-token OpenParenthesisPatternAction(const char * lexeme);
-token SubtractionOperatorPatternAction(const char * lexeme);
+token VariablePatternAction(char * lexeme, const int length);
 
 #endif

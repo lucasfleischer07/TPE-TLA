@@ -83,16 +83,10 @@ int NoteGrammarAction(const int left, const int right) {
 	return 1;
 }
 
-int RepetitionGrammarAction(const int left, const int right){
-	LogDebug("\tInstructionGrammarAction(%d, %d)", left, right);
-	return 1;
-}
-
 int InstructionGrammarAction(const int value) {
 	LogDebug("\tInstructionGrammarAction(%d)", value);
 	return 1;
 }
-
 
 int InstructionsGrammarAction(const int left, const int right) {
 	LogDebug("\tSimpleExpressionGrammarAction(%d, %d)", left, right);
@@ -145,13 +139,13 @@ int ParentesisExpressionGramarAction(const int value) {
 }
 
 
-int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
+int RepetitionGrammarAction(const int left, const int right){
+	LogDebug("\tInstructionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int VariableAdditionVariableGrammarAction(const int left, const int right) {
-	LogDebug("\tVariableAdditionVariableGrammarAction(%d, %d)", left, right);
+int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
@@ -160,6 +154,12 @@ int VariableAdditionExpressionGrammarAction(const int left, const int right) {
 	return 1;
 }
 
+int VariableAdditionVariableGrammarAction(const int left, const int right) {
+	LogDebug("\tVariableAdditionVariableGrammarAction(%d, %d)", left, right);
+	return 1;
+}
+
+
 int SubstractionExpressionGrammarAction(const int left, const int right) {
 	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
 	return 1;
@@ -167,21 +167,6 @@ int SubstractionExpressionGrammarAction(const int left, const int right) {
 
 int DivisionExpressionGrammarAction(const int left, const int right) {
 	LogDebug("\tDivisionExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
-}
-
-int SongTermGrammarAction(const char * value) {
-	LogDebug("\tSongTermGrammarAction(%s)",value);
-	return 1;
-}
-
-int TrackTermGrammarAction(const char * value) {
-	LogDebug("\tTrackTermGrammarAction(%s)", value);
-	return 1;
-}
-
-int NoteTermGrammarAction(const char * value) {
-	LogDebug("\tNoteTermGrammarAction(%s)", value);
 	return 1;
 }
 

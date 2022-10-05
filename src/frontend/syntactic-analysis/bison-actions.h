@@ -14,7 +14,6 @@
 // Programa.
 int ProgramGrammarAction(const int value);
 
-
 int CodeGrammarAction(const int left, const int right);
 
 int DefinitionsGrammarAction(const int left,const int right);
@@ -45,12 +44,6 @@ int VariableAdditionVariableGrammarAction(const int left, const int right);
 int VariableAdditionExpressionGrammarAction(const int left, const int right);
 int SubstractionExpressionGrammarAction(const int left, const int right);
 int DivisionExpressionGrammarAction(const int left, const int right);
-
-int SongTermGrammarAction(const char * value);
-
-int TrackTermGrammarAction(const char * value);
-
-int NoteTermGrammarAction(const char * value);
 
 int VariableNameGrammarAction(const int value);
 
