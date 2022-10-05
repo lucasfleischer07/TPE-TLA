@@ -49,7 +49,7 @@ int ProgramGrammarAction(const int value) {
 }
 
 int CodeGrammarAction(const int left, const int right) {
-	LogDebug("\tCodeGrammarAction(%d, %d", left, right);
+	LogDebug("\tCodeGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
@@ -69,7 +69,7 @@ int SongGrammarAction(const int left, const int right) {
 }
 
 int TrackGrammarAction(const int left, const int right) {
-	LogDebug("\tTrackGrammarActionGrammarAction(%d, %d)", left, right);
+	LogDebug("\tTrackGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
@@ -139,27 +139,17 @@ int ParentesisExpressionGramarAction(const int value) {
 	return 1;
 }
 
-int SongAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tSongAdditionExpressionGrammarAction(%d, %d)", left, right);
+int VariableAdditionVariableGrammarAction(const int left, const int right) {
+	LogDebug("\tVariableAdditionVariableGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int TrackAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
+int VariableAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tVariableAdditionExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int SubstractionNoteExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tSubstractionNoteExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
-}
-
-int SubstractionTrackExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tSubstractionTrackExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
-}
-
-int TrackSubstractionNoteExpressionGrammarAction(const int left, const int right) {
+int SubstractionExpressionGrammarAction(const int left, const int right) {
 	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
 	return 1;
 }
@@ -169,18 +159,25 @@ int DivisionExpressionGrammarAction(const int left, const int right) {
 	return 1;
 }
 
-int SongTermGrammarAction(const int value) {
-	LogDebug("\tSongTermGrammarAction(%d)",value);
+int SongTermGrammarAction(const char * value) {
+	LogDebug("\tSongTermGrammarAction(%s)",value);
 	return 1;
 }
 
-int TrackTermGrammarAction(const int value) {
-	LogDebug("\tTrackTermGrammarAction(%d)", value);
+int TrackTermGrammarAction(const char * value) {
+	LogDebug("\tTrackTermGrammarAction(%s)", value);
 	return 1;
 }
 
-int NoteTermGrammarAction(const int value) {
-	LogDebug("\tNoteTermGrammarAction(%d)", value);
+int NoteTermGrammarAction(const char * value) {
+	LogDebug("\tNoteTermGrammarAction(%s)", value);
 	return 1;
 }
+
+int VariableNameGrammarAction(const int value) {
+	LogDebug("\tVariableNameGrammarAction(%d)", value);
+	return 1;
+}
+
+
 

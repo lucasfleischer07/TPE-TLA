@@ -33,11 +33,20 @@
 	int note_value;
 	int rhythm;
 	int chord;
+	int string;
+	int name;
 
 	// Terminales.
 	token token;
+	int variableName;
+
+	// char song_name[20];
+	// char note_name[20];
+	// char track_name[20];
+
 
 }
+
 
 // IDs y tipos de los tokens terminales generados desde Flex.
 /* Parentesis */
@@ -59,16 +68,16 @@
 /* Palabras reservadas */
 %token <tempo> TEMPO_VALUE
 %token <integer> REPETITION
-%token <song> SONG_NAME
-%token <track> TRACK_NAME
-%token <note> NOTE_NAME
 %token <rhythm> RHYTHM_VALUE
 %token <chord> CHORD_VALUE
 %token <instrument> INSTRUMENT
 %token <note_value> NOTE_VALUE 
+%token <string> VARIABLE_NAME
+
 
 
 // Tipos de dato para los no-terminales generados desde Bison.
+%type <variableName> variableName
 %type <program> program
 %type <code> code
 %type <instructionsArray> instructionsArray
@@ -89,64 +98,55 @@
 
 
 // El símbolo inicial de la gramatica.
+
 %start program
 
 %%
 
-program: code														{$$ = ProgramGrammarAction($1); }
+program: code																	{$$ = ProgramGrammarAction($1); }
 	; 
 
-code: definitions instructionsArray									{$$ = CodeGrammarAction($1,$2); } 
+code: definitions instructionsArray												{$$ = CodeGrammarAction($1,$2); } 
 	;
 
-definitions: definition definitions									{$$ = DefinitionsGrammarAction($1,$2); }	
-	| definition													{$$ = DefinitionGrammarAction($1); }
+definitions: definition definitions												{$$ = DefinitionsGrammarAction($1,$2); }	
+	| definition																{$$ = DefinitionGrammarAction($1); }
 	;
 
-definition:SONG song												{$$ = SongGrammarAction($1,$2); }
-| TRACK track														{$$ = TrackGrammarAction($1,$2); }
-| NOTE note															{$$ = NoteGrammarAction($1,$2); }
-	;
-
-
-instructionsArray: instruction										{$$ =InstructionGrammarAction($1);}
-	| instruction instructionsArray									{$$ =InstructionsGrammarAction($1, $2);}
+definition: SONG variableName													{$$ = SongGrammarAction($1,$2); }
+	| TRACK variableName														{$$ = TrackGrammarAction($1,$2); }
+	| NOTE variableName															{$$ = NoteGrammarAction($1,$2); }
 	;
 
 
-instruction: singleExpression 										{$$ = SimpleExpressionGrammarAction($1);}
-	| doubleExpression												{$$ = DoubleExpressionGrammarAction($1);}
-	;
-
-singleExpression: note NOTE_VALUE									{$$ = NoteValueExpressionGrammarAction($1,$2);}
-	| note NOTE_VALUE RHYTHM_VALUE 									{$$ = RhythmExpressionGrammarAction($1,$2,$3);}
-	| note NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 						{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
-	| track  INSTRUMENT												{$$ = TrackInstrumentGrammarAction($1, $2);}
-	| track TEMPO_VALUE												{$$ = TempoExpressionGrammarAction($1, $2);}
-	| track MULT TEMPO_VALUE										{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
-	| OPEN_PARENTHESIS track CLOSE_PARENTHESIS						{$$ = ParentesisExpressionGramarAction($2);}
-	| track															{$$ = TrackTermGrammarAction($1);}
-	| note															{$$ = NoteTermGrammarAction($1);}
-	| song OPEN_BRACE REPETITION CLOSE_BRACE						{$$ = RepetitionGrammarAction($1,$3);}
-	;
-
-doubleExpression: song ADD singleExpression							{$$ = SongAdditionExpressionGrammarAction($1, $3);}
-	| track ADD singleExpression									{$$ = TrackAdditionExpressionGrammarAction($1, $3);}
-	| song SUB note													{$$ = SubstractionNoteExpressionGrammarAction($1, $3);}
-	| song SUB track												{$$ = SubstractionTrackExpressionGrammarAction($1, $3);}
-	| track SUB note												{$$ = TrackSubstractionNoteExpressionGrammarAction($1, $3);}
-	| song DIV note													{$$ = DivisionExpressionGrammarAction($1, $3);}
-	;
-
-song: SONG_NAME														{$$ = SongTermGrammarAction($1);}				
-	;
-
-																	
-track: TRACK_NAME													{$$ = TrackTermGrammarAction($1);}
+instructionsArray: instruction													{$$ =InstructionGrammarAction($1);}
+	| instruction instructionsArray												{$$ =InstructionsGrammarAction($1, $2);}
 	;
 
 
-note: NOTE_NAME														{$$ = NoteTermGrammarAction($1);}
+instruction: singleExpression 													{$$ = SimpleExpressionGrammarAction($1);}
+	| doubleExpression															{$$ = DoubleExpressionGrammarAction($1);}
+	| /*lambda*/																{$$ = 0;}
 	;
+
+singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGrammarAction($1,$2);}
+	| variableName NOTE_VALUE RHYTHM_VALUE 										{$$ = RhythmExpressionGrammarAction($1,$2,$3);}
+	| variableName NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 							{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
+	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
+	| variableName TEMPO_VALUE													{$$ = TempoExpressionGrammarAction($1, $2);}
+	| variableName MULT TEMPO_VALUE												{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
+	| OPEN_PARENTHESIS variableName CLOSE_PARENTHESIS							{$$ = ParentesisExpressionGramarAction($2);}
+	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
+	;
+
+doubleExpression: variableName ADD singleExpression								{$$ = VariableAdditionExpressionGrammarAction($1, $3);}
+	| variableName ADD variableName												{$$ = VariableAdditionVariableGrammarAction($1, $3);}
+	| variableName SUB variableName												{$$ = SubstractionExpressionGrammarAction($1, $3);}
+	| variableName DIV variableName												{$$ = DivisionExpressionGrammarAction($1, $3);}
+	;
+
+
+variableName: VARIABLE_NAME														{$$ = VariableNameGrammarAction($1);}
+
 
 %%

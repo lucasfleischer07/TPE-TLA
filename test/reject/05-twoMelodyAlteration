@@ -1,11 +1,9 @@
-song mySong;
-track track1;
-track track2;
-note1 note do G-Major;
+song mySong
+track track1
+track track2
+note1 note do G-Major
 
-track1 track2 add note1;
+track1 track2 add note1
 
-mySong + track1;
-mySong + track2;
-
-return mySong;
+mySong + track1
+mySong + track2

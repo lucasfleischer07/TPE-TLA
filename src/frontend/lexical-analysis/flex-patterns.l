@@ -24,6 +24,7 @@ rhythm              (q|qqq|h|w)
 note                (do|re|mi|fa|sol|la|si|r)#?
 instrument          (P|F)
 chord               (G-Major|C-Major)
+variableName        [a-zA-Z0-9_]
 
 
 %%
@@ -49,9 +50,12 @@ chord               (G-Major|C-Major)
 {rhythm}                                    { return RhythmPatternAction(yytext); }
 {instrument}                                { return InstrumentPatternAction(yytext); }
 
-{integer}									{ return IntegerPatternAction(yytext); }
-{whitespace}								{ return IgnoredPatternAction(yytext); }
-.											{ return UnknownPatternAction(yytext); }
+
+{integer}									{ return IntegerPatternAction(yytext, yyleng); }
+{whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
+.											{ return UnknownPatternAction(yytext, yyleng); }
+{variableName}+                             { return VariablePatternAction(yytext, yyleng); }
+
 
 %%
 

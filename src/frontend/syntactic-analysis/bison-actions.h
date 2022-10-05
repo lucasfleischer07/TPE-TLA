@@ -38,17 +38,17 @@ int MultiplicationExpressionGrammarAction(const int left, const int middle, cons
 int ParentesisExpressionGramarAction(const int value);
 int RepetitionGrammarAction(const int left, const int right);
 
-int SongAdditionExpressionGrammarAction(const int left, const int right);
-int TrackAdditionExpressionGrammarAction(const int left, const int right);
-int SubstractionNoteExpressionGrammarAction(const int left, const int right);
-int SubstractionTrackExpressionGrammarAction(const int left, const int right);
-int TrackSubstractionNoteExpressionGrammarAction(const int left, const int right);
+int VariableAdditionVariableGrammarAction(const int left, const int right);
+int VariableAdditionExpressionGrammarAction(const int left, const int right);
+int SubstractionExpressionGrammarAction(const int left, const int right);
 int DivisionExpressionGrammarAction(const int left, const int right);
 
-int SongTermGrammarAction(const int value);
+int SongTermGrammarAction(const char * value);
 
-int TrackTermGrammarAction(const int value);
+int TrackTermGrammarAction(const char * value);
 
-int NoteTermGrammarAction(const int value);
+int NoteTermGrammarAction(const char * value);
+
+int VariableNameGrammarAction(const int value);
 
 #endif

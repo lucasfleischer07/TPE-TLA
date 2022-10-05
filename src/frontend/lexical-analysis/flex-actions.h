@@ -19,17 +19,20 @@
  * largo de aquello que se va a almacenar.
  */
 
-token IntegerPatternAction(const char * lexeme);
+token IntegerPatternAction(const char * lexeme, const int lenght);
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
-token UnknownPatternAction(const char * lexeme);
+token UnknownPatternAction(const char * lexeme, const int lenght);
 
 // Regla que no hace nada, permite ignorar parte de la entrada.
-token IgnoredPatternAction(const char * lexeme);
+void IgnoredPatternAction(const char * lexeme, const int length);
+
 
 // * NUESTRAS!!!!
 // token StartPatternAction(char * lexeme);
 // token EndPatternAction(char * lexeme);
+
+
 
 token SongDefinitionPatternAction(char * lexeme);
 token NoteDefinitionPatternAction(char * lexeme);
@@ -38,6 +41,7 @@ token TrackDefinitionPatternAction(char * lexeme);
 token AddPatternAction(char * lexeme);
 token SubstractPatternAction(const char * lexeme);
 
+token VariablePatternAction(char * lexeme, const int length);
 
 token RepeatPatternAction(char * lexeme);
 token DividePatternAction(const char * lexeme);
