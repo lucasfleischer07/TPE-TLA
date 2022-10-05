@@ -38,7 +38,7 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 Para compilar un programa, primero cree un archivo vacío denominado `program` (o el nombre que desee), con el siguiente contenido:
 
 ```
-123123 + 123 - 2 * (454 + 890 / 89)
+track nombreTrack
 ```
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
@@ -70,3 +70,5 @@ user@machine:path/ $ script\test.bat
 ```
 
 Si desea agregar nuevos casos de uso, deberá crear un archivo por cada uno, que contenga el programa a testear dentro de las carpetas `test/accept` o `test/reject` según corresponda (es decir, si el mismo debe ser aceptado o rechazado por el compilador).
+
+Para facilitar las tareas, se creo el script/compile-test.sh con el cual se borraran los archivos flex-scanner.c, bison-parser.c y bison-parser.h y a la hora de compilar, se compilara y se testeara el proyecto con un solo comando.
