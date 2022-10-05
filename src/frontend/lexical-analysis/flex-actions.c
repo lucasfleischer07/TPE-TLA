@@ -56,8 +56,8 @@ token AddPatternAction(char * lexeme) {
 
 token RepeatPatternAction(char * lexeme) {
 	LogDebug("RepeatPatternAction: '%s'.", lexeme);
-	yylval.token = REPETITION;
-	return REPETITION;
+	yylval.token = MULT;
+	return MULT;
 }
 
 token SubstractPatternAction(const char * lexeme) {
@@ -113,7 +113,6 @@ token IntegerPatternAction(const char * lexeme, const int lenght) {
 	yylval.token = REPETITION;
 	return REPETITION;
 }
-
 
 
 token ChordPatternAction(const char * lexeme) {

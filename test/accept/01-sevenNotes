@@ -1,11 +1,19 @@
-note1 note do G-Major
-note2 note re G-Major
-note3 note re C-Major
-note4 note mi C-Major
-note5 note fa G-Major
-note6 note sol G-Major
-note7 note la C-Major
+note note1  
+note note2
+note note3
+note note4
+note note5
+note note6
+note note7
+track track1
 
+note1 do q G-Major
+note2 re q G-Major
+note3 re qqq C-Major
+note4 mi h C-Major
+note5 fa w G-Major
+note6 sol w G-Major
+note7 la w C-Major
 
 track1 + note1
 track1 + note2
@@ -15,6 +23,3 @@ track1 + note5
 track1 + note5
 track1 + note6
 track1 + note7
-
-return track1
-

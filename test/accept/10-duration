@@ -1,0 +1,13 @@
+note note1 
+note note2
+track track1
+song song1
+
+note1 do q
+note2 re w
+
+track1 + note1 + note2
+
+
+song1 + track1
+song1 {3}

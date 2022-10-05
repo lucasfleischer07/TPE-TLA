@@ -30,13 +30,13 @@ void yyerror(const char * string) {
 */
 int ProgramGrammarAction(const int value) {
 	LogDebug("\tProgramGrammarAction(%d)", value);
-	return 1;
 	/*
 	* "state" es una variable global que almacena el estado del compilador,
 	* cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
 	* es utilizada en la función "main".
 	*/
 	state.succeed = true;
+	
 	/*
 	* Por otro lado, "result" contiene el resultado de aplicar el análisis
 	* sintáctico mediante Bison, y almacenar el nood raíz del AST construido
@@ -141,6 +141,12 @@ int MultiplicationExpressionGrammarAction(const int left, const int middle, cons
 
 int ParentesisExpressionGramarAction(const int value) {
 	LogDebug("\tDefinitionsGrammarAction(%d)", value);
+	return 1;
+}
+
+
+int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 

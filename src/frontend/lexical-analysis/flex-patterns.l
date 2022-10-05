@@ -18,8 +18,7 @@
 endline			    \n
 whitespace		    [ \f\n\r\t\v]
 integer 	        [0-9]+          
-tempo               ([0-9]){1,2}((\.)([0-9]){1})?
-duration            (q|qqq|h|w)
+tempo               ([0-9]){1,2}((\.)([0-9]){1})
 rhythm              (q|qqq|h|w)
 note                (do|re|mi|fa|sol|la|si|r)#?
 instrument          (P|F)
@@ -34,7 +33,7 @@ variableName        [a-zA-Z0-9_]
 "track"                                     { return TrackDefinitionPatternAction(yytext); }
 
 "+"                                         { return AddPatternAction(yytext); }
-"*"                                         { return RepeatPatternAction(yytext); }
+"*"                                         { return RepeatPatternAction(yytext); }         
 "-"                                         { return SubstractPatternAction(yytext); }
 "{"                                         { return OpenBracePatternAction(yytext); }
 "}"                                         { return CloseBracePatternAction(yytext); }
@@ -46,12 +45,13 @@ variableName        [a-zA-Z0-9_]
 {chord}                                     { return ChordPatternAction(yytext);}
 {note}                                      { return NotePatternAction(yytext);}
 
+{integer}									{ return IntegerPatternAction(yytext, yyleng); }
+
 {tempo}                                     { return TempoPatternAction(yytext); }
 {rhythm}                                    { return RhythmPatternAction(yytext); }
 {instrument}                                { return InstrumentPatternAction(yytext); }
 
 
-{integer}									{ return IntegerPatternAction(yytext, yyleng); }
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
 .											{ return UnknownPatternAction(yytext, yyleng); }
 {variableName}+                             { return VariablePatternAction(yytext, yyleng); }

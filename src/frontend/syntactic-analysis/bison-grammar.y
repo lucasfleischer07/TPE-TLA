@@ -133,12 +133,13 @@ singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGram
 	| variableName NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 							{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
 	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
 	| variableName TEMPO_VALUE													{$$ = TempoExpressionGrammarAction($1, $2);}
-	| variableName MULT TEMPO_VALUE												{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
+	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
 	| OPEN_PARENTHESIS variableName CLOSE_PARENTHESIS							{$$ = ParentesisExpressionGramarAction($2);}
 	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
 	;
 
-doubleExpression: variableName ADD singleExpression								{$$ = VariableAdditionExpressionGrammarAction($1, $3);}
+doubleExpression: variableName ADD doubleExpression								{$$ = DoubleExpressionAdditionExpressionGrammarAction($1, $3);}
+	| variableName ADD singleExpression											{$$ = VariableAdditionExpressionGrammarAction($1, $3);}
 	| variableName ADD variableName												{$$ = VariableAdditionVariableGrammarAction($1, $3);}
 	| variableName SUB variableName												{$$ = SubstractionExpressionGrammarAction($1, $3);}
 	| variableName DIV variableName												{$$ = DivisionExpressionGrammarAction($1, $3);}

@@ -5,12 +5,13 @@ note nota2
 note nota3
 
 song song1
-note nota1 re q C-Mayor
-nota2 do h G-Mayor
-nota3 mi qqq G-Mayor
+
+nota1 re q C-Major
+nota2 do h G-Major
+nota3 mi qqq G-Major
+
 track1 + nota1
 track1 + nota2
 track1 + nota3
 
 song1 + track1
-

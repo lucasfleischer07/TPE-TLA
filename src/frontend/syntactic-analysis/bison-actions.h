@@ -14,12 +14,12 @@
 // Programa.
 int ProgramGrammarAction(const int value);
 
-int OnlyDefinitionsGrammarAction(const int value);
 
 int CodeGrammarAction(const int left, const int right);
 
 int DefinitionsGrammarAction(const int left,const int right);
 int DefinitionGrammarAction(const int value);
+int OnlyDefinitionsGrammarAction(const int value);
 
 int SongGrammarAction(const int left, const int right);
 int TrackGrammarAction(const int left, const int right);
@@ -40,6 +40,7 @@ int MultiplicationExpressionGrammarAction(const int left, const int middle, cons
 int ParentesisExpressionGramarAction(const int value);
 int RepetitionGrammarAction(const int left, const int right);
 
+int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right);
 int VariableAdditionVariableGrammarAction(const int left, const int right);
 int VariableAdditionExpressionGrammarAction(const int left, const int right);
 int SubstractionExpressionGrammarAction(const int left, const int right);

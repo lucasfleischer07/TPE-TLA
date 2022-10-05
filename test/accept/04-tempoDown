@@ -1,17 +1,16 @@
 track track1
-
 note nota1
 note nota2
 note nota3
-
 song finalSong
-nota1 re q G-Mayor
-nota2 do h C-Mayor
-nota3 mi qqq C-Mayor
+
+nota1 re q G-Major
+nota2 do h C-Major
+nota3 mi qqq C-Major
+
 track1 + nota1
 track1 + nota2
 track1 + nota3
 track1 0.4
 
 finalSong + track1
-
