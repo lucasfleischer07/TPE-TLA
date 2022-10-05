@@ -53,13 +53,18 @@ int CodeGrammarAction(const int left, const int right) {
 	return 1;
 }
 
+int OnlyDefinitionsGrammarAction(const int value) {
+	LogDebug("\tOnlyDefinitionsGrammarAction(%d)", value);
+	return 1;
+}
+
 int DefinitionsGrammarAction(const int left,const int right) {
 	LogDebug("\tDefinitionsGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
 int DefinitionGrammarAction(const int value) {
-	LogDebug("\tDefinitionsGrammarAction(%d)", value);
+	LogDebug("\tDefinitionGrammarAction(%d)", value);
 	return 1;
 }
 

@@ -14,6 +14,8 @@
 // Programa.
 int ProgramGrammarAction(const int value);
 
+int OnlyDefinitionsGrammarAction(const int value);
+
 int CodeGrammarAction(const int left, const int right);
 
 int DefinitionsGrammarAction(const int left,const int right);

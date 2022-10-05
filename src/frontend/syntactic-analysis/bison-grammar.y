@@ -86,9 +86,9 @@
 %type <doubleExpression> doubleExpression
 %type <definitions> definitions
 %type <definition> definition
-%type <song> song
+/* %type <song> song
 %type <track> track
-%type <note> note
+%type <note> note */
 
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
@@ -106,7 +106,8 @@
 program: code																	{$$ = ProgramGrammarAction($1); }
 	; 
 
-code: definitions instructionsArray												{$$ = CodeGrammarAction($1,$2); } 
+code: definitions																{$$ = OnlyDefinitionsGrammarAction($1); }
+	| definitions instructionsArray												{$$ = CodeGrammarAction($1,$2); } 
 	;
 
 definitions: definition definitions												{$$ = DefinitionsGrammarAction($1,$2); }	
@@ -123,10 +124,8 @@ instructionsArray: instruction													{$$ =InstructionGrammarAction($1);}
 	| instruction instructionsArray												{$$ =InstructionsGrammarAction($1, $2);}
 	;
 
-
 instruction: singleExpression 													{$$ = SimpleExpressionGrammarAction($1);}
 	| doubleExpression															{$$ = DoubleExpressionGrammarAction($1);}
-	| /*lambda*/																{$$ = 0;}
 	;
 
 singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGrammarAction($1,$2);}
