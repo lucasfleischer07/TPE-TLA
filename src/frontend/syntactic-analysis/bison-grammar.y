@@ -16,20 +16,20 @@
 	*/
 
 	// No-terminales (frontend).
-	int program;
-	int code;
-	int instructionsArray;
-	int instruction;
-	int singleExpression;
-	int doubleExpression;
-	int definitions;
-	int definition;
-	int song;
-	int track;
-	int note;
-	int tempo;
+	Program program;
+	Code code;
+	Instruction instructionArray;
+	Instruction instruction;
+	SingleExpression singleExpression;
+	DoubleExperssion doubleExpression
+	Definitions definitions;
+	Definition definition;
+	Variable variable;
+	Values value;
+	Instrument instrument;
+	
+	Values v;
 	int integer;
-	int instrument;
 	int note_value;
 	int rhythm;
 	int chord;
@@ -43,7 +43,6 @@
 	// char song_name[20];
 	// char note_name[20];
 	// char track_name[20];
-
 
 }
 
@@ -66,11 +65,11 @@
 
 
 /* Palabras reservadas */
-%token <tempo> TEMPO_VALUE
+%token <values> TEMPO_VALUE
 %token <integer> REPETITION
-%token <rhythm> RHYTHM_VALUE
-%token <chord> CHORD_VALUE
-%token <instrument> INSTRUMENT
+%token <values> RHYTHM_VALUE
+%token <values> CHORD_VALUE
+%token <values> INSTRUMENT
 %token <note_value> NOTE_VALUE 
 %token <string> VARIABLE_NAME
 

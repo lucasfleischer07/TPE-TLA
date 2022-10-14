@@ -25,32 +25,81 @@ typedef struct {
 * De este modo, al recorrer el AST, es posible determinar qué nodos hijos
 * posee según el valor de este enumerado.
 */
-typedef enum {
-	EXPRESSION,
-	CONSTANT
-} FactorType;
-
-typedef struct {
-	FactorType type;
-	Expression * expression;
-} Factor;
 
 typedef enum {
 	ADDITION,
 	SUBTRACTION,
 	MULTIPLICATION,
 	DIVISION,
-	FACTOR
 } ExpressionType;
 
-struct Expression {
-	ExpressionType type;
-	Expression * leftExpression;
-	Expression * rightExpression;
-};
+typedef enum {
+	TEMPO,
+	RHYTHM,
+	NOTE,
+	INSTRUMENT,
+	CHORD,
+	REPETITION
+} Values;
+
+typedef enum {
+	SONG,
+	TRACK,
+	NOTE
+} Variable;
 
 typedef struct {
-	Expression * expression;
+	Values * value;
+	char * name;
+} ValueStruct;
+
+typedef struct {
+	char * name;
+} VariableName;
+
+typedef struct {
+	VariableName * variableNameLeft;
+	VariableName * variableNameRight;
+	ExpressionType type;
+	DoubleExpression * doubleExpression;
+	SingleExpression * singleExpression;
+} DoubleExpression;
+
+typedef struct {
+	VariableName * variableName;
+	ValueStruct * firstValueType;
+	ValueStruct * secondValueType;
+	ValueStruct * thirdValueType;
+	ExpressionType type;
+} SingleExpression;
+
+typedef struct {
+	SingleExpression * expression;
+	DoubleExpression * expression;
+} Instruction;
+
+typedef struct {
+	Instruction * instruction;
+	InstructionArray * instructionArray;
+} InstructionsArray;
+
+typedef struct {
+	Variable * variableType;
+	VariableName * variableName;
+} Definition;
+
+typedef struct {
+	Definition * definition;
+	Definitions * definitions;
+} Definitions;
+
+typedef struct {
+	Definitions * definitions;
+	InstructionsArray * instructionArray;
+} Code;
+
+typedef struct {
+	Code * code;
 } Program;
 
 #endif
