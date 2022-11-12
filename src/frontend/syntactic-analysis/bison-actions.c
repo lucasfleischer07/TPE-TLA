@@ -48,6 +48,7 @@ int ProgramGrammarAction(const int value) {
 	return value;
 }
 
+//todas estan van a llamar a funciones del back
 int CodeGrammarAction(const int left, const int right) {
 	LogDebug("\tCodeGrammarAction(%d, %d)", left, right);
 	return 1;

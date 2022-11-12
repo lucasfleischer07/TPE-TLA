@@ -80,7 +80,7 @@ typedef struct {
 
 typedef struct {
 	Instruction * instruction;
-	InstructionArray * instructionArray;
+	InstructionsArray * instructionArray; 
 } InstructionsArray;
 
 typedef struct {
