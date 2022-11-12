@@ -27,8 +27,8 @@ int NoteGrammarAction(const int left, const int right);
 int InstructionGrammarAction(const int value);
 int InstructionsGrammarAction(const int left, const int right);
 
-int SimpleExpressionGrammarAction(const int value);
-int DoubleExpressionGrammarAction(const int value);
+int UnaryExpressionGrammarAction(const int value);
+int BinaryExpressionGrammarAction(const int value);
 
 int NoteValueExpressionGrammarAction(const int left, const int right);
 int RhythmExpressionGrammarAction(const int left, const int middle, const int right);
@@ -39,7 +39,7 @@ int MultiplicationExpressionGrammarAction(const int left, const int middle, cons
 int ParentesisExpressionGramarAction(const int value);
 int RepetitionGrammarAction(const int left, const int right);
 
-int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right);
+int BinaryExpressionAdditionExpressionGrammarAction(const int left, const int right);
 int VariableAdditionVariableGrammarAction(const int left, const int right);
 int VariableAdditionExpressionGrammarAction(const int left, const int right);
 int SubstractionExpressionGrammarAction(const int left, const int right);

@@ -139,14 +139,6 @@ token InstrumentPatternAction(const char * lexeme) {
 	return INSTRUMENT;
 }
 
-
-token UnknownPatternAction(const char * lexeme, const int length) {
-	LogDebug("UnknownPatternAction: '%s' (lenght = %d).", lexeme, length);
-	yylval.token = YYUNDEF;
-	// Al emitir este token, el compilador aborta la ejecución.
-	return YYUNDEF;
-}
-
 token VariablePatternAction(char * lexeme, const int lenght) {
 	LogDebug("VariablePatternAction: '%s'.", lexeme);
     // char * toRet = (char*) malloc((yyleng + 1)*sizeof(char));
@@ -163,3 +155,10 @@ void IgnoredPatternAction(const char * lexeme, const int length) {
 	// Como no debe hacer nada con el patrón, solo se loguea en consola.
 }
 
+
+token UnknownPatternAction(const char * lexeme, const int length) {
+	LogDebug("UnknownPatternAction: '%s' (lenght = %d).", lexeme, length);
+	yylval.token = YYUNDEF;
+	// Al emitir este token, el compilador aborta la ejecución.
+	return YYUNDEF;
+}

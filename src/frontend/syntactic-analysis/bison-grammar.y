@@ -20,8 +20,8 @@
 	int code;
 	int instructionsArray;
 	int instruction;
-	int singleExpression;
-	int doubleExpression;
+	int unaryExpression;
+	int binaryExpression;
 	int definitions;
 	int definition;
 	int song;
@@ -82,8 +82,8 @@
 %type <code> code
 %type <instructionsArray> instructionsArray
 %type <instruction> instruction
-%type <singleExpression> singleExpression
-%type <doubleExpression> doubleExpression
+%type <unaryExpression> unaryExpression
+%type <binaryExpression> binaryExpression
 %type <definitions> definitions
 %type <definition> definition
 /* %type <song> song
@@ -106,7 +106,7 @@
 program: code																	{$$ = ProgramGrammarAction($1); }
 	; 
 
-code: definitions																{$$ = OnlyDefinitionsGrammarAction($1); }
+code: definitions															    {$$ = OnlyDefinitionsGrammarAction($1); }
 	| definitions instructionsArray												{$$ = CodeGrammarAction($1,$2); } 
 	;
 
@@ -124,11 +124,11 @@ instructionsArray: instruction													{$$ =InstructionGrammarAction($1);}
 	| instruction instructionsArray												{$$ =InstructionsGrammarAction($1, $2);}
 	;
 
-instruction: singleExpression 													{$$ = SimpleExpressionGrammarAction($1);}
-	| doubleExpression															{$$ = DoubleExpressionGrammarAction($1);}
+instruction: unaryExpression 													{$$ = UnaryExpressionGrammarAction($1);}
+	| binaryExpression															{$$ = BinaryExpressionGrammarAction($1);}
 	;
 
-singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGrammarAction($1,$2);}
+unaryExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGrammarAction($1,$2);}
 	| variableName NOTE_VALUE RHYTHM_VALUE 										{$$ = RhythmExpressionGrammarAction($1,$2,$3);}
 	| variableName NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 							{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
 	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
@@ -138,8 +138,8 @@ singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGram
 	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
 	;
 
-doubleExpression: variableName ADD doubleExpression								{$$ = DoubleExpressionAdditionExpressionGrammarAction($1, $3);}
-	| variableName ADD singleExpression											{$$ = VariableAdditionExpressionGrammarAction($1, $3);}
+binaryExpression: variableName ADD binaryExpression								{$$ = BinaryExpressionAdditionExpressionGrammarAction($1, $3);}
+	| variableName ADD unaryExpression											{$$ = VariableAdditionExpressionGrammarAction($1, $3);}
 	| variableName ADD variableName												{$$ = VariableAdditionVariableGrammarAction($1, $3);}
 	| variableName SUB variableName												{$$ = SubstractionExpressionGrammarAction($1, $3);}
 	| variableName DIV variableName												{$$ = DivisionExpressionGrammarAction($1, $3);}

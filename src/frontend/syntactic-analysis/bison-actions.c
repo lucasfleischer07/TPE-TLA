@@ -89,17 +89,17 @@ int InstructionGrammarAction(const int value) {
 }
 
 int InstructionsGrammarAction(const int left, const int right) {
-	LogDebug("\tSimpleExpressionGrammarAction(%d, %d)", left, right);
+	LogDebug("\tInstructionsExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 
-int SimpleExpressionGrammarAction(const int value) {
-	LogDebug("\tSimpleExpressionGrammarAction(%d)", value);
+int UnaryExpressionGrammarAction(const int value) {
+	LogDebug("\tUnaryExpressionGrammarAction(%d)", value);
 	return 1;
 }
 
-int DoubleExpressionGrammarAction(const int value) {
-	LogDebug("\tDoubleExpressionGrammarAction(%d)", value);
+int BinaryExpressionGrammarAction(const int value) {
+	LogDebug("\tBinaryExpressionGrammarAction(%d)", value);
 	return 1;
 }
 
@@ -144,8 +144,8 @@ int RepetitionGrammarAction(const int left, const int right){
 	return 1;
 }
 
-int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
+int BinaryExpressionAdditionExpressionGrammarAction(const int left, const int right) {
+	LogDebug("\tBinaryExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
 	return 1;
 }
 

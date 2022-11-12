@@ -21,9 +21,6 @@
 
 token IntegerPatternAction(const char * lexeme, const int lenght);
 
-// Patrón desconocido, permite abortar debido a un error de sintaxis.
-token UnknownPatternAction(const char * lexeme, const int lenght);
-
 // Regla que no hace nada, permite ignorar parte de la entrada.
 void IgnoredPatternAction(const char * lexeme, const int length);
 
@@ -31,7 +28,6 @@ void IgnoredPatternAction(const char * lexeme, const int length);
 // * NUESTRAS!!!!
 // token StartPatternAction(char * lexeme);
 // token EndPatternAction(char * lexeme);
-
 
 
 token SongDefinitionPatternAction(char * lexeme);
@@ -56,4 +52,6 @@ token InstrumentPatternAction(const char * lexeme);
 
 token VariablePatternAction(char * lexeme, const int length);
 
+// Patrón desconocido, permite abortar debido a un error de sintaxis.
+token UnknownPatternAction(const char * lexeme, const int lenght);
 #endif

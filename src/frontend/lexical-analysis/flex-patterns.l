@@ -53,9 +53,8 @@ variableName        [a-zA-Z0-9_]
 
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
-.											{ return UnknownPatternAction(yytext, yyleng); }
 {variableName}+                             { return VariablePatternAction(yytext, yyleng); }
-
+.											{ return UnknownPatternAction(yytext, yyleng); }
 
 %%
 
