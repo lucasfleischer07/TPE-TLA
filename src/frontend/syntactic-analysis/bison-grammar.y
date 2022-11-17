@@ -29,8 +29,9 @@
 	Instrument instrument;
 	
 	Values v;
-	int integer;
-	int note_value;
+
+	integer integer;
+	 note_value;
 	int rhythm;
 	int chord;
 	int string;
@@ -38,7 +39,7 @@
 
 	// Terminales.
 	token token;
-	int variableName;
+	VariableName variableName;
 
 	// char song_name[20];
 	// char note_name[20];
@@ -70,7 +71,7 @@
 %token <values> RHYTHM_VALUE
 %token <values> CHORD_VALUE
 %token <values> INSTRUMENT
-%token <note_value> NOTE_VALUE 
+%token <values> NOTE_VALUE 
 %token <string> VARIABLE_NAME
 
 
@@ -85,9 +86,6 @@
 %type <doubleExpression> doubleExpression
 %type <definitions> definitions
 %type <definition> definition
-/* %type <song> song
-%type <track> track
-%type <note> note */
 
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
@@ -132,7 +130,7 @@ singleExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGram
 	| variableName NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 							{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
 	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
 	| variableName TEMPO_VALUE													{$$ = TempoExpressionGrammarAction($1, $2);}
-	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
+	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$3);}
 	| OPEN_PARENTHESIS variableName CLOSE_PARENTHESIS							{$$ = ParentesisExpressionGramarAction($2);}
 	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
 	;

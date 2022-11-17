@@ -49,8 +49,9 @@ typedef enum {
 } Variable;
 
 typedef struct {
-	Values * value;
-	char * name;
+	Values typeValue;
+	char * name; 
+	int * value;
 } ValueStruct;
 
 typedef struct {
@@ -74,8 +75,8 @@ typedef struct {
 } SingleExpression;
 
 typedef struct {
-	SingleExpression * expression;
-	DoubleExpression * expression;
+	SingleExpression * singleExpression;
+	DoubleExpression * doubleExpression;
 } Instruction;
 
 typedef struct {

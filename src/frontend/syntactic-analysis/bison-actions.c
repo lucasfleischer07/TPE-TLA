@@ -3,7 +3,7 @@
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
-
+#include "./src/backend/symbolsTable.h"
 /**
  * Implementación de "bison-grammar.h".
  */
@@ -28,8 +28,13 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
-int ProgramGrammarAction(const int value) {
-	LogDebug("\tProgramGrammarAction(%d)", value);
+
+//ver si es void o program
+Program * ProgramGrammarAction(Code * code) {
+	Program * program = malloc(sizeof(Program));
+	program->code = code;
+
+	LogDebug("\tProgramGrammarAction(%d)", code);
 	/*
 	* "state" es una variable global que almacena el estado del compilador,
 	* cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
@@ -44,64 +49,111 @@ int ProgramGrammarAction(const int value) {
 	* la expresión se computa on-the-fly, y es la razón por la cual esta
 	* variable es un simple entero, en lugar de un nodo.
 	*/
-	state.result = value;
-	return value;
+	state.result = code;
+	return code;
 }
 
 //todas estan van a llamar a funciones del back
-int CodeGrammarAction(const int left, const int right) {
-	LogDebug("\tCodeGrammarAction(%d, %d)", left, right);
-	return 1;
+int CodeGrammarAction(Definitions * definitions, InstructionsArray * instructionsArray) {
+	Code * definitionsAndInstructions = malloc(sizeof(Code));
+	definitionsAndInstructions->definitions = definitions;
+	definitionsAndInstructions->instructionArray = instructionsArray;
+		
+	// LogDebug("\tCodeGrammarAction(%d, %d)", left, right);
+	return definitionsAndInstructions;
 }
 
-int OnlyDefinitionsGrammarAction(const int value) {
-	LogDebug("\tOnlyDefinitionsGrammarAction(%d)", value);
-	return 1;
+Code * OnlyDefinitionsGrammarAction(Definitions * definitions) {
+	Code * onlyDefinitions = malloc(sizeof(Code));
+	onlyDefinitions->definitions = definitions;
+	onlyDefinitions->instructionArray = NULL;
+
+	//iterativo
+	// LogDebug("\tOnlyDefinitionsGrammarAction(%d)", value);
+	return onlyDefinitions;
 }
 
-int DefinitionsGrammarAction(const int left,const int right) {
-	LogDebug("\tDefinitionsGrammarAction(%d, %d)", left, right);
-	return 1;
+Definitions * DefinitionsGrammarAction(Definition * definitionParam, Definitions * definitionsParam) {
+	Definitions * definition = malloc(sizeof(Definitions));
+	definition->definition = definitionParam;
+	definition->definitions = definitionsParam;
+
+	//hay q hacerlos iterativos
+	// LogDebug("\tDefinitionsGrammarAction(%s, %s)", definition->definition->variableName->name, );
+	return definition;
 }
 
-int DefinitionGrammarAction(const int value) {
-	LogDebug("\tDefinitionGrammarAction(%d)", value);
-	return 1;
+int DefinitionGrammarAction(Definition * definitionParam) {
+	Definitions * definition = malloc(sizeof(Definitions));
+	definition->definition = definitionParam;
+	definition->definitions = NULL;
+
+	LogDebug("\tDefinitionsGrammarAction(%s)", definition->definition->variableName->name);
+	return definition;
 }
 
-int SongGrammarAction(const int left, const int right) {
-	LogDebug("\tSongGrammarAction(%d, %d)", left, right);
-	return 1;
+Definition * SongGrammarAction(Variable * variableType, VariableName * variableName) {
+	Definition * songDefinition = malloc(sizeof(Definition));
+	songDefinition->variableType = variableType;
+	songDefinition->variableName->name = variableName;
+	
+	// LogDebug("\tNoteGrammarAction(%d, %d)", left, right);
+	return songDefinition;
 }
 
-int TrackGrammarAction(const int left, const int right) {
-	LogDebug("\tTrackGrammarAction(%d, %d)", left, right);
-	return 1;
+Definition * TrackGrammarAction(Variable * variableType, VariableName * variableName) {
+	Definition * trackDefinition = malloc(sizeof(Definition));
+	trackDefinition->variableType = variableType;
+	trackDefinition->variableName->name = variableName;
+	
+	// LogDebug("\tNoteGrammarAction(%d, %d)", left, right);
+	return trackDefinition;
 }
 
-int NoteGrammarAction(const int left, const int right) {
-	LogDebug("\tNoteGrammarAction(%d, %d)", left, right);
-	return 1;
+Definition * NoteGrammarAction(Variable * variableType, VariableName * variableName) {
+	Definition * noteDefinition = malloc(sizeof(Definition));
+	noteDefinition->variableType = variableType;
+	noteDefinition->variableName->name = variableName;
+	
+	// LogDebug("\tNoteGrammarAction(%d, %d)", left, right);
+	return noteDefinition;
 }
 
-int InstructionGrammarAction(const int value) {
-	LogDebug("\tInstructionGrammarAction(%d)", value);
-	return 1;
+InstructionsArray * InstructionGrammarAction(Instruction * instruction) {
+	InstructionsArray * instructionsArray = malloc(sizeof(InstructionsArray));
+	instructionsArray->instruction = instruction;
+	instructionsArray->instructionArray = NULL;
+
+	// LogDebug("\tInstructionGrammarAction(%d)", value);
+	return instructionsArray;
 }
 
-int InstructionsGrammarAction(const int left, const int right) {
-	LogDebug("\tSimpleExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
+InstructionsArray * InstructionsGrammarAction(Instruction * instruction, InstructionsArray * instructionArrayParam) {
+	InstructionsArray * instructionsArray = malloc(sizeof(InstructionsArray));
+	instructionsArray->instruction = instruction;
+	instructionsArray->instructionArray = instructionArrayParam;
+	
+	//Ver q es mejor impimir
+	// LogDebug("\tSimpleExpressionGrammarAction(%d, %d)", left, right);
+	return instructionsArray;
 }
 
-int SimpleExpressionGrammarAction(const int value) {
-	LogDebug("\tSimpleExpressionGrammarAction(%d)", value);
-	return 1;
+Instruction * SimpleExpressionGrammarAction(SingleExpression * singleExpression) {
+	Instruction * singleExpressionInstruction = malloc(sizeof(Instruction));
+	singleExpressionInstruction->singleExpression = singleExpression;
+	singleExpressionInstruction->doubleExpression = NULL;
+
+	LogDebug("\tSimpleExpressionGrammarAction(%s)", singleExpressionInstruction->singleExpression->variableName->name);
+	return singleExpressionInstruction;
 }
 
-int DoubleExpressionGrammarAction(const int value) {
-	LogDebug("\tDoubleExpressionGrammarAction(%d)", value);
-	return 1;
+Instruction * DoubleExpressionGrammarAction(DoubleExpression * doubleExpression) {
+	Instruction * doubleExpressionInstruction = malloc(sizeof(Instruction));
+	doubleExpressionInstruction->doubleExpression = doubleExpression;
+	doubleExpressionInstruction->singleExpression = NULL;
+
+	LogDebug("\tDoubleExpressionGrammarAction(%s, %s)", doubleExpressionInstruction->doubleExpression->variableNameLeft->name, doubleExpressionInstruction->doubleExpression->variableNameRight->name);
+	return doubleExpressionInstruction;
 }
 
 int NoteValueExpressionGrammarAction(const int left, const int right) {
@@ -114,66 +166,157 @@ int RhythmExpressionGrammarAction(const int left, const int middle, const int ri
 	return 1;
 }
 
-int NoteFullDefinitionExpressionGrammarAction(const int left, const int middleLeft,const int middleRight, const int right) {
+SingleExpression * NoteFullDefinitionExpressionGrammarAction(const int left, const int middleLeft,const int middleRight, const int right) {
+	SingleExpression * singleExpression = malloc(sizeof(SingleExpression));
+	singleExpression->variableName = variableName;
+	 //ver q onda el note_values
+	
 	LogDebug("\tNoteFullDefinitionExpressionGrammarAction(%d, %d, %d, %d)", left, middleLeft,middleRight, right);
-	return 1;
+	return singleExpression;
 }
 
-int TrackInstrumentGrammarAction(const int left, const int right) {
-	LogDebug("\tTrackInstrumentGrammarAction(%d, %d)", left, right);
-	return 1;
+SingleExpression * TrackInstrumentGrammarAction(VariableName * variableName, Values instrumentValue) {
+	SingleExpression * singleExpression = malloc(sizeof(SingleExpression));
+	singleExpression->variableName = variableName;
+
+	ValueStruct * valueStruct = malloc(sizeof(ValueStruct));
+	singleExpression->firstValueType = valueStruct;
+	valueStruct->typeValue = INSTRUMENT;
+	valueStruct->value = NULL;
+
+	valueStruct->name = malloc(sizeof(char));
+	*(valueStruct->name) = instrumentValue;
+
+	LogDebug("\tTempoExpressionGrammarAction(%s, instrument: %s)", variableName->name, valueStruct->name);
+	return singleExpression;
 }
 
-int TempoExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tTempoExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
+SingleExpression * TempoExpressionGrammarAction(VariableName * variableName, Values tempoValue) {
+	SingleExpression * singleExpression = malloc(sizeof(SingleExpression));
+	singleExpression->variableName = variableName;
+
+	ValueStruct * valueStruct = malloc(sizeof(ValueStruct));
+	singleExpression->firstValueType = valueStruct;
+	valueStruct->typeValue = TEMPO;
+	valueStruct->value = NULL;
+
+	valueStruct->name = malloc(sizeof(char));
+	*(valueStruct->name) = tempoValue;
+
+	LogDebug("\tTempoExpressionGrammarAction(%s, tempo: %s)", variableName->name, valueStruct->name);
+	return singleExpression;
 }
 
-int MultiplicationExpressionGrammarAction(const int left, const int middle, const int right) {
-	LogDebug("\tMultiplicationExpressionGrammarAction(%d, %d, %d)", left, middle, right);
-	return 1;
+
+//VER XQ ESTA IGUAL A REPETITION, CUAL ERA LA DIFERENCIA
+SingleExpression * MultiplicationExpressionGrammarAction(VariableName * variableName, int repetition) {
+	SingleExpression * singleExpression = malloc(sizeof(SingleExpression));
+	singleExpression->variableName = variableName;
+
+	ValueStruct * valueStruct = malloc(sizeof(ValueStruct));
+	singleExpression->firstValueType = valueStruct;
+	valueStruct->typeValue = REPETITION;
+	valueStruct->name = NULL;
+
+	valueStruct->value = malloc(sizeof(int));
+	*(valueStruct->value) = repetition;
+
+	LogDebug("\tMultiplicationExpressionGrammarAction(%s, * %d)", variableName->name, repetition);
+	return singleExpression;
 }
 
 int ParentesisExpressionGramarAction(const int value) {
+	//TODO NOSE Q HACE no recordamos
 	LogDebug("\tDefinitionsGrammarAction(%d)", value);
 	return 1;
 }
 
 
-int RepetitionGrammarAction(const int left, const int right){
-	LogDebug("\tInstructionGrammarAction(%d, %d)", left, right);
-	return 1;
+SingleExpression * RepetitionGrammarAction(VariableName * variableName, int repetition){
+	SingleExpression * singleExpression = malloc(sizeof(SingleExpression));
+	singleExpression->variableName = variableName;
+	
+	ValueStruct * valueStruct = malloc(sizeof(ValueStruct));
+	singleExpression->firstValueType = valueStruct;
+	valueStruct->typeValue = REPETITION;
+	valueStruct->name = NULL;
+
+	valueStruct->value = malloc(sizeof(int));
+	*(valueStruct->value) = repetition;
+
+	LogDebug("\tRepetitionGrammarAction(%s, repetition: (%d))", variableName->name, repetition);
+	return singleExpression;
 }
 
-int DoubleExpressionAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
+DoubleExpression * DoubleExpressionAdditionExpressionGrammarAction(VariableName * variableNameLeft, DoubleExpression * doubleExpressionRight) {
+	DoubleExpression * doubleExpression = malloc(sizeof(DoubleExpression));
+	doubleExpression->variableNameLeft = variableNameLeft;
+	doubleExpression->variableNameRight = NULL;
+	doubleExpression->type = ADDITION;
+	doubleExpression->doubleExpression = doubleExpressionRight;
+	doubleExpression->singleExpression = NULL;
+
+	// TODO PRINT RECURSIVO
+	// LogDebug("\tDoubleExpressionAdditionExpressionGrammarAction(%s, +DExp %s)", variableNameLeft->name, doubleExpressionRight->variableName->name);
+	return doubleExpression;
 }
 
-int VariableAdditionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tVariableAdditionExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
+DoubleExpression * VariableAdditionExpressionGrammarAction(VariableName * variableNameLeft, SingleExpression * singleExpressionRight) {
+	DoubleExpression * doubleExpression = malloc(sizeof(DoubleExpression));
+	doubleExpression->variableNameLeft = variableNameLeft;
+	doubleExpression->variableNameRight = NULL;
+	doubleExpression->type = ADDITION;
+	doubleExpression->doubleExpression = NULL;
+	doubleExpression->singleExpression = singleExpressionRight;
+
+	LogDebug("\tVariableAdditionExpressionGrammarAction(%s, +SiExp %s)", variableNameLeft->name, singleExpressionRight->variableName->name);
+	return doubleExpression;
 }
 
-int VariableAdditionVariableGrammarAction(const int left, const int right) {
-	LogDebug("\tVariableAdditionVariableGrammarAction(%d, %d)", left, right);
-	return 1;
+DoubleExpression * VariableAdditionVariableGrammarAction(VariableName * variableNameLeft, VariableName * variableNameRight) {
+	DoubleExpression * doubleExpression = malloc(sizeof(DoubleExpression));
+	doubleExpression->variableNameLeft = variableNameLeft;
+	doubleExpression->variableNameRight = variableNameRight;
+	doubleExpression->type = ADDITION;
+	doubleExpression->doubleExpression = NULL;
+	doubleExpression->singleExpression = NULL;
+
+	LogDebug("\tVariableAdditionVariableGrammarAction(%s, + %s)", variableNameLeft->name, variableNameRight->name);
+	return doubleExpression;
 }
 
 
-int SubstractionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tTrackDefinitionsGrammarAction(%d, %d)", left, right);
-	return 1;
+DoubleExpression * SubstractionExpressionGrammarAction(VariableName * variableNameLeft, VariableName * variableNameRight) {
+	DoubleExpression * doubleExpression = malloc(sizeof(DoubleExpression));
+	doubleExpression->variableNameLeft = variableNameLeft;
+	doubleExpression->variableNameRight = variableNameRight;
+	doubleExpression->type = SUBTRACTION;
+	doubleExpression->doubleExpression = NULL;
+	doubleExpression->singleExpression = NULL;
+
+	LogDebug("\tSubstractionExpressionGrammarAction(%s, - %s)", variableNameLeft->name, variableNameRight->name);
+	return doubleExpression;
 }
 
-int DivisionExpressionGrammarAction(const int left, const int right) {
-	LogDebug("\tDivisionExpressionGrammarAction(%d, %d)", left, right);
-	return 1;
+DoubleExpression * DivisionExpressionGrammarAction(VariableName * variableNameLeft, VariableName * variableNameRight) {
+	DoubleExpression * doubleExpression = malloc(sizeof(DoubleExpression));
+	doubleExpression->variableNameLeft = variableNameLeft;
+	doubleExpression->variableNameRight = variableNameRight;
+	doubleExpression->type = DIVISION;
+	doubleExpression->doubleExpression = NULL;
+	doubleExpression->singleExpression = NULL;
+
+	LogDebug("\tDivisionExpressionGrammarAction(%s, / %s)", variableNameLeft->name, variableNameRight->name);
+	return doubleExpression;
 }
 
-int VariableNameGrammarAction(const int value) {
-	LogDebug("\tVariableNameGrammarAction(%d)", value);
-	return 1;
+VariableName * VariableNameGrammarAction(char * variable) {
+	VariableName * variableName = malloc(sizeof(VariableName));
+    variableName->name = (char*) malloc((strlen(variable) + 1) * sizeof (char));
+    strcpy(variableName->name, variable);
+
+	LogDebug("\tVariableNameGrammarAction(%s)", variable);
+	return variableName;
 }
 
 
