@@ -16,21 +16,22 @@
 	*/
 
 	// No-terminales (frontend).
-	int program;
-	int code;
-	int instructionsArray;
-	int instruction;
-	int unaryExpression;
-	int binaryExpression;
-	int definitions;
-	int definition;
-	int song;
-	int track;
-	int note;
-	int tempo;
-	int integer;
-	int instrument;
-	int note_value;
+	Program program;
+	Code code;
+	Instruction instructionArray;
+	Instruction instruction;
+	SingleExpression singleExpression;
+	DoubleExperssion doubleExpression
+	Definitions definitions;
+	Definition definition;
+	Variable variable;
+	Values value;
+	Instrument instrument;
+	
+	Values v;
+
+	integer integer;
+	 note_value;
 	int rhythm;
 	int chord;
 	int string;
@@ -38,12 +39,11 @@
 
 	// Terminales.
 	token token;
-	int variableName;
+	VariableName variableName;
 
 	// char song_name[20];
 	// char note_name[20];
 	// char track_name[20];
-
 
 }
 
@@ -66,12 +66,12 @@
 
 
 /* Palabras reservadas */
-%token <tempo> TEMPO_VALUE
+%token <values> TEMPO_VALUE
 %token <integer> REPETITION
-%token <rhythm> RHYTHM_VALUE
-%token <chord> CHORD_VALUE
-%token <instrument> INSTRUMENT
-%token <note_value> NOTE_VALUE 
+%token <values> RHYTHM_VALUE
+%token <values> CHORD_VALUE
+%token <values> INSTRUMENT
+%token <values> NOTE_VALUE 
 %token <string> VARIABLE_NAME
 
 
@@ -86,9 +86,6 @@
 %type <binaryExpression> binaryExpression
 %type <definitions> definitions
 %type <definition> definition
-/* %type <song> song
-%type <track> track
-%type <note> note */
 
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
@@ -133,7 +130,7 @@ unaryExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGramm
 	| variableName NOTE_VALUE RHYTHM_VALUE CHORD_VALUE 							{$$ = NoteFullDefinitionExpressionGrammarAction($1,$2,$3,$4);}
 	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
 	| variableName TEMPO_VALUE													{$$ = TempoExpressionGrammarAction($1, $2);}
-	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$2,$3);}
+	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$3);}
 	| OPEN_PARENTHESIS variableName CLOSE_PARENTHESIS							{$$ = ParentesisExpressionGramarAction($2);}
 	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
 	;
