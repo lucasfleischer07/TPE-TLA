@@ -12,39 +12,39 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const int value);
+void ProgramGrammarAction(Code *code);
 
-int CodeGrammarAction(const int left, const int right);
+Code *CodeGrammarAction(Definitions *definitions, InstructionsArray *instructionsArray);
 
-int DefinitionsGrammarAction(const int left,const int right);
-int DefinitionGrammarAction(const int value);
-int OnlyDefinitionsGrammarAction(const int value);
+Code *OnlyDefinitionsGrammarAction(Definitions *definitions);
+Definitions *DefinitionsGrammarAction(Definition *definitionParam, Definitions *definitionsParam);
+Definitions *DefinitionGrammarAction(Definition *definitionParam);
 
-int SongGrammarAction(const int left, const int right);
-int TrackGrammarAction(const int left, const int right);
-int NoteGrammarAction(const int left, const int right);
+Definition *SongGrammarAction(VariableName *variableName);
+Definition *TrackGrammarAction(VariableName *variableName);
+Definition *NoteGrammarAction(VariableName *variableName);
 
-int InstructionGrammarAction(const int value);
-int InstructionsGrammarAction(const int left, const int right);
+InstructionsArray *InstructionGrammarAction(Instruction *instruction);
+InstructionsArray *InstructionsGrammarAction(Instruction *instruction, InstructionsArray *instructionArrayParam);
 
-int UnaryExpressionGrammarAction(const int value);
-int BinaryExpressionGrammarAction(const int value);
+Instruction *UnaryExpressionGrammarAction(UnaryExpression *unaryExpression);
+Instruction *BinaryExpressionGrammarAction(BinaryExpression *binaryExpression);
 
-int NoteValueExpressionGrammarAction(const int left, const int right);
-int RhythmExpressionGrammarAction(const int left, const int middle, const int right);
-int NoteFullDefinitionExpressionGrammarAction(const int left, const int middleLeft,const int middleRight, const int right);
-int TrackInstrumentGrammarAction(const int left, const int right);
-int TempoExpressionGrammarAction(const int left, const int right);
-int MultiplicationExpressionGrammarAction(const int left, const int middle, const int right);
-int ParentesisExpressionGramarAction(const int value);
-int RepetitionGrammarAction(const int left, const int right);
+UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, Note *noteValue);
+UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue);
+UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName * variableName, Note *noteValue, Rhythm *rythmValue, Chord *chordValue);
+UnaryExpression *TrackInstrumentGrammarAction(VariableName *variableName, Instrument *instrumentValue);
+UnaryExpression *TempoExpressionGrammarAction(VariableName *variableName, double *tempoValue);
+UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableName, int *repetition);
+UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName);
+UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repetition);
 
-int BinaryExpressionAdditionExpressionGrammarAction(const int left, const int right);
-int VariableAdditionVariableGrammarAction(const int left, const int right);
-int VariableAdditionExpressionGrammarAction(const int left, const int right);
-int SubstractionExpressionGrammarAction(const int left, const int right);
-int DivisionExpressionGrammarAction(const int left, const int right);
+BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *variableNameLeft, BinaryExpression *doubleExpressionRight);
+BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
+BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variableNameLeft, UnaryExpression *unaryExpressionRight);
+BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
+BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
 
-int VariableNameGrammarAction(const int value);
+VariableName *VariableNameGrammarAction(char *variable);
 
 #endif

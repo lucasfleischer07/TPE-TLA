@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "../semantic-analysis/abstract-syntax-tree.h"
-
+#include "symbolsTable.h"
 // Descriptor del archivo de entrada que utiliza Bison.
 extern FILE * yyin;
 
@@ -46,11 +46,12 @@ typedef struct {
 	boolean succeed;
 
 	// Indica el resultado de la compilación (para la calculadora).
-	int result;
+	Program * result;
+	boolean failed;
 
 	// El nodo raíz del AST (se usará cuando se implemente el backend).
 	Program * program;
-
+	SymbolTable * table;
 	// Agregar lo que sea necesario para el compilador.
 	// Agregar una pila para manipular scopes.
 	// Agregar una tabla de símbolos.

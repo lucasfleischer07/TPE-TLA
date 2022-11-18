@@ -27,31 +27,71 @@ typedef struct {
 */
 
 typedef enum {
+	DO,
+	RE,
+	MI,
+	FA,
+	SOL, 
+	LA,
+	SI,
+} Note;
+
+typedef enum {
+	P,
+	F,
+} Instrument;
+
+typedef enum {
+	G_Major,
+	C_Major,
+} Chord;
+
+typedef enum {
+	q,
+	qqq,
+	h,
+	w,
+} Rhythm;
+
+typedef enum {
+	//Binary
 	ADDITION,
 	SUBTRACTION,
-	MULTIPLICATION,
 	DIVISION,
+
+	//Unary
+	NOTE_ASSIGNMENT,
+	MULTIPLICATION,
+	TEMPO_ASSINGMENT,
+	NOTE_AND_RHYTHM_ASSIGNMENT,
+	NOTE_RHYTHM_CHORD_ASSIGNMENT,
+	PARENTHESIS,
+	INSTRUMENT_ASSINGMENT,
 } ExpressionType;
 
 typedef enum {
-	TEMPO,
-	RHYTHM,
-	NOTE,
-	INSTRUMENT,
-	CHORD,
-	REPETITION
+	TEMPO_TYPE,
+	RHYTHM_TYPE,
+	NOTE_FIGURE,
+	INSTRUMENT_TYPE,
+	CHORD_TYPE,
+	REPETITION_TYPE
 } Values;
 
 typedef enum {
-	SONG,
-	TRACK,
-	NOTE
+	SONG_VAR,
+	TRACK_VAR,
+	NOTE_VAR
 } Variable;
 
 typedef struct {
 	Values typeValue;
-	char * name; 
-	int * value;
+	Note *note;
+	Instrument *instrument;
+	Chord *chord;
+	Rhythm *rhythm;
+	int *repetition;
+	double *tempo;
 } ValueStruct;
 
 typedef struct {
@@ -59,48 +99,48 @@ typedef struct {
 } VariableName;
 
 typedef struct {
-	VariableName * variableNameLeft;
-	VariableName * variableNameRight;
+	VariableName *variableName;
+	ValueStruct *firstValueType;
+	ValueStruct *secondValueType;
+	ValueStruct *thirdValueType;
 	ExpressionType type;
-	DoubleExpression * doubleExpression;
-	SingleExpression * singleExpression;
-} DoubleExpression;
+} UnaryExpression;
+
+typedef struct binaryExp{
+	VariableName *variableNameLeft;
+	VariableName *variableNameRight;
+	ExpressionType type;
+	struct binaryExp *binaryExpression;
+	UnaryExpression *unaryExpression;
+} BinaryExpression;
 
 typedef struct {
-	VariableName * variableName;
-	ValueStruct * firstValueType;
-	ValueStruct * secondValueType;
-	ValueStruct * thirdValueType;
-	ExpressionType type;
-} SingleExpression;
-
-typedef struct {
-	SingleExpression * singleExpression;
-	DoubleExpression * doubleExpression;
+	UnaryExpression *unaryExpression;
+	BinaryExpression *binaryExpression;
 } Instruction;
 
-typedef struct {
-	Instruction * instruction;
-	InstructionsArray * instructionArray; 
+typedef struct instructArray{
+	Instruction *instruction;
+	struct instructArray *instructionArray; 
 } InstructionsArray;
 
 typedef struct {
-	Variable * variableType;
-	VariableName * variableName;
+	Variable *variableType;
+	VariableName *variableName;
 } Definition;
 
-typedef struct {
-	Definition * definition;
-	Definitions * definitions;
-} Definitions;
+typedef struct definitions{
+	Definition *definition;
+	struct definitions *definitions;
+} Definitions;	
 
 typedef struct {
-	Definitions * definitions;
-	InstructionsArray * instructionArray;
+	Definitions *definitions;
+	InstructionsArray *instructionArray;
 } Code;
 
 typedef struct {
-	Code * code;
+	Code *code;
 } Program;
 
 #endif

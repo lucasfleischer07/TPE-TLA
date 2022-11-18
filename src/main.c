@@ -13,7 +13,8 @@ const int main(const int argumentCount, const char ** arguments) {
 	state.program = NULL;
 	state.result = 0;
 	state.succeed = false;
-
+	state.failed = false;
+	state.table = newTable();
 	// Mostrar parámetros recibidos por consola.
 	for (int i = 0; i < argumentCount; ++i) {
 		LogInfo("Argumento %d: '%s'", i, arguments[i]);
@@ -22,6 +23,7 @@ const int main(const int argumentCount, const char ** arguments) {
 	// Compilar el programa de entrada.
 	LogInfo("Compilando...\n");
 	const int result = yyparse();
+	freeTable(state.table);
 	switch (result) {
 		case 0:
 			// La variable "succeed" es la que setea Bison al identificar el símbolo

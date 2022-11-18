@@ -45,7 +45,7 @@ variableName        [a-zA-Z0-9_]
 {chord}                                     { return ChordPatternAction(yytext);}
 {note}                                      { return NotePatternAction(yytext);}
 
-{integer}									{ return IntegerPatternAction(yytext, yyleng); }
+{integer}									{ return IntegerPatternAction(yytext); }
 
 {tempo}                                     { return TempoPatternAction(yytext); }
 {rhythm}                                    { return RhythmPatternAction(yytext); }

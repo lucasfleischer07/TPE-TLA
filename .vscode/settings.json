@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "type_traits": "c",
-        "logger.h": "c"
+        "logger.h": "c",
+        "symbolstable.h": "c",
+        "typeinfo": "c",
+        "generator.h": "c",
+        "stdlib.h": "c",
+        "abstract-syntax-tree.h": "c"
     }
 }
