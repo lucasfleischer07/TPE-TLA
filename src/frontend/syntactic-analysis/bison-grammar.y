@@ -16,34 +16,28 @@
 	*/
 
 	// No-terminales (frontend).
-	Program program;
-	Code code;
-	Instruction instructionArray;
-	Instruction instruction;
-	SingleExpression singleExpression;
-	DoubleExperssion doubleExpression
-	Definitions definitions;
-	Definition definition;
-	Variable variable;
-	Values value;
-	Instrument instrument;
+	Program *program;
+	Code *code;
+	InstructionsArray *instructionsArray;
+	Instruction *instruction;
+	UnaryExpression *unaryExpression;
+	BinaryExpression *binaryExpression;
+	Definitions *definitions;
+	Definition *definition;
+	Variable *variable;
+	Values *value;
 	
-	Values v;
-
-	integer integer;
-	 note_value;
-	int rhythm;
-	int chord;
-	int string;
-	int name;
+	int *integer;
+	Note *note;
+	Instrument *instrument;
+	Chord *chord;
+	double *tempo;
+	char *string;
+	Rhythm *rhythm;
 
 	// Terminales.
 	token token;
-	VariableName variableName;
-
-	// char song_name[20];
-	// char note_name[20];
-	// char track_name[20];
+	VariableName *variableName;
 
 }
 
@@ -66,14 +60,13 @@
 
 
 /* Palabras reservadas */
-%token <values> TEMPO_VALUE
+%token <tempo> TEMPO_VALUE
 %token <integer> REPETITION
-%token <values> RHYTHM_VALUE
-%token <values> CHORD_VALUE
-%token <values> INSTRUMENT
-%token <values> NOTE_VALUE 
+%token <rhythm> RHYTHM_VALUE
+%token <chord> CHORD_VALUE
+%token <instrument> INSTRUMENT
+%token <note> NOTE_VALUE 
 %token <string> VARIABLE_NAME
-
 
 
 // Tipos de dato para los no-terminales generados desde Bison.
@@ -100,7 +93,7 @@
 
 %%
 
-program: code																	{$$ = ProgramGrammarAction($1); }
+program: code																	{ProgramGrammarAction($1); }
 	; 
 
 code: definitions															    {$$ = OnlyDefinitionsGrammarAction($1); }
@@ -111,9 +104,9 @@ definitions: definition definitions												{$$ = DefinitionsGrammarAction($1
 	| definition																{$$ = DefinitionGrammarAction($1); }
 	;
 
-definition: SONG variableName													{$$ = SongGrammarAction($1,$2); }
-	| TRACK variableName														{$$ = TrackGrammarAction($1,$2); }
-	| NOTE variableName															{$$ = NoteGrammarAction($1,$2); }
+definition: SONG variableName													{$$ = SongGrammarAction($2); }
+	| TRACK variableName														{$$ = TrackGrammarAction($2); }
+	| NOTE variableName															{$$ = NoteGrammarAction($2); }
 	;
 
 

@@ -1,6 +1,8 @@
 #include "../../backend/support/logger.h"
+#include "../../backend/support/symbolsTable.h"
 #include "flex-actions.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Implementación de "flex-actions.h".
@@ -18,18 +20,8 @@
  * (mediante $1, $2, $3, etc.).
  */
 
-// token StartPatternAction(char * lexeme) {
-// 	LogDebug("StartPatternAction: '%s'.", lexeme);
-// 	yylval.token = START;
-// 	return START;
-// }
 
-// token EndPatternAction(char * lexeme) {
-// 	LogDebug("EndPatternAction: '%s'.", lexeme);
-// 	yylval.token = END;
-// 	return END;
-// }
-
+// TOKENS DE CREACION (SONG, NOTE Y TRACK)
 token SongDefinitionPatternAction(char * lexeme) {
 	LogDebug("SongPatternAction: '%s'.", lexeme);
 	yylval.token = SONG;
@@ -37,7 +29,7 @@ token SongDefinitionPatternAction(char * lexeme) {
 }
 
 token NoteDefinitionPatternAction(char * lexeme) {
-	LogDebug("NotePatternAction: '%s'.", lexeme);
+	LogDebug("NoteDefinitionPatternAction: '%s'.", lexeme);
 	yylval.token = NOTE;
 	return NOTE;
 }
@@ -48,6 +40,8 @@ token TrackDefinitionPatternAction(char * lexeme) {
 	return TRACK;
 }
 
+
+//TOKENS DE EXPRESSIONS Y PALABRAS RESERVADAS
 token AddPatternAction(char * lexeme) {
 	LogDebug("AddToTrackPatternAction: '%s'.", lexeme);
 	yylval.token = ADD;
@@ -98,54 +92,97 @@ token CloseBracePatternAction(const char * lexeme) {
 	return CLOSE_BRACE;
 }
 
+// "EXPRESIONES REGULARES"
 
-token NotePatternAction(const char * lexeme) {
-	LogDebug("NotePatternAction: '%s'.", lexeme);
-	yylval.token = NOTE_VALUE;
-	return NOTE_VALUE;
-}
-
-token IntegerPatternAction(const char * lexeme, const int lenght) {
-	LogDebug("IntegerPatternAction: '%s' (lenght = %d)", lexeme, lenght);
-	yylval.token = REPETITION;
-	return REPETITION;
-}
-
-
+//Llama el enum de chord
 token ChordPatternAction(const char * lexeme) {
 	LogDebug("ChordPatternAction: '%s'.", lexeme);
-	yylval.token = CHORD_VALUE;
+	yylval.chord = malloc(sizeof(Chord));
+	if(strcmp(lexeme, "G-Major") == 0) {
+		*(yylval.chord) = G_Major;
+	} else if (strcmp(lexeme, "C-Major") == 0) {
+		*(yylval.chord) = C_Major;
+	}
+	
 	return CHORD_VALUE;
 }
 
+//Llama el enum de note
+token NotePatternAction(const char * lexeme) {
+	LogDebug("NotePatternAction: '%s'.", lexeme);
+	
+	yylval.note = malloc(sizeof(Note));
+	if(strcmp(lexeme, "do") == 0) {
+		*(yylval.note) = DO;
+	} else if (strcmp(lexeme, "re") == 0) {
+		*(yylval.note) = RE;
+	} else if (strcmp(lexeme, "mi") == 0) {
+		*(yylval.note) = MI;
+	}else if (strcmp(lexeme, "fa") == 0) {
+		*(yylval.note) = FA;
+	} else if (strcmp(lexeme, "sol") == 0) {
+		*(yylval.note) = SOL;
+	}else if (strcmp(lexeme, "la") == 0) {
+		*(yylval.note) = LA;
+	} else {
+		*(yylval.note) = SI;
+	} 
+	
+	return NOTE_VALUE;
+}
+
+token IntegerPatternAction(const char * lexeme) {
+	LogDebug("IntegerPatternAction: '%s'", lexeme);
+	yylval.integer = malloc(sizeof(int));
+	*(yylval.integer) = atoi(lexeme);
+	return REPETITION;
+}
 
 token TempoPatternAction(const char * lexeme) {
 	LogDebug("TempoPatternAction: '%s'.", lexeme);
-	yylval.token = TEMPO_VALUE;
+	char * aux;
+	yylval.tempo = malloc(sizeof(double));
+	*(yylval.tempo) = strtod(lexeme, &aux);
 	return TEMPO_VALUE;
 }
 
-
+//Llama el enum de rhythm
 token RhythmPatternAction(const char * lexeme) {
 	LogDebug("RhythmPatternAction: '%s'.", lexeme);
-	yylval.token = RHYTHM_VALUE;
+	
+	yylval.rhythm = malloc(sizeof(Rhythm));
+	if(strcmp(lexeme, "q") == 0) {
+		*(yylval.rhythm) = q;
+	} else if (strcmp(lexeme, "qqq") == 0) {
+		*(yylval.rhythm) = qqq;
+	}else if (strcmp(lexeme, "h") == 0) {
+		*(yylval.rhythm) = h;
+	} else {
+		*(yylval.rhythm) = w;
+	}
+
 	return RHYTHM_VALUE;
 }
 
-
+//Llama el enum de instrument
 token InstrumentPatternAction(const char * lexeme) {
 	LogDebug("InstrumentPatternAction: '%s'.", lexeme);
-	yylval.token = INSTRUMENT;
+
+	yylval.instrument = malloc(sizeof(Instrument));	
+	if(strcmp(lexeme, "P") == 0) {
+		*(yylval.instrument) = P;
+	} else if (strcmp(lexeme, "F") == 0) {
+		*(yylval.instrument) = F;
+	}
+
 	return INSTRUMENT;
 }
 
 token VariablePatternAction(char * lexeme, const int lenght) {
 	LogDebug("VariablePatternAction: '%s'.", lexeme);
-    // char * toRet = (char*) malloc((yyleng + 1)*sizeof(char));
-    // strncpy(toRet, lexeme, yyleng);
-	// toRet[yyleng] = '\0';
-	// yylval.string = toRet;
-	// strncpy(yylval.variableName, lexeme, sizeof(yylval.variableName)-1);
+    char * aux = malloc(lenght +1);
+	strncpy(aux,lexeme,lenght);
+	yylval.string = aux;
 	return VARIABLE_NAME;
 }
 

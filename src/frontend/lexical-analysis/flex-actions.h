@@ -19,7 +19,6 @@
  * largo de aquello que se va a almacenar.
  */
 
-token IntegerPatternAction(const char * lexeme, const int lenght);
 
 // Regla que no hace nada, permite ignorar parte de la entrada.
 void IgnoredPatternAction(const char * lexeme, const int length);
@@ -45,6 +44,7 @@ token CloseParenthesisPatternAction(const char * lexeme);
 
 token ChordPatternAction(const char * lexeme);
 token NotePatternAction(const char * lexeme);
+token IntegerPatternAction(const char * lexeme);
 
 token TempoPatternAction(const char * lexeme);
 token RhythmPatternAction(const char * lexeme);
