@@ -1,21 +1,20 @@
 package com.example.java;
-public class Main{
 
+import org.jfugue.midi.MidiDictionary;
 
+public class OutputUtils {
 
-    private final String DEFAULT_TEMPO="T120 ";
+    private final String DEFAULT_TEMPO="T120";
     private final String DEFAULT_OCTAVE="4";
     private final String DEFAULT_DURATION="q";
-    private final String DEFAULT_INSTRUMENT="";
-
-
+    private final String DEFAULT_INSTRUMENT="I0";
     public String modifyNote(String note){
         return note+DEFAULT_OCTAVE+DEFAULT_DURATION;
     }
     public String modifyNote(String note,String rythm){
         return note+DEFAULT_OCTAVE+rythm;
     }
-    public String modifyNote(String note,String rythm,String chord){
+    public String modifyNote(String note,String rythm,int chord){
         return note+chord+rythm;
     }
 
@@ -25,14 +24,19 @@ public class Main{
     public String trackAddNote(String track,String note){
         return track+' '+note;
     }
+    public String trackAddTrack(String track,String note){
+        return track+' '+track;
+    }
+
     public String defineSong(){
         return "";
     }
     public String songAddTrack(String song,String track){
         int tracksAmount=0;
         int index=0;
-        while((index=song.indexOf('V',index))>=0)
+        while((index=song.indexOf('V',index))>=0){
             tracksAmount++;
+            index++;}
         if(tracksAmount>15)
             throw new RuntimeException("LIMIT OF 16 TRACKS PER SONG SURPASSED");
 
@@ -43,12 +47,13 @@ public class Main{
     public String changeTempo(String track,double speed){
         StringBuilder changedSong=new StringBuilder(track);
         Integer tempoValue;
-        for(int index=0;(index=changedSong.indexOf("T",index)) >=0;){
+        for(int index=0;(index=changedSong.indexOf("T",index)) >=0;index++){
             tempoValue=0;
             while(changedSong.charAt(index+1)>='0'&& changedSong.charAt(index+1)<='9' ){
                 tempoValue*=10;
-                tempoValue+=Integer.valueOf(changedSong.charAt(index+1));
+                tempoValue+=Character.getNumericValue(changedSong.charAt(index+1));
                 changedSong.deleteCharAt(index+1);
+
             }
             tempoValue=(int)(tempoValue*speed);
             changedSong.insert(index+1,tempoValue);
@@ -56,21 +61,20 @@ public class Main{
         return changedSong.toString();
     }
 
-    public String changeInstrument(String track,int instrument){
+    public String changeInstrument(String track,Instruments instrument){
         StringBuilder changedSong=new StringBuilder(track);
-        for(int index=0;(index=changedSong.indexOf("I",index)) >=0;){
-            changedSong.replace(index+1,index+1,String.valueOf(instrument));
+        for(int index=0;(index=changedSong.indexOf("I",index)) >=0;index++){
+            int lastIndex=changedSong.indexOf(" ",index);
+            changedSong.replace(index+1,lastIndex,instrument.toString());
+            index++;
         }
         return changedSong.toString();
     }
 
     public String trackSubstraction(String track,String note){
         int lastIndex=-1;
-        int index=0;
         StringBuilder stringBuilder=new StringBuilder(track);
-        while((index=stringBuilder.indexOf(note+' ',index))>=0){
-            lastIndex=index;
-        }
+        lastIndex=stringBuilder.lastIndexOf(note);
         if(lastIndex>=0)
             stringBuilder.delete(lastIndex,lastIndex+note.length());
         return stringBuilder.toString();
