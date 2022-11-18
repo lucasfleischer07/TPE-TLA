@@ -70,7 +70,7 @@ void GenerateDefinition (Definition *definition) {
 		} else if(definition->variableType == NOTE_VAR) {
 			fprintf(yyout, "\t\tString %s = new String("");\n", definition->variableName->name);
 		}
-		freeDefinitions(definition;
+		freeDefinitions(definition);
 	}
 }
 
