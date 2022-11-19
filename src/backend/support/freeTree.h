@@ -5,12 +5,18 @@
 
 void freeProgramTree(Program *program);
 
-void freeCodeTree(Code* code);
+void freeCodeTree(Code *code);
 
-void freeDefinition(Definition* definition);
+void freeDefinition(Definition *definition);
+
+void freeBinaryExpression(BinaryExpression *binaryExpression);
+
+void freeUnaryExpression(UnaryExpression *unaryExpression);
 
 void freeVarType(Variable *varType);
 
 void freeVarName(VariableName *VariableName);
+
+void freeValueStruct(ValueStruct *valueStruct);
 
 #endif

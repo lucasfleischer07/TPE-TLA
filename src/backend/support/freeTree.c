@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include "../semantic-analysis/abstract-syntax-tree.h"
+#include "freeTree.h"
 
 
-
-
-void freeProgramTree(Program *program){
+void freeProgramTree(Program *program) {
     if (program == NULL){
         return;
     }
@@ -13,18 +12,20 @@ void freeProgramTree(Program *program){
     freeCodeTree(aux);
 }
 
-void freeCodeTree(Code* code){
+void freeCodeTree(Code *code) {
     if (code == NULL){
         return;
     }
     Definitions* defAux = code->definitions;
     InstructionsArray *instAux = code->instructionArray;
     free(code);
-    freeDefinitions(defAux);
-    freeInstructionsArray(instAux);
+    // TODO: VER ESTE FREE, NO EXISTE freeDefinitions, solo existe freeDEfinition (originalmente estaba freeDefinitions)
+    // freeDefinitions(defAux);
+    // TODO: VER ESTE FREE, NO EXISTE
+    // freeInstructionsArray(instAux);
 }
 
-void freeDefinition(Definition* definition){
+void freeDefinition(Definition *definition) {
     if (definition == NULL){
         return;
     }
@@ -32,7 +33,7 @@ void freeDefinition(Definition* definition){
     freeVarName(definition->variableName);
 }
 
-void freeBinaryExpression(BinaryExpression *binaryExpression){
+void freeBinaryExpression(BinaryExpression *binaryExpression) {
     if(binaryExpression == NULL){
         return;
     }
@@ -51,7 +52,7 @@ void freeBinaryExpression(BinaryExpression *binaryExpression){
     free(binaryExpression);
 }
 
-void freeUnaryExpression(UnaryExpression *unaryExpression){
+void freeUnaryExpression(UnaryExpression *unaryExpression) {
     if(unaryExpression == NULL){
         return;
     }
@@ -70,15 +71,15 @@ void freeUnaryExpression(UnaryExpression *unaryExpression){
     free(unaryExpression);
 }
 
-void freeVarType(Variable *varType){
+void freeVarType(Variable *varType) {
     free(varType);
 }
 
-void freeVarName(VariableName *VariableName){
+void freeVarName(VariableName *VariableName) {
     free(VariableName);
 }
 
-void freeValueStruct(ValueStruct *valueStruct){
+void freeValueStruct(ValueStruct *valueStruct) {
     if(valueStruct->note != NULL){
         free(valueStruct->note);
     }
