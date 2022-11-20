@@ -26,7 +26,7 @@ void Generator(Program *program) {
 	LogInfo("Produciendo el codigo en java:");
 
 	// TODO: CAmbiar el path del fopen
-	yyout = fopen("src/backend/generated-java/source_classes/src/main/java/classes/Out.java", "w");
+	yyout = fopen("java/src/main/java/com/example/java/Out.java", "w");
 
 	if (yyout == NULL) {
 		LogError("Error al abrir el archivo Out.java");
@@ -49,6 +49,8 @@ void Generator(Program *program) {
 	copy_to_java("player.play(song);\n");
 	copy_to_java("\t}\n");
 	copy_to_java("}\n");
+
+	fclose(yyout);
 
 	LogInfo("Finalizacion del codigo");
 	free(program);
@@ -74,9 +76,9 @@ void GenerateDefinition(Definition *definition) {
 	if (definition != NULL) {
 		if (definition->variableType == SONG_VAR) {
 			fprintf(yyout, "\t\tString %s = outputUtils.defineSong();\n", definition->variableName->name);
-		} else if (*(definition->variableType) == TRACK_VAR) {
+		} else if (definition->variableType == TRACK_VAR) {
 			fprintf(yyout, "\t\tString %s = outputUtils.defineTrack();\n", definition->variableName->name);
-		} else if (*(definition->variableType) == NOTE_VAR) {
+		} else if (definition->variableType == NOTE_VAR) {
 			fprintf(yyout, "\t\tString %s = new String("");\n", definition->variableName->name);
 		}
 		// TODO: freeDefinitions? o freeDefinition? (freeDefinitions no existe)

@@ -65,6 +65,7 @@ Code *CodeGrammarAction(Definitions *definitions, InstructionsArray *instruction
 
 Code *OnlyDefinitionsGrammarAction(Definitions *definitions) {
 	Code *onlyDefinitions = malloc(sizeof(Code));
+	// onlyDefinitions->definitions = malloc(sizeof(Definition));
 	onlyDefinitions->definitions = definitions;
 	onlyDefinitions->instructionArray = NULL;
 
@@ -73,21 +74,24 @@ Code *OnlyDefinitionsGrammarAction(Definitions *definitions) {
 }
 
 Definitions *DefinitionsGrammarAction(Definition *definitionParam, Definitions *definitionsParam) {
+	LogDebug("\tDefinitionsGrammarAction(%s, %s)", "def", "defs");
 	Definitions *definition = malloc(sizeof(Definitions));
+	// definition->definition = malloc(sizeof(Definition));
 	definition->definition = definitionParam;
 	definition->definitions = definitionsParam;
 
-	LogDebug("\tDefinitionsGrammarAction(%s, %s)", 'def', "defs");
+	LogDebug("\tDefinitionsGrammarAction(%s, %s)", "def", "defs");
 	return definition;
 }
 
 Definitions *DefinitionGrammarAction(Definition *definitionParam) {
-	Definitions *definition = malloc(sizeof(Definitions));
-	definition->definition = definitionParam;
-	definition->definitions = NULL;
+	Definitions *definitions = malloc(sizeof(Definitions));
+	// definitions->definition = malloc(sizeof(Definition));
+	definitions->definition = definitionParam;
+	definitions->definitions = NULL;
 
-	LogDebug("\tDefinitionsGrammarAction(%s)", definition->definition->variableName->name);
-	return definition;
+	LogDebug("\tDefinitionGrammarAction(%s)", definitions->definition->variableName->name);
+	return definitions;
 }
 
 Definition *SongGrammarAction(VariableName *variableName) {
@@ -98,7 +102,11 @@ Definition *SongGrammarAction(VariableName *variableName) {
 	
 	Definition *songDefinition = malloc(sizeof(Definition));
 	songDefinition->variableType = SONG_VAR;
-	*(songDefinition->variableName->name) = variableName;
+
+	songDefinition->variableName = malloc(sizeof(VariableName)); 
+	// songDefinition->variableName->name = malloc(sizeof(char));
+	songDefinition->variableName->name = variableName->name;
+
 	addSymbolToTable(state.table,variableName->name,SONG_SYMBOL);
 	LogDebug("\tSongGrammarAction(%s, %s)", "SONG", songDefinition->variableName->name);
 	return songDefinition;
@@ -112,21 +120,26 @@ Definition *TrackGrammarAction(VariableName *variableName) {
 	
 	Definition *trackDefinition = malloc(sizeof(Definition));
 	trackDefinition->variableType = TRACK_VAR;
-	trackDefinition->variableName->name = variableName;
+	trackDefinition->variableName = malloc(sizeof(VariableName));
+	// trackDefinition->variableName->name = malloc(sizeof(char));
+	trackDefinition->variableName->name = variableName->name;
 	addSymbolToTable(state.table,variableName->name,TRACK_SYMBOL);
 	LogDebug("\tTrackGrammarAction(%s, %s)", "TRACK", trackDefinition->variableName->name);
 	return trackDefinition;
 }
 
 Definition *NoteGrammarAction(VariableName *variableName) {
-	if( isVariableInTable(state.table,variableName->name)){
+	if(isVariableInTable(state.table,variableName->name)){
 		LogDebug("\tERROR NoteGrammarAction(%s, %s) this variable already exists", "NOTE", variableName->name);
 		state.failed=true;
 	}
-	
 	Definition *noteDefinition = malloc(sizeof(Definition));
 	noteDefinition->variableType = NOTE_VAR;
-	noteDefinition->variableName->name = variableName;
+	noteDefinition->variableName = malloc(sizeof(VariableName));
+	// noteDefinition->variableName->name = malloc(sizeof(char));
+	// noteDefinition->variableName->name = (char*) malloc((strlen(variableName->name) + 1) * sizeof (char));
+	noteDefinition->variableName->name = (char*) malloc(sizeof(char*) * (strlen(variableName->name)+1));
+	noteDefinition->variableName->name = variableName->name;
 	addSymbolToTable(state.table,variableName->name,NOTE_SYMBOL);
 	LogDebug("\tNoteGrammarAction(%s, %s)", "NOTE", noteDefinition->variableName->name);
 	return noteDefinition;
@@ -178,6 +191,8 @@ UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, No
 	unaryExpression->variableName = variableName;
 	ValueStruct *valueStruct = malloc(sizeof(ValueStruct));
 	unaryExpression->firstValueType = valueStruct;	
+	unaryExpression->type = NOTE_ASSIGNMENT;
+
 	valueStruct->tempo = NULL;
 	valueStruct->instrument = NULL;
 	valueStruct->chord = NULL;
@@ -190,8 +205,6 @@ UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, No
 	unaryExpression->secondValueType = NULL;
 
 	unaryExpression->thirdValueType = NULL;
-
-	unaryExpression->type = NOTE_ASSIGNMENT;
 
 	LogDebug("\tNoteValueExpressionGrammarAction(%s, %d)", unaryExpression->variableName, unaryExpression->firstValueType->note);
 }
@@ -377,7 +390,7 @@ UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableNam
 //ESTE NO ESTA CHEQUEADO XQ NO SE EL CASO DE USO
 UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName) {
 	UnaryExpression * unaryExpression = malloc(sizeof(UnaryExpression));
-	unaryExpression->variableName->name = variableName;
+	unaryExpression->variableName = variableName;
 	unaryExpression->firstValueType = NULL;
 	unaryExpression->secondValueType = NULL;
 	unaryExpression->thirdValueType = NULL;
@@ -400,8 +413,7 @@ UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repeti
 	valueStruct->rhythm = NULL;
 	valueStruct->repetition = NULL;
 
-	valueStruct->repetition = malloc(sizeof(int));
-	*(valueStruct->repetition) = repetition;
+	valueStruct->repetition = repetition;
 
 	LogDebug("\tRepetitionGrammarAction(%s, repetition: (%d))", variableName->name, repetition);
 	return unaryExpression;
@@ -443,7 +455,7 @@ BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *
 }
 
 BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variableNameLeft, UnaryExpression *unaryExpressionRight) {
-	if( !checkAddition(variableNameLeft,unaryExpressionRight->variableName->name)){
+	if( !checkAddition(variableNameLeft,unaryExpressionRight->variableName)){
 		LogDebug("\t VariableAdditionExpressionGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,unaryExpressionRight->variableName->name);
 		state.failed=true;
 	}
@@ -460,7 +472,7 @@ BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variable
 }
 
 BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
-	if( !checkAddition(variableNameLeft,variableNameRight->name)){
+	if( !checkAddition(variableNameLeft,variableNameRight)){
 		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
@@ -507,7 +519,7 @@ BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableName
 }
 
 BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
-	if( !checkSubDivAndMult(variableNameLeft,variableNameRight->name)){
+	if( !checkSubDivAndMult(variableNameLeft,variableNameRight)){
 		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}

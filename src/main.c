@@ -46,6 +46,7 @@ const int main(const int argumentCount, const char ** arguments) {
 		default:
 			LogError("Error desconocido mientras se ejecutaba el analizador Bison (codigo %d).", result);
 	}
+	
 	LogInfo("Fin.");
 	return result;
 }

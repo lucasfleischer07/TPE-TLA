@@ -29,7 +29,6 @@ void freeDefinition(Definition *definition) {
     if (definition == NULL){
         return;
     }
-    freeVarType(definition->variableType);
     freeVarName(definition->variableName);
 }
 
@@ -71,9 +70,6 @@ void freeUnaryExpression(UnaryExpression *unaryExpression) {
     free(unaryExpression);
 }
 
-void freeVarType(Variable *varType) {
-    free(varType);
-}
 
 void freeVarName(VariableName *VariableName) {
     free(VariableName);

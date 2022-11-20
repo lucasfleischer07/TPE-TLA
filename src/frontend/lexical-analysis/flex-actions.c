@@ -23,7 +23,7 @@
 
 // TOKENS DE CREACION (SONG, NOTE Y TRACK)
 token SongDefinitionPatternAction(char * lexeme) {
-	LogDebug("SongPatternAction: '%s'.", lexeme);
+	LogDebug("SongDefinitionPatternAction: '%s'.", lexeme);
 	yylval.token = SONG;
 	return SONG;
 }
@@ -35,7 +35,7 @@ token NoteDefinitionPatternAction(char * lexeme) {
 }
 
 token TrackDefinitionPatternAction(char * lexeme) {
-	LogDebug("TrackPatternAction: '%s'.", lexeme);
+	LogDebug("TrackDefinitionPatternAction: '%s'.", lexeme);
 	yylval.token = TRACK;
 	return TRACK;
 }
@@ -43,7 +43,7 @@ token TrackDefinitionPatternAction(char * lexeme) {
 
 //TOKENS DE EXPRESSIONS Y PALABRAS RESERVADAS
 token AddPatternAction(char * lexeme) {
-	LogDebug("AddToTrackPatternAction: '%s'.", lexeme);
+	LogDebug("AddPatternAction: '%s'.", lexeme);
 	yylval.token = ADD;
 	return ADD;
 }

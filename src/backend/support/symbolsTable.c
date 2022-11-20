@@ -1,4 +1,5 @@
 #include "symbolsTable.h"
+#include "logger.h"
 
 static SymbolEntry* findVariableRecursive(SymbolEntry *currentEntry,char *varnName);
 
@@ -21,21 +22,25 @@ void printVariable(SymbolEntry* entry) { //por si quiero impimirlo x entrada
 // seria como un init table
 void addSymbolToTable(SymbolTable* table, char* name, SymbolType type) {
     //creo q value no hace falta xq puedo crear song cancion1
+    LogDebug("\t\tAddSymbolToTable entrando a la funcion");
     SymbolEntry* entry = malloc(sizeof(SymbolEntry));
     if(entry == NULL){
+	    LogDebug("\t\tAddSymbolToTable con entry NULL");
         //funcion para manejar q me quede sin memory
         return;
     }
     entry->name = malloc(strlen(name) + 1);
     if(entry->name == NULL){
+	    LogDebug("\t\tAddSymbolToTable con name NULL");
         free(entry);
-         //funcion para manejar q me quede sin memory
+        //funcion para manejar q me quede sin memory
         return;
     }
     strcpy(entry->name, name);
     entry->type = type;
     entry->next = table->top;
     table->top = entry;
+    LogDebug("\t\tAddSymbolToTable(%s))", entry->name);
 }
 
 /** Funcion que devuelve 1 si la variable ya esta definida, 0 en otro caso*/

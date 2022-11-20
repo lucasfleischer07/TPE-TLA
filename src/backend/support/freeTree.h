@@ -13,8 +13,6 @@ void freeBinaryExpression(BinaryExpression *binaryExpression);
 
 void freeUnaryExpression(UnaryExpression *unaryExpression);
 
-void freeVarType(Variable *varType);
-
 void freeVarName(VariableName *VariableName);
 
 void freeValueStruct(ValueStruct *valueStruct);

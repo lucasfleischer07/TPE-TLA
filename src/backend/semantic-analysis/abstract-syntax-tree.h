@@ -125,7 +125,7 @@ typedef struct instructArray{
 } InstructionsArray;
 
 typedef struct {
-	Variable *variableType;
+	Variable variableType;
 	VariableName *variableName;
 } Definition;
 
