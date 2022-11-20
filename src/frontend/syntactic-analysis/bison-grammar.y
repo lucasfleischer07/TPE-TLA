@@ -30,7 +30,7 @@
 	int *integer;
 	Note *note;
 	Instrument *instrument;
-	Chord *chord;
+	int *chord;
 	double *tempo;
 	char *string;
 	Rhythm *rhythm;

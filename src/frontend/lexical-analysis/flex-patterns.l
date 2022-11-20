@@ -22,7 +22,7 @@ tempo               ([0-9]){1,2}((\.)([0-9]){1})
 rhythm              (q|qqq|h|w)
 note                (do|re|mi|fa|sol|la|si|r)#?
 instrument          (P|F)
-chord               (G-Major|C-Major)
+chord               ^(0|[1-9]{1}|10)$
 variableName        [a-zA-Z0-9_]
 
 

@@ -32,7 +32,7 @@ Instruction *BinaryExpressionGrammarAction(BinaryExpression *binaryExpression);
 
 UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, Note *noteValue);
 UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue);
-UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName * variableName, Note *noteValue, Rhythm *rythmValue, Chord *chordValue);
+UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName * variableName, Note *noteValue, Rhythm *rythmValue, int *chordValue);
 UnaryExpression *TrackInstrumentGrammarAction(VariableName *variableName, Instrument *instrumentValue);
 UnaryExpression *TempoExpressionGrammarAction(VariableName *variableName, double *tempoValue);
 UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableName, int *repetition);

@@ -97,13 +97,8 @@ token CloseBracePatternAction(const char * lexeme) {
 //Llama el enum de chord
 token ChordPatternAction(const char * lexeme) {
 	LogDebug("ChordPatternAction: '%s'.", lexeme);
-	yylval.chord = malloc(sizeof(Chord));
-	if(strcmp(lexeme, "G-Major") == 0) {
-		*(yylval.chord) = G_Major;
-	} else if (strcmp(lexeme, "C-Major") == 0) {
-		*(yylval.chord) = C_Major;
-	}
-	
+	yylval.chord = malloc(sizeof(int));
+	*(yylval.integer) = atoi(lexeme);
 	return CHORD_VALUE;
 }
 

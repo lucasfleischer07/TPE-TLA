@@ -92,21 +92,21 @@ Definitions *DefinitionGrammarAction(Definition *definitionParam) {
 
 Definition *SongGrammarAction(VariableName *variableName) {
 	if( isVariableInTable(state.table,variableName->name)){
-		LogDebug("\tERROR SongGrammarAction(%s, %s) this variable already exists", "SONG", songDefinition->variableName->name);
+		LogDebug("\tERROR SongGrammarAction(%s, %s) this variable already exists", "SONG", variableName->name);
 		state.failed=true;
 	}
 	
 	Definition *songDefinition = malloc(sizeof(Definition));
 	songDefinition->variableType = SONG_VAR;
-	songDefinition->variableName->name = variableName;
+	*(songDefinition->variableName->name) = variableName;
 	addSymbolToTable(state.table,variableName->name,SONG_SYMBOL);
 	LogDebug("\tSongGrammarAction(%s, %s)", "SONG", songDefinition->variableName->name);
 	return songDefinition;
 }
 
 Definition *TrackGrammarAction(VariableName *variableName) {
-	if( isVariableInTable(state.table,variableName->name)){
-		LogDebug("\tERROR TrackGrammarAction(%s, %s) this variable already exists", "TRACK", trackDefinition->variableName->name);
+	if(isVariableInTable(state.table, variableName->name)){
+		LogDebug("\tERROR TrackGrammarAction(%s, %s) this variable already exists", "TRACK", variableName->name);
 		state.failed=true;
 	}
 	
@@ -235,7 +235,7 @@ UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note 
 	return unaryExpression;
 }
 
-UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue, Chord *chordValue) {
+UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue, int *chordValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
 		LogDebug("\t NoteFullDefinitionExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
@@ -476,7 +476,7 @@ BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNa
 	return binaryExpression;
 }
 
-static int checkSubDivAndMult(VariableName *variableNameLeft,VariableName *variableNameRight){
+static int checkSubDivAndMult(VariableName *variableNameLeft, VariableName *variableNameRight){
 	if( !isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
 		return false;
 	}
@@ -490,7 +490,7 @@ static int checkSubDivAndMult(VariableName *variableNameLeft,VariableName *varia
 }
 
 BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
-	if( !checkSubDivAndMult(variableNameLeft,variableNameRight->name)){
+	if(!checkSubDivAndMult(variableNameLeft, variableNameRight)){
 		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}

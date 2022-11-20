@@ -19,6 +19,4 @@ void GenerateBinaryExpression(BinaryExpression *binaryExpression);
 
 void GenerateUnaryExpression(UnaryExpression *unaryExpression);
 
-
-
 #endif

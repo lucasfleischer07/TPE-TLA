@@ -27,13 +27,13 @@ typedef struct {
 */
 
 typedef enum {
-	DO,
-	RE,
-	MI,
-	FA,
-	SOL, 
-	LA,
-	SI,
+	DO='C',
+	RE='D',
+	MI='E',
+	FA='F',
+	SOL='G', 
+	LA='A',
+	SI='B',
 } Note;
 
 typedef enum {
@@ -41,16 +41,16 @@ typedef enum {
 	F,
 } Instrument;
 
-typedef enum {
-	G_Major,
-	C_Major,
-} Chord;
+// typedef enum {
+// 	G_Major,
+// 	C_Major,
+// } Chord;
 
 typedef enum {
-	q,
-	qqq,
-	h,
-	w,
+	q='q',
+	qqq='i',
+	h='h',
+	w='w',
 } Rhythm;
 
 typedef enum {
@@ -88,7 +88,7 @@ typedef struct {
 	Values typeValue;
 	Note *note;
 	Instrument *instrument;
-	Chord *chord;
+	int *chord;
 	Rhythm *rhythm;
 	int *repetition;
 	double *tempo;
