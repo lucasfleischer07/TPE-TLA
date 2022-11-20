@@ -104,7 +104,6 @@ token ChordPatternAction(const char * lexeme) {
 
 //Llama el enum de note
 token NotePatternAction(const char * lexeme) {
-	LogDebug("NotePatternAction: '%s'.", lexeme);
 	
 	yylval.note = malloc(sizeof(Note));
 	if(strcmp(lexeme, "do") == 0) {
@@ -122,6 +121,7 @@ token NotePatternAction(const char * lexeme) {
 	} else {
 		*(yylval.note) = SI;
 	} 
+	LogDebug("NotePatternAction: '%s'.", *(yylval.note));
 	
 	return NOTE_VALUE;
 }

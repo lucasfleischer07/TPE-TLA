@@ -6,6 +6,9 @@
         "typeinfo": "c",
         "generator.h": "c",
         "stdlib.h": "c",
-        "abstract-syntax-tree.h": "c"
+        "abstract-syntax-tree.h": "c",
+        "freetree.h": "c",
+        "flex-actions.h": "c",
+        "bison-parser.h": "c"
     }
 }

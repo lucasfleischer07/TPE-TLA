@@ -22,7 +22,6 @@ void printVariable(SymbolEntry* entry) { //por si quiero impimirlo x entrada
 // seria como un init table
 void addSymbolToTable(SymbolTable* table, char* name, SymbolType type) {
     //creo q value no hace falta xq puedo crear song cancion1
-    LogDebug("\t\tAddSymbolToTable entrando a la funcion");
     SymbolEntry* entry = malloc(sizeof(SymbolEntry));
     if(entry == NULL){
 	    LogDebug("\t\tAddSymbolToTable con entry NULL");

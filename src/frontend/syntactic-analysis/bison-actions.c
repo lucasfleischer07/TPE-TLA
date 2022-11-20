@@ -69,24 +69,21 @@ Code *OnlyDefinitionsGrammarAction(Definitions *definitions) {
 	onlyDefinitions->definitions = definitions;
 	onlyDefinitions->instructionArray = NULL;
 
-	LogDebug("\tOnlyDefinitionsGrammarAction(%s)", "definitions");
+	LogDebug("\tOnlyDefinitionsGrammarAction(%s)", onlyDefinitions->definitions->definition->variableName->name);
 	return onlyDefinitions;
 }
 
 Definitions *DefinitionsGrammarAction(Definition *definitionParam, Definitions *definitionsParam) {
-	LogDebug("\tDefinitionsGrammarAction(%s, %s)", "def", "defs");
 	Definitions *definition = malloc(sizeof(Definitions));
-	// definition->definition = malloc(sizeof(Definition));
 	definition->definition = definitionParam;
 	definition->definitions = definitionsParam;
 
-	LogDebug("\tDefinitionsGrammarAction(%s, %s)", "def", "defs");
+	LogDebug("\tDefinitionsGrammarAction(Definition: %s, Definitions: %s)", definition->definition->variableName->name, definition->definitions->definition->variableName->name);
 	return definition;
 }
 
 Definitions *DefinitionGrammarAction(Definition *definitionParam) {
 	Definitions *definitions = malloc(sizeof(Definitions));
-	// definitions->definition = malloc(sizeof(Definition));
 	definitions->definition = definitionParam;
 	definitions->definitions = NULL;
 
@@ -177,7 +174,7 @@ Instruction *BinaryExpressionGrammarAction(BinaryExpression *binaryExpression) {
 	binaryExpressionInstruction->binaryExpression = binaryExpression;
 	binaryExpressionInstruction->unaryExpression = NULL;
 
-	LogDebug("\tbinaryExpressionGrammarAction(%s, %s)", binaryExpressionInstruction->binaryExpression->variableNameLeft->name, binaryExpressionInstruction->binaryExpression->variableNameRight->name);
+	LogDebug("\tBinaryExpressionGrammarAction(%s, %s)", binaryExpressionInstruction->binaryExpression->variableNameLeft->name, binaryExpressionInstruction->binaryExpression->variableNameRight->name);
 	return binaryExpressionInstruction;
 }
 
@@ -211,7 +208,7 @@ UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, No
 
 UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
-		LogDebug("\t RhythmExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogError("\tFailed RhythmExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
 	}
 	
@@ -244,7 +241,7 @@ UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note 
 
 	unaryExpression->type = NOTE_AND_RHYTHM_ASSIGNMENT;
 
-	LogDebug("\tRhythmExpressionGrammarAction(%s, %s,%s)",unaryExpression->variableName, "noteValue", "rhythm value");
+	LogDebug("\tRhythmExpressionGrammarAction(Name: %s, Note: %s, Rythm: %s)",unaryExpression->variableName->name, unaryExpression->firstValueType->note, unaryExpression->secondValueType->rhythm);
 	return unaryExpression;
 }
 
@@ -450,7 +447,7 @@ BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *
 	binaryExpression->binaryExpression = binaryExpressionRight;
 	binaryExpression->unaryExpression = NULL;
 
-	LogDebug("\tbinaryExpressionAdditionExpressionGrammarAction(%s, +binaryExp %s)", variableNameLeft->name, "binary Expression");
+	LogDebug("\tBinaryExpressionAdditionExpressionGrammarAction(%s +binaryExp %s)", variableNameLeft->name, binaryExpression->binaryExpression->type);
 	return binaryExpression;
 }
 
@@ -473,7 +470,7 @@ BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variable
 
 BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if( !checkAddition(variableNameLeft,variableNameRight)){
-		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tFailed VariableAdditionVariableGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	
@@ -484,7 +481,7 @@ BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNa
 	binaryExpression->binaryExpression = NULL;
 	binaryExpression->unaryExpression = NULL;
 
-	LogDebug("\tVariableAdditionVariableGrammarAction(%s, + %s)", variableNameLeft->name, variableNameRight->name);
+	LogDebug("\tVariableAdditionVariableGrammarAction(%s + %s)", variableNameLeft->name, variableNameRight->name);
 	return binaryExpression;
 }
 
@@ -503,7 +500,7 @@ static int checkSubDivAndMult(VariableName *variableNameLeft, VariableName *vari
 
 BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if(!checkSubDivAndMult(variableNameLeft, variableNameRight)){
-		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tFailed SubstractionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	
@@ -520,7 +517,7 @@ BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableName
 
 BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if( !checkSubDivAndMult(variableNameLeft,variableNameRight)){
-		LogDebug("\t VariableAdditionVariableGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tFailed DivisionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	
@@ -530,7 +527,7 @@ BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft
 	binaryExpression->binaryExpression = NULL;
 	binaryExpression->unaryExpression = NULL;
 
-	LogDebug("\tDivisionExpressionGrammarAction(%s, / %s)", variableNameLeft->name, variableNameRight->name);
+	LogDebug("\tDivisionExpressionGrammarAction(%s / %s)", variableNameLeft->name, variableNameRight->name);
 	return binaryExpression;
 }
 
