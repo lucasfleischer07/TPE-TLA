@@ -121,7 +121,7 @@ token NotePatternAction(const char * lexeme) {
 	} else {
 		*(yylval.note) = SI;
 	} 
-	LogDebug("NotePatternAction: '%s'.", *(yylval.note));
+	LogDebug("NotePatternAction: '%s'.", lexeme);
 	
 	return NOTE_VALUE;
 }
