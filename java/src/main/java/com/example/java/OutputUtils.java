@@ -115,4 +115,8 @@ public class OutputUtils {
         }
         return changeTempo(song,max/duration);
     }
+
+    public String combine(String note1,String note2){
+       return note1+'+'+note2;
+    }
     }

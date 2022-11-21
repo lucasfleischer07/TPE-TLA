@@ -133,8 +133,8 @@ Definitions *DefinitionGrammarAction(Definition *definitionParam) {
 }
 
 Definition *SongGrammarAction(VariableName *variableName) {
-	if(isVariableInTable(state.table,variableName->name)){
-		LogDebug("\tERROR SongGrammarAction(%s, %s) this variable already exists", "SONG", variableName->name);
+	if(isSongDefined(state.table)){
+		LogDebug("\tERROR SongGrammarAction(%s, %s) only one song can be defined", "SONG", variableName->name);
 		state.failed=true;
 	}
 	
