@@ -6,7 +6,7 @@ note nota2
 song finalSong
 
 nota1 re q C4
-nota2 r w
+nota2 sleep w
 
 track1 + nota1
 track1 + nota2

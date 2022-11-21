@@ -38,27 +38,19 @@ static int checkSubDivAndMult(VariableName *variableNameLeft, VariableName *vari
 
 //Chequeo que ambas variables existan, despues chequeo la compatibilidad
 static int checkAddition(VariableName *variableNameLeft,VariableName *variableNameRight){
-	LogDebug("Entrando a checkAddition");
 	if(!isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
-		LogDebug("Variable no esta en la tabla %s", variableNameLeft->name);
-		LogDebug("Variable no esta en la tabla %s", variableNameRight->name);
 		return false;
 	}
 
 	if (isVariableOfType(state.table,variableNameLeft->name,TRACK_SYMBOL)){
-		LogDebug("A la izquierda tengo una track: %s", variableNameLeft->name);
 		if(isVariableOfType(state.table,variableNameRight->name,TRACK_SYMBOL) || isVariableOfType(state.table,variableNameRight->name,NOTE_SYMBOL)){
-			LogDebug("Lo que tengo a la derecha es: %s", variableNameLeft->name);
 			return true;
 		}
 	}else if(isVariableOfType(state.table, variableNameLeft->name,SONG_SYMBOL)) {
-		LogDebug("A la izquierda tengo una song: %s", variableNameLeft->name);
 		if(isVariableOfType(state.table,variableNameRight->name,TRACK_SYMBOL)) {
-			LogDebug("Lo que tengo a la derecha es: %s", variableNameLeft->name);
 			return true;
 		}
 	}
-	LogDebug("No entre en ninguno Sad");
 	return false;
 }
 
@@ -212,7 +204,7 @@ Instruction *BinaryExpressionGrammarAction(BinaryExpression *binaryExpression) {
 
 UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, Note *noteValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
-		LogDebug("\tFailed NoteValueExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR NoteValueExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
 	}
 	
@@ -263,8 +255,7 @@ UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note 
 	
 
 	ValueStruct *valueStruct2 = (ValueStruct *) calloc(1, sizeof(ValueStruct));
-	// valueStruct = (ValueStruct *) calloc(1, sizeof(ValueStruct));
-	unaryExpression->secondValueType = valueStruct;	
+	unaryExpression->secondValueType = valueStruct2;	
 	valueStruct2->tempo = NULL;
 	valueStruct2->instrument = NULL;
 	valueStruct2->chord = NULL;
@@ -284,7 +275,7 @@ UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note 
 
 UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue, int *chordValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
-		LogDebug("\tFailed NoteFullDefinitionExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR NoteFullDefinitionExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
 	}
 	
@@ -332,7 +323,7 @@ UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variabl
 
 UnaryExpression * TrackInstrumentGrammarAction(VariableName *variableName, Instrument *instrumentValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
-		LogDebug("\tFailed TrackInstrumentGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR TrackInstrumentGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
 	}
 	
@@ -362,7 +353,7 @@ UnaryExpression * TrackInstrumentGrammarAction(VariableName *variableName, Instr
 
 UnaryExpression * TempoExpressionGrammarAction(VariableName *variableName, double *tempoValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name, TRACK_SYMBOL)){
-		LogDebug("\tFailed TempoExpressionGrammarAction variable %s is not defined or is not a track",variableName->name);
+		LogDebug("\tERROR TempoExpressionGrammarAction variable %s is not defined or is not a track",variableName->name);
 		state.failed=true;
 	}
 	
@@ -389,10 +380,9 @@ UnaryExpression * TempoExpressionGrammarAction(VariableName *variableName, doubl
 }
 
 
-//VER XQ ESTA IGUAL A REPETITION, CUAL ERA LA DIFERENCIA
 UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableName, int *repetition) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
-		LogDebug("\tFailed MultiplicationExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR MultiplicationExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
 	}
 	
@@ -419,7 +409,6 @@ UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableNam
 	return unaryExpression;
 }
 
-//ESTE NO ESTA CHEQUEADO XQ NO SE EL CASO DE USO
 UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName) {
 	UnaryExpression * unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
 	unaryExpression->variableName = variableName;
@@ -431,14 +420,14 @@ UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName) {
 	return unaryExpression;
 }
 
-//ESTE NO ESTA CHEQUEADO XQ NO SE EL CASO DE USO
 UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repetition){
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
 	unaryExpression->variableName = variableName;
+	unaryExpression->type = DURATION_ASSIGNMENT;
 	
 	ValueStruct *valueStruct = (ValueStruct *) calloc(1, sizeof(ValueStruct));
 	unaryExpression->firstValueType = valueStruct;
-	valueStruct->typeValue = REPETITION_TYPE;
+	valueStruct->typeValue  = REPETITION_TYPE;
 	valueStruct->note = NULL;
 	valueStruct->instrument = NULL;
 	valueStruct->chord = NULL;
@@ -446,13 +435,16 @@ UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repeti
 
 	valueStruct->repetition = repetition;
 
-	LogDebug("\tRepetitionGrammarAction(%s, repetition: (%d))", variableName->name, *(valueStruct->repetition));
+	unaryExpression->secondValueType = NULL;
+	unaryExpression->thirdValueType = NULL;
+
+	LogDebug("\tRepetitionGrammarAction(%s, repetition: (%d))", unaryExpression->variableName->name, *(unaryExpression->firstValueType->repetition));
 	return unaryExpression;
 }
 
 BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *variableNameLeft, BinaryExpression *binaryExpressionRight) {
 	if(!checkAddition(variableNameLeft,binaryExpressionRight->variableNameLeft)){
-		LogDebug("\tFailed BinaryExpressionAdditionExpressionGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,binaryExpressionRight->variableNameLeft->name);
+		LogDebug("\tERROR BinaryExpressionAdditionExpressionGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,binaryExpressionRight->variableNameLeft->name);
 		state.failed=true;
 	}
 	BinaryExpression *binaryExpression = (BinaryExpression *) calloc(1, sizeof(BinaryExpression));
@@ -468,7 +460,7 @@ BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *
 
 BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variableNameLeft, UnaryExpression *unaryExpressionRight) {
 	if( !checkAddition(variableNameLeft,unaryExpressionRight->variableName)){
-		LogDebug("\tFailed VariableAdditionExpressionGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,unaryExpressionRight->variableName->name);
+		LogDebug("\tERROR VariableAdditionExpressionGrammarAction (%s, +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,unaryExpressionRight->variableName->name);
 		state.failed=true;
 	}
 	
@@ -485,7 +477,7 @@ BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variable
 
 BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if( !checkAddition(variableNameLeft,variableNameRight)){
-		LogError("\tFailed VariableAdditionVariableGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tERROR VariableAdditionVariableGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined", variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	
@@ -502,7 +494,7 @@ BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNa
 
 BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if(!checkSubDivAndMult(variableNameLeft, variableNameRight)){
-		LogError("\tFailed SubstractionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tERROR SubstractionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	
@@ -519,7 +511,7 @@ BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableName
 
 BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
 	if( !checkSubDivAndMult(variableNameLeft,variableNameRight)){
-		LogError("\tFailed DivisionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
+		LogError("\tERROR DivisionExpressionGrammarAction (%s +binaryExp %s) the combination of variables is not compatible or one of the is not defined",variableNameLeft->name,variableNameRight->name);
 		state.failed=true;
 	}
 	

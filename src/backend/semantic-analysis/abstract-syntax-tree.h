@@ -34,7 +34,7 @@ typedef enum {
 	SOL='G', 
 	LA='A',
 	SI='B',
-	SLEEP='r',
+	SLEEP='R',
 } Note;
 
 typedef enum {
@@ -63,6 +63,7 @@ typedef enum {
 	NOTE_RHYTHM_CHORD_ASSIGNMENT,
 	PARENTHESIS,
 	INSTRUMENT_ASSINGMENT,
+	DURATION_ASSIGNMENT,
 } ExpressionType;
 
 typedef enum {
