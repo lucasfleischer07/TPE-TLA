@@ -95,89 +95,126 @@ token CloseBracePatternAction(const char * lexeme) {
 // "EXPRESIONES REGULARES"
 
 //Llama el enum de chord
-token ChordPatternAction(const char * lexeme) {
+token ChordPatternAction(const char * lexeme, const int lenght) {
+	// yylval.chord = malloc(sizeof(int));
+	yylval.chord = (int *) calloc(lenght + 1, sizeof(int));
+
+	if(strncmp(lexeme, "C0", lenght) == 0) {
+		*(yylval.chord) = 0;
+	} else if (strncmp(lexeme, "C1", lenght) == 0) {
+		*(yylval.chord) = 1;
+	} else if (strncmp(lexeme, "C2", lenght) == 0) {
+		*(yylval.chord) = 2;
+	} else if (strncmp(lexeme, "C3", lenght) == 0) {
+		*(yylval.chord) = 3;
+	} else if (strncmp(lexeme, "C4", lenght) == 0) {
+		*(yylval.chord) = 4;
+	} else if (strncmp(lexeme, "C5", lenght) == 0) {
+		*(yylval.chord) = 5;
+	} else if (strncmp(lexeme, "C6", lenght) == 0) {
+		*(yylval.chord) = 6;
+	} else if (strncmp(lexeme, "C7", lenght) == 0) {
+		*(yylval.chord) = 7;
+	} else if (strncmp(lexeme, "C8", lenght) == 0) {
+		*(yylval.chord) = 8;
+	} else if(strncmp(lexeme, "C9", lenght) == 0) {
+		*(yylval.chord) = 9;
+	} else {
+		*(yylval.chord) = 10;
+	}
+
 	LogDebug("ChordPatternAction: '%s'.", lexeme);
-	yylval.chord = malloc(sizeof(int));
-	*(yylval.integer) = atoi(lexeme);
+
 	return CHORD_VALUE;
 }
 
 //Llama el enum de note
-token NotePatternAction(const char * lexeme) {
-	
-	yylval.note = malloc(sizeof(Note));
-	if(strcmp(lexeme, "do") == 0) {
+token NotePatternAction(const char * lexeme, const int lenght) {
+	// yylval.note = malloc(sizeof(Note));
+	yylval.note = (Note *) calloc(lenght + 1, sizeof(Note));
+
+	if(strncmp(lexeme, "do", lenght) == 0) {
 		*(yylval.note) = DO;
-	} else if (strcmp(lexeme, "re") == 0) {
+	} else if (strncmp(lexeme, "re", lenght) == 0) {
 		*(yylval.note) = RE;
-	} else if (strcmp(lexeme, "mi") == 0) {
+	} else if (strncmp(lexeme, "mi", lenght) == 0) {
 		*(yylval.note) = MI;
-	}else if (strcmp(lexeme, "fa") == 0) {
+	}else if (strncmp(lexeme, "fa", lenght) == 0) {
 		*(yylval.note) = FA;
-	} else if (strcmp(lexeme, "sol") == 0) {
+	} else if (strncmp(lexeme, "sol", lenght) == 0) {
 		*(yylval.note) = SOL;
-	}else if (strcmp(lexeme, "la") == 0) {
+	}else if (strncmp(lexeme, "la", lenght) == 0) {
 		*(yylval.note) = LA;
+	} else if (strncmp(lexeme, "r", lenght) == 0){
+		*(yylval.note) = SLEEP;
 	} else {
 		*(yylval.note) = SI;
-	} 
+	}
 	LogDebug("NotePatternAction: '%s'.", lexeme);
 	
 	return NOTE_VALUE;
 }
 
-token IntegerPatternAction(const char * lexeme) {
+token IntegerPatternAction(const char * lexeme, const int lenght) {
 	LogDebug("IntegerPatternAction: '%s'", lexeme);
-	yylval.integer = malloc(sizeof(int));
+	// yylval.integer = malloc(sizeof(int));
+	yylval.integer = (int *) calloc(lenght + 1, sizeof(int));
 	*(yylval.integer) = atoi(lexeme);
 	return REPETITION;
 }
 
-token TempoPatternAction(const char * lexeme) {
+token TempoPatternAction(const char * lexeme, const int lenght) {
 	LogDebug("TempoPatternAction: '%s'.", lexeme);
+	// TODO: VER SI ACA METEMOS EN EL AUX EL CALLOC O NO
 	char * aux;
-	yylval.tempo = malloc(sizeof(double));
+	// yylval.tempo = malloc(sizeof(double));
+	yylval.tempo = (double *) calloc(lenght + 1, sizeof(double));
+
 	*(yylval.tempo) = strtod(lexeme, &aux);
 	return TEMPO_VALUE;
 }
 
 //Llama el enum de rhythm
-token RhythmPatternAction(const char * lexeme) {
-	LogDebug("RhythmPatternAction: '%s'.", lexeme);
-	
-	yylval.rhythm = malloc(sizeof(Rhythm));
-	if(strcmp(lexeme, "q") == 0) {
+token RhythmPatternAction(const char * lexeme, const int lenght) {	
+	// yylval.rhythm = malloc(sizeof(Rhythm));
+	yylval.rhythm = (Rhythm *) calloc(lenght + 1, sizeof(Rhythm));
+
+	if(strncmp(lexeme, "q", lenght) == 0) {
 		*(yylval.rhythm) = q;
-	} else if (strcmp(lexeme, "qqq") == 0) {
+	} else if (strncmp(lexeme, "qqq", lenght) == 0) {
 		*(yylval.rhythm) = qqq;
-	}else if (strcmp(lexeme, "h") == 0) {
+	}else if (strncmp(lexeme, "h", lenght) == 0) {
 		*(yylval.rhythm) = h;
 	} else {
 		*(yylval.rhythm) = w;
 	}
 
+	LogDebug("RhythmPatternAction: '%s'.", lexeme);
+
 	return RHYTHM_VALUE;
 }
 
 //Llama el enum de instrument
-token InstrumentPatternAction(const char * lexeme) {
-	LogDebug("InstrumentPatternAction: '%s'.", lexeme);
-
-	yylval.instrument = malloc(sizeof(Instrument));	
-	if(strcmp(lexeme, "P") == 0) {
+token InstrumentPatternAction(const char * lexeme, const int lenght) {
+	yylval.instrument = (Instrument *) calloc(lenght +1, sizeof(Instrument));
+	if(strncmp(lexeme, "P", lenght) == 0) {
 		*(yylval.instrument) = P;
-	} else if (strcmp(lexeme, "F") == 0) {
+	} else if (strncmp(lexeme, "F", lenght) == 0) {
 		*(yylval.instrument) = F;
 	}
+
+	LogDebug("InstrumentPatternAction: '%s'.", lexeme);
 
 	return INSTRUMENT;
 }
 
 token VariablePatternAction(char * lexeme, const int lenght) {
-	LogDebug("VariablePatternAction: '%s'.", lexeme);
-    char * aux = malloc(lenght +1);
+    char * aux = (char *) calloc(lenght +1, sizeof(char));
 	strncpy(aux,lexeme,lenght);
 	yylval.string = aux;
+
+	LogDebug("VariablePatternAction: '%s'.", lexeme);
+
 	return VARIABLE_NAME;
 }
 

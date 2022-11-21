@@ -1,16 +1,17 @@
 #include "symbolsTable.h"
 #include "logger.h"
 
-static SymbolEntry* findVariableRecursive(SymbolEntry *currentEntry,char *varnName);
+static SymbolEntry *findVariableRecursive(SymbolEntry *currentEntry,char *varnName);
 
-SymbolTable * newTable() {
-    SymbolTable * table = malloc(sizeof(SymbolTable));
+SymbolTable *newTable() {
+    // SymbolTable * table = malloc(sizeof(SymbolTable));
+    SymbolTable *table = (SymbolTable *) calloc(1, sizeof(SymbolTable));
     table->top = NULL;
     return table;
 }
 
 //imprimimos la variable de entrada, tampoco se si hace falta 
-void printVariable(SymbolEntry* entry) { //por si quiero impimirlo x entrada
+void printVariable(SymbolEntry *entry) { //por si quiero impimirlo x entrada
     if (entry == NULL)
         printf("es null"); //no se si nos interesa
     else
@@ -20,15 +21,19 @@ void printVariable(SymbolEntry* entry) { //por si quiero impimirlo x entrada
 
 //esta funcion la vamos a usar en el bison.c para agregar simbolos una vez creados a la tabla
 // seria como un init table
-void addSymbolToTable(SymbolTable* table, char* name, SymbolType type) {
-    //creo q value no hace falta xq puedo crear song cancion1
-    SymbolEntry* entry = malloc(sizeof(SymbolEntry));
+void addSymbolToTable(SymbolTable *table, char *name, SymbolType type) {
+
+    // SymbolEntry *entry = malloc(sizeof(SymbolEntry));
+    SymbolEntry *entry = (SymbolEntry *) calloc(1, sizeof(SymbolEntry));
+
     if(entry == NULL){
 	    LogDebug("\t\tAddSymbolToTable con entry NULL");
         //funcion para manejar q me quede sin memory
         return;
     }
-    entry->name = malloc(strlen(name) + 1);
+    // entry->name = malloc(strlen(name) + 1);
+    entry->name = (char *) calloc(strlen(name) + 1, sizeof(char));
+
     if(entry->name == NULL){
 	    LogDebug("\t\tAddSymbolToTable con name NULL");
         free(entry);
@@ -39,7 +44,7 @@ void addSymbolToTable(SymbolTable* table, char* name, SymbolType type) {
     entry->type = type;
     entry->next = table->top;
     table->top = entry;
-    LogDebug("\t\tAddSymbolToTable(%s))", entry->name);
+    LogDebug("\t\tAddSymbolToTable Name: (%s))", entry->name);
 }
 
 /** Funcion que devuelve 1 si la variable ya esta definida, 0 en otro caso*/
@@ -50,7 +55,7 @@ int isVariableInTable(SymbolTable *table,char *varName){
 
 
 /** Funcion que devuelve 1 si la variable tiene el tipo esperado, 0 si no existe la variable o no es el del tipo espardo*/
-int isVariableOfType(SymbolTable *table,char *varName,SymbolType type){
+int isVariableOfType(SymbolTable *table, char *varName, SymbolType type){
     SymbolEntry *varFound = findVariableRecursive(table->top,varName);
     if(varFound == NULL){
         return 0;
@@ -59,13 +64,13 @@ int isVariableOfType(SymbolTable *table,char *varName,SymbolType type){
 }
 
 /** Funcion que devuelve el tipo de la variable*/
-SymbolType getVariableType(SymbolTable *table,char *varName){
-    SymbolEntry* symbol = findVariableRecursive(table->top,varName);
+SymbolType getVariableType(SymbolTable *table, char *varName){
+    SymbolEntry* symbol = findVariableRecursive(table->top, varName);
     return symbol->type;
 }
 
 static void freeRecursive(SymbolEntry* current){
-    if (current== NULL){
+    if (current == NULL){
         return;
     }
     SymbolEntry* aux = current->next;
@@ -78,10 +83,12 @@ void freeTable(SymbolTable *table){
     free(table);
 }
 
-static SymbolEntry* findVariableRecursive(SymbolEntry *currentEntry,char *varName){
-    if(currentEntry==NULL)
+static SymbolEntry *findVariableRecursive(SymbolEntry *currentEntry,char *varName) {
+    if(currentEntry == NULL)
         return NULL;
-    if(strcmp(currentEntry->name,varName)==0)
+    
+    if(strcmp(currentEntry->name, varName) == 0) {
         return currentEntry;
-    return findVariableRecursive(currentEntry->next,varName);
+    }
+    return findVariableRecursive(currentEntry->next, varName);
 }

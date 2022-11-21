@@ -8,10 +8,10 @@ note nota4
 
 song finalSong
 
-nota1 si q G-Major
-nota2 fa h C-Major
-nota3 mi qqq C-Major
-nota4 do w C-Major
+nota1 si q C3
+nota2 fa h C3
+nota3 mi qqq C3
+nota4 do w C2
 
 track1 + nota1
 track1 + nota2

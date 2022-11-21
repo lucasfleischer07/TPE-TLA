@@ -6,9 +6,9 @@ note nota3
 
 song song1
 
-nota1 re q C-Major
-nota2 do h G-Major
-nota3 mi qqq G-Major
+nota1 re q C4
+nota2 do h C10
+nota3 mi qqq C0
 
 track1 + nota1
 track1 + nota2

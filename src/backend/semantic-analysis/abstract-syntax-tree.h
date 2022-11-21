@@ -34,17 +34,13 @@ typedef enum {
 	SOL='G', 
 	LA='A',
 	SI='B',
+	SLEEP='r',
 } Note;
 
 typedef enum {
 	P,
 	F,
 } Instrument;
-
-// typedef enum {
-// 	G_Major,
-// 	C_Major,
-// } Chord;
 
 typedef enum {
 	q='q',

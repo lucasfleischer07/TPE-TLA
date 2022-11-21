@@ -6,14 +6,6 @@
 
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union {
-	// No-terminales (backend).
-	/*
-	Program program;
-	Expression expression;
-	Factor factor;
-	Constant constant;
-	...
-	*/
 
 	// No-terminales (frontend).
 	Program *program;
@@ -93,7 +85,7 @@
 
 %%
 
-program: code																	{ProgramGrammarAction($1); }
+program: code																	{$$ = ProgramGrammarAction($1); }
 	; 
 
 code: definitions															    {$$ = OnlyDefinitionsGrammarAction($1); }

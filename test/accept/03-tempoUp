@@ -4,9 +4,9 @@ note nota2
 note nota3
 song finalSong
 
-nota1 re q G-Major
-nota2 do h C-Major
-nota3 mi qqq C-Major
+nota1 re q C1
+nota2 do h C8
+nota3 mi qqq C8
 
 track1 + nota1
 track1 + nota2

@@ -1,7 +1,7 @@
 song mySong
 track track1
 track track2
-note1 note do G-Major
+note1 note do C4
 
 track1 track2 add note1
 

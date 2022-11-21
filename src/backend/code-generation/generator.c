@@ -34,7 +34,7 @@ void Generator(Program *program) {
 	}
 	// TODO: Ver de cambiar esto de package por el nombre que realmente sea
 	copy_to_java("package com.example.java;\n\n");
-	copy_to_java("import com.emcaple.java.OutputUtils;\n");
+	copy_to_java("import com.example.java.OutputUtils;\n");
 	copy_to_java("import org.jfugue.player.Player;\n");
 	copy_to_java("public class Out {\n");
 	copy_to_java("\tpublic static void main(String[] args) {\n");
@@ -45,8 +45,8 @@ void Generator(Program *program) {
 		GenerateCode(program->code);
 	}
 
-	copy_to_java("Player player = new Player();\n");
-	copy_to_java("player.play(song);\n");
+	copy_to_java("\t\tPlayer player = new Player();\n");
+	copy_to_java("\t\tplayer.play(outputString);\n");
 	copy_to_java("\t}\n");
 	copy_to_java("}\n");
 
@@ -81,7 +81,6 @@ void GenerateDefinition(Definition *definition) {
 		} else if (definition->variableType == NOTE_VAR) {
 			fprintf(yyout, "\t\tString %s = new String("");\n", definition->variableName->name);
 		}
-		// TODO: freeDefinitions? o freeDefinition? (freeDefinitions no existe)
 		freeDefinition(definition);
 	}
 }
@@ -107,6 +106,7 @@ void GenerateInstruction(Instruction *instruction) {
 
 void GenerateBinaryExpression(BinaryExpression *binaryExpression) {
 	if (binaryExpression != NULL) {
+		LogDebug("entre a la get variable tyoe de binary del generator");
 		SymbolType symbolLeft = getVariableType(state.table, binaryExpression->variableNameLeft->name);
 		SymbolType symbolRight = getRightType(binaryExpression);
 
@@ -133,41 +133,32 @@ void GenerateBinaryExpression(BinaryExpression *binaryExpression) {
 
 void GenerateUnaryExpression(UnaryExpression *unaryExpression) {
 	if (unaryExpression != NULL) {
+		LogDebug("Entrando a getVariableType desde GenerateUnaryExpression");
 		SymbolType symbol = getVariableType(state.table, unaryExpression->variableName->name);
 
 		if (unaryExpression->type == MULTIPLICATION) {
 			if (symbol == TRACK_SYMBOL) {
-				fprintf(yyout, "\t\t%s = outputUtils.trackMultiply(%s, %d);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->repetition));
+				fprintf(yyout, "\t\t%s = outputUtils.trackMultiply(\"%s\", %d);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->repetition));
 			}
 		} else if (unaryExpression->type == TEMPO_ASSINGMENT) {
 			if (symbol == TRACK_SYMBOL) {
-				fprintf(yyout, "\t\t%s = outputUtils.changeTempo(%s, %f);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->tempo));
+				fprintf(yyout, "\t\t%s = outputUtils.changeTempo(\"%s\", %.1f);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->tempo));
 			}
 		} else if (unaryExpression->type == INSTRUMENT_ASSINGMENT) {
 			if (symbol == TRACK_SYMBOL) { 
-				// TODO: aca voy a tener que chequear el tipo de instrumento que es creo, porq es Instrument pero desp es un int en el fondo
-				// RTA al todo de arriba: Al desreferenciarlo, creo que ya le pasas el int de la struct y listo
-				fprintf(yyout, "\t\t%s = outputUtils.changeInstrument(%s, %d);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->instrument));
+				fprintf(yyout, "\t\t%s = outputUtils.changeInstrument(\"%s\", %d);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, *(unaryExpression->firstValueType->instrument));
 			}
 		} else if (unaryExpression->type == NOTE_RHYTHM_CHORD_ASSIGNMENT) {
 			if (symbol == NOTE_SYMBOL) {
-				// TODO: aca voy a tener que chequear el tipo de instrumento que es creo, porq es Rythm pero desp es un int en el fondo
-				// TODO: Verificar que esto de poner char un int ande bien
-				char auxRythmChar = *(unaryExpression->firstValueType->rhythm);
-				char *rythmChar = &auxRythmChar;
-				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(%s, %s, %d);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, rythmChar, *(unaryExpression->firstValueType->chord));
+				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(\"%s\", \"%s\", %d);\n", unaryExpression->variableName->name, unaryExpression->firstValueType->note, unaryExpression->secondValueType->rhythm, *(unaryExpression->thirdValueType->chord));
 			}
 		} else if (unaryExpression->type == NOTE_AND_RHYTHM_ASSIGNMENT) {
 				if (symbol == NOTE_SYMBOL) { 
-				// TODO: aca voy a tener que chequear el tipo de instrumento que es creo, porq es Rythm pero desp es un int en el fondo
-				// TODO: Verificar que esto de poner char un int ande bien
-				char auxRythmChar2 = *(unaryExpression->firstValueType->rhythm);
-				char *rythmChar2 = &auxRythmChar2;
-				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(%s, %s);\n", unaryExpression->variableName->name, unaryExpression->variableName->name, rythmChar2);
+				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(\"%s\", \"%s\");\n", unaryExpression->variableName->name, unaryExpression->firstValueType->note, unaryExpression->secondValueType->rhythm);
 			}
 		} else if (unaryExpression->type == NOTE_ASSIGNMENT) {
 			if (symbol == NOTE_SYMBOL) {
-				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(%s);\n", unaryExpression->variableName->name, unaryExpression->variableName->name);
+				fprintf(yyout, "\t\t%s = outputUtils.modifyNote(\"%s\");\n", unaryExpression->variableName->name, unaryExpression->firstValueType->note);
 			}
 		}
 		freeUnaryExpression(unaryExpression);

@@ -8,6 +8,7 @@ cache/
 log/
 obj/
 node_modules/
+cmake-build-debug/
 
 # Files:
 *.csproj.user

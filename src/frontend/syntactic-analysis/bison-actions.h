@@ -12,7 +12,7 @@
  */
 
 // Programa.
-void ProgramGrammarAction(Code *code);
+Program *ProgramGrammarAction(Code *code);
 
 Code *CodeGrammarAction(Definitions *definitions, InstructionsArray *instructionsArray);
 
@@ -39,7 +39,7 @@ UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableNam
 UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName);
 UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repetition);
 
-BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *variableNameLeft, BinaryExpression *doubleExpressionRight);
+BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *variableNameLeft, BinaryExpression *binaryExpressionRight);
 BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
 BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variableNameLeft, UnaryExpression *unaryExpressionRight);
 BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);

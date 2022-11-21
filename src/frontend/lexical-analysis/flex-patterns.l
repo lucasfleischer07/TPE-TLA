@@ -21,8 +21,8 @@ integer 	        [0-9]+
 tempo               ([0-9]){1,2}((\.)([0-9]){1})
 rhythm              (q|qqq|h|w)
 note                (do|re|mi|fa|sol|la|si|r)#?
-instrument          (P|F)
-chord               ^(0|[1-9]{1}|10)$
+instrument          (P|F)            
+chord               C([0-9]|10)
 variableName        [a-zA-Z0-9_]
 
 
@@ -42,14 +42,14 @@ variableName        [a-zA-Z0-9_]
 ")"											{ return CloseParenthesisPatternAction(yytext); }
 
 
-{chord}                                     { return ChordPatternAction(yytext);}
-{note}                                      { return NotePatternAction(yytext);}
+{chord}                                     { return ChordPatternAction(yytext, yyleng);}
+{note}                                      { return NotePatternAction(yytext, yyleng);}
 
-{integer}									{ return IntegerPatternAction(yytext); }
+{integer}									{ return IntegerPatternAction(yytext, yyleng); }
 
-{tempo}                                     { return TempoPatternAction(yytext); }
-{rhythm}                                    { return RhythmPatternAction(yytext); }
-{instrument}                                { return InstrumentPatternAction(yytext); }
+{tempo}                                     { return TempoPatternAction(yytext, yyleng); }
+{rhythm}                                    { return RhythmPatternAction(yytext, yyleng); }
+{instrument}                                { return InstrumentPatternAction(yytext, yyleng); }
 
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }

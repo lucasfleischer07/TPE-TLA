@@ -42,13 +42,13 @@ token DividePatternAction(const char * lexeme);
 token OpenParenthesisPatternAction(const char * lexeme);
 token CloseParenthesisPatternAction(const char * lexeme);
 
-token ChordPatternAction(const char * lexeme);
-token NotePatternAction(const char * lexeme);
-token IntegerPatternAction(const char * lexeme);
+token ChordPatternAction(const char * lexeme, const int lenght);
+token NotePatternAction(const char * lexeme, const int lenght);
+token IntegerPatternAction(const char * lexeme, const int lenght);
 
-token TempoPatternAction(const char * lexeme);
-token RhythmPatternAction(const char * lexeme);
-token InstrumentPatternAction(const char * lexeme);
+token TempoPatternAction(const char * lexeme, const int lenght);
+token RhythmPatternAction(const char * lexeme, const int lenght);
+token InstrumentPatternAction(const char * lexeme, const int lenght);
 
 token VariablePatternAction(char * lexeme, const int length);
 

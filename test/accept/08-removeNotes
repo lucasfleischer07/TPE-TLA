@@ -6,16 +6,16 @@ note nota3
 
 song song1
 
-nota1 re q G-Major
-nota2 do h C-Major
-nota3 mi qqq C-Major
+nota1 re q C3
+nota2 do h C4
+nota3 mi qqq C5
 
 track1 + nota1
 track1 + nota1
 track1 + nota2
 track1 + nota3
 
-song1 + track1
+track1 - nota1
+track1 - nota2
 
-song1 - nota1
-song1 - nota2
+song1 + track1

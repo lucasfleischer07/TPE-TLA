@@ -2,10 +2,10 @@ track track1
 track track2
 note nota1
 note nota2
-song contatSong
+song concatSong
 
-nota1 do q G-Major
-nota2 re h C-Major
+nota1 do q C8
+nota2 re h C2
 
 track1 + nota1
 track1 + nota1
