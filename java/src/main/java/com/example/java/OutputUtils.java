@@ -1,6 +1,7 @@
 package com.example.java;
-
 import org.jfugue.midi.MidiDictionary;
+import org.jfugue.tools.ComputeDurationForEachTrackTool;
+import org.staccato.StaccatoParser;
 
 public class OutputUtils {
 
@@ -9,10 +10,10 @@ public class OutputUtils {
     private final String DEFAULT_DURATION="q";
     private final String DEFAULT_INSTRUMENT="I0";
     public String modifyNote(String note){
-        return note+DEFAULT_OCTAVE+DEFAULT_DURATION;
+        return note.equals("R")? note+DEFAULT_DURATION : note+DEFAULT_OCTAVE+DEFAULT_DURATION;
     }
     public String modifyNote(String note,String rythm){
-        return note+DEFAULT_OCTAVE+rythm;
+        return note.equals("R")? note+rythm: note+DEFAULT_OCTAVE+rythm;
     }
     public String modifyNote(String note,String rythm,int chord){
         return note+chord+rythm;
@@ -95,5 +96,18 @@ public class OutputUtils {
         return stringBuilder.toString();
     }
 
-
+    public String setSongDuration(String song,int duration){
+        StaccatoParser parser=new StaccatoParser();
+        ComputeDurationForEachTrackTool tool=new ComputeDurationForEachTrackTool();
+        parser.addParserListener(tool);
+        parser.parse(song);
+        double[] durations= tool.getDurations();
+        double max=0;
+        for (double num:durations
+             ) {
+            if (num>max)
+                max=num;
+        }
+        return changeTempo(song,max/duration);
+    }
     }
