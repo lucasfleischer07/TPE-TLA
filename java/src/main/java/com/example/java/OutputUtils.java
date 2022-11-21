@@ -13,9 +13,13 @@ public class OutputUtils {
         return note.equals("R")? note+DEFAULT_DURATION : note+DEFAULT_OCTAVE+DEFAULT_DURATION;
     }
     public String modifyNote(String note,String rythm){
+        if(rythm.equals("i"))
+            rythm="qqq";
         return note.equals("R")? note+rythm: note+DEFAULT_OCTAVE+rythm;
     }
     public String modifyNote(String note,String rythm,int chord){
+        if(rythm.equals("i"))
+            rythm="qqq";
         return note+chord+rythm;
     }
 
