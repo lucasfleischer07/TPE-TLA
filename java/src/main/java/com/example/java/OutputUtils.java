@@ -62,8 +62,9 @@ public class OutputUtils {
         return changedSong.toString();
     }
 
-    public String changeInstrument(String track,Instruments instrument){
+    public String changeInstrument(String track,int num){
         StringBuilder changedSong=new StringBuilder(track);
+        Instruments instrument=Instruments.values()[num];
         for(int index=0;(index=changedSong.indexOf("I",index)) >=0;index++){
             int lastIndex=changedSong.indexOf(" ",index);
             changedSong.replace(index+1,lastIndex,instrument.toString());
