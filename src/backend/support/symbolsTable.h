@@ -31,11 +31,11 @@ void deleteVariable(SymbolEntry* entry);
 
 void printVariable(SymbolEntry* entry);
 
-int isVariableOfType(SymbolTable *table,char *varName,SymbolType type);
+int isVariableOfType(SymbolTable *table, char *varName,SymbolType type);
 
-int isVariableInTable(SymbolTable *table,char *varName);
+int isVariableInTable(SymbolTable *table, char *varName);
 
-SymbolType getVariableType(SymbolTable *table,char *varName);
+SymbolType getVariableType(SymbolTable *table, char *varName);
 
 void freeTable(SymbolTable *table);
 

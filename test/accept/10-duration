@@ -4,10 +4,10 @@ track track1
 song song1
 
 note1 do q
-note2 re w
+note2 si w
 
-track1 + note1 + note2
-
+track1 + note1 
+track1 + note2
 
 song1 + track1
 song1 {3}

@@ -4,7 +4,6 @@
 static SymbolEntry *findVariableRecursive(SymbolEntry *currentEntry,char *varnName);
 
 SymbolTable *newTable() {
-    // SymbolTable * table = malloc(sizeof(SymbolTable));
     SymbolTable *table = (SymbolTable *) calloc(1, sizeof(SymbolTable));
     table->top = NULL;
     return table;
@@ -23,21 +22,15 @@ void printVariable(SymbolEntry *entry) { //por si quiero impimirlo x entrada
 // seria como un init table
 void addSymbolToTable(SymbolTable *table, char *name, SymbolType type) {
 
-    // SymbolEntry *entry = malloc(sizeof(SymbolEntry));
     SymbolEntry *entry = (SymbolEntry *) calloc(1, sizeof(SymbolEntry));
 
     if(entry == NULL){
-	    LogDebug("\t\tAddSymbolToTable con entry NULL");
-        //funcion para manejar q me quede sin memory
         return;
     }
-    // entry->name = malloc(strlen(name) + 1);
     entry->name = (char *) calloc(strlen(name) + 1, sizeof(char));
 
     if(entry->name == NULL){
-	    LogDebug("\t\tAddSymbolToTable con name NULL");
         free(entry);
-        //funcion para manejar q me quede sin memory
         return;
     }
     strcpy(entry->name, name);

@@ -94,9 +94,8 @@ token CloseBracePatternAction(const char * lexeme) {
 
 // "EXPRESIONES REGULARES"
 
-//Llama el enum de chord
+//Manejo de Chords
 token ChordPatternAction(const char * lexeme, const int lenght) {
-	// yylval.chord = malloc(sizeof(int));
 	yylval.chord = (int *) calloc(lenght + 1, sizeof(int));
 
 	if(strncmp(lexeme, "C0", lenght) == 0) {
@@ -130,13 +129,12 @@ token ChordPatternAction(const char * lexeme, const int lenght) {
 
 //Llama el enum de note
 token NotePatternAction(const char * lexeme, const int lenght) {
-	// yylval.note = malloc(sizeof(Note));
 	yylval.note = (Note *) calloc(lenght + 1, sizeof(Note));
 
 	if(strncmp(lexeme, "do", lenght) == 0) {
 		*(yylval.note) = DO;
-	} else if (strncmp(lexeme, "re", lenght) == 0) {
-		*(yylval.note) = RE;
+	} else if (strncmp(lexeme, "sleep", lenght) == 0) {
+		*(yylval.note) = SLEEP;
 	} else if (strncmp(lexeme, "mi", lenght) == 0) {
 		*(yylval.note) = MI;
 	}else if (strncmp(lexeme, "fa", lenght) == 0) {
@@ -145,8 +143,8 @@ token NotePatternAction(const char * lexeme, const int lenght) {
 		*(yylval.note) = SOL;
 	}else if (strncmp(lexeme, "la", lenght) == 0) {
 		*(yylval.note) = LA;
-	} else if (strncmp(lexeme, "r", lenght) == 0){
-		*(yylval.note) = SLEEP;
+	} else if (strncmp(lexeme, "re", lenght) == 0){
+		*(yylval.note) = RE;
 	} else {
 		*(yylval.note) = SI;
 	}
@@ -157,7 +155,6 @@ token NotePatternAction(const char * lexeme, const int lenght) {
 
 token IntegerPatternAction(const char * lexeme, const int lenght) {
 	LogDebug("IntegerPatternAction: '%s'", lexeme);
-	// yylval.integer = malloc(sizeof(int));
 	yylval.integer = (int *) calloc(lenght + 1, sizeof(int));
 	*(yylval.integer) = atoi(lexeme);
 	return REPETITION;
@@ -165,18 +162,14 @@ token IntegerPatternAction(const char * lexeme, const int lenght) {
 
 token TempoPatternAction(const char * lexeme, const int lenght) {
 	LogDebug("TempoPatternAction: '%s'.", lexeme);
-	// TODO: VER SI ACA METEMOS EN EL AUX EL CALLOC O NO
 	char * aux;
-	// yylval.tempo = malloc(sizeof(double));
 	yylval.tempo = (double *) calloc(lenght + 1, sizeof(double));
-
 	*(yylval.tempo) = strtod(lexeme, &aux);
 	return TEMPO_VALUE;
 }
 
 //Llama el enum de rhythm
 token RhythmPatternAction(const char * lexeme, const int lenght) {	
-	// yylval.rhythm = malloc(sizeof(Rhythm));
 	yylval.rhythm = (Rhythm *) calloc(lenght + 1, sizeof(Rhythm));
 
 	if(strncmp(lexeme, "q", lenght) == 0) {

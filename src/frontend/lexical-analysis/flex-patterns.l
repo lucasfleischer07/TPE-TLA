@@ -20,7 +20,7 @@ whitespace		    [ \f\n\r\t\v]
 integer 	        [0-9]+          
 tempo               ([0-9]){1,2}((\.)([0-9]){1})
 rhythm              (q|qqq|h|w)
-note                (do|re|mi|fa|sol|la|si|r)#?
+note                (do|re|mi|fa|sol|la|si|sleep)#?
 instrument          (P|F)            
 chord               C([0-9]|10)
 variableName        [a-zA-Z0-9_]

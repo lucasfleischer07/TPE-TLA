@@ -16,8 +16,6 @@ const int main(const int argumentCount, const char ** arguments) {
 	// state.failed = false;
 	state.table = newTable();
 
-	LogDebug("Creo la tabla");
-	
 	// Mostrar parámetros recibidos por consola.
 	for (int i = 0; i < argumentCount; ++i) {
 		LogInfo("Argumento %d: '%s'", i, arguments[i]);
@@ -52,7 +50,6 @@ const int main(const int argumentCount, const char ** arguments) {
 	}
 	
 	freeTable(state.table);
-	LogDebug("Libero la tabla");
 	LogInfo("Fin.");
 	return result;
 }
