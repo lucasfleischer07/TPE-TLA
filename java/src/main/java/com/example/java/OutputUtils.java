@@ -102,16 +102,31 @@ public class OutputUtils {
     }
 
     public String setSongDuration(String song,int duration){
+        if (duration==0)
+            return "";
+        double max=0;
+        double num=0;
+        for(int index=0;(index=song.indexOf("T",index))>=0;index++){
+            num=0;
+            for(int index2=index+1;song.charAt(index2)>='0' && song.charAt(index2)<='9';index2++){
+                num*=10;
+                num+=Character.getNumericValue(song.charAt(index2));
+            }
+            if(num>max){
+                max=num;
+            }
+        }
+        song=changeTempo(song,120/max);
+        max=0;
         StaccatoParser parser=new StaccatoParser();
         ComputeDurationForEachTrackTool tool=new ComputeDurationForEachTrackTool();
         parser.addParserListener(tool);
         parser.parse(song);
         double[] durations= tool.getDurations();
-        double max=0;
-        for (double num:durations
+        for (double nums:durations
              ) {
-            if (num>max)
-                max=num;
+            if (nums>max)
+                max=nums;
         }
         return changeTempo(song,max/duration);
     }
