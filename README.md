@@ -44,13 +44,14 @@ note nombreNote2
 song nombreSong
 
 nombreNote valorDeNota valorDeRitmo valorDeAcorde
-nombreNota2 valordeNota2 valorDeRitmo valorDeAcorde
+nombreNote2 valordeNota2 valorDeRitmo valorDeAcorde
 
 nombreTrack + nombreNote
-nombreTrack + nombreNota2
+nombreTrack + nombreNote2
 nombreTrack - nombreNota
 
-nombreTrack * 2.0
+nombreTrack 0.5
+nombreTrack * 2
 nombreTrack F
 
 nombreSong + nombreTrack
@@ -60,10 +61,16 @@ nombreSong {5}
 
 Hay multiples herramientas para modificar las melodias, y se pueden definir notas y tracks. Canciones hay solo una.
 
-En cuanto a las herramientas se encuentra la adicion (+), para agregar notas a una track, o tracks a las canciones. 
-Tambien se puede remover notas de una track (-), o eliminarlas por completo de la misma (/). 
-Aumentar o disminuir la velocidad de una track (*), la duracion de una cancion {duracion} y tocar notas al mismo tiempo (nota1 noa2). 
-Se puede cambiar el instrumento a tocar en la track(P de piano o F de flauta).
+En cuanto a las herramientas se encuentran:
+* Modificacion de las notas con valorDeNotas (do/re/mi/fa/sol/la/si), valorDeRitmo(q/qqq/h/w), valorDeAcorde(C0/C1/.../C10).
+* La adicion (+), para agregar notas a una track, o tracks a las canciones. 
+* Remover notas de una track (-), o eliminarlas por completo de la misma (/). 
+* Aumentar o disminuir la velocidad de una track: nombreTrack velocidad (double).
+* Multiplicar una track x veces (*).
+* La duracion de una cancion {duracion}.
+* Tocar notas al mismo tiempo (nota1 noa2).
+* Cambiar el instrumento a tocar en la track(P de piano o F de flauta).
+
 Para mas informacion ver la implementacion de los 12 tests aceptados y los 3 programas ya provistos.
 
 

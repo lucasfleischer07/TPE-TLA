@@ -42,5 +42,3 @@ void LogInfo(const char * const format, ...) {
 	va_end(arguments);
 }
 
-
-// nadie lo toca

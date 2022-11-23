@@ -25,14 +25,12 @@ static char* songName;
 void Generator(Program *program) {
 	LogInfo("Produciendo el codigo en java:");
 
-	// TODO: CAmbiar el path del fopen
 	yyout = fopen("java/src/main/java/com/example/java/Out.java", "w");
 
 	if (yyout == NULL) {
 		LogError("Error al abrir el archivo Out.java");
 		return;
 	}
-	// TODO: Ver de cambiar esto de package por el nombre que realmente sea
 	copy_to_java("package com.example.java;\n\n");
 	copy_to_java("import com.example.java.OutputUtils;\n");
 	copy_to_java("import org.jfugue.player.Player;\n");

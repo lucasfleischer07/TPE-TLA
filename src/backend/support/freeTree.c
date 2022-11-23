@@ -19,10 +19,6 @@ void freeCodeTree(Code *code) {
     Definitions* defAux = code->definitions;
     InstructionsArray *instAux = code->instructionArray;
     free(code);
-    // TODO: VER ESTE FREE, NO EXISTE freeDefinitions, solo existe freeDEfinition (originalmente estaba freeDefinitions)
-    // freeDefinitions(defAux);
-    // TODO: VER ESTE FREE, NO EXISTE
-    // freeInstructionsArray(instAux);
 }
 
 void freeDefinition(Definition *definition) {

@@ -78,7 +78,6 @@ static int checkAddition(VariableName *variableNameLeft,VariableName *variableNa
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
 
-//ver si es void o program
 Program *ProgramGrammarAction(Code *code) {
 	Program *program = (Program *) calloc(1, sizeof(Program));
 	program->code = code;
