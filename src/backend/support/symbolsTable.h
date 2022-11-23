@@ -39,5 +39,5 @@ SymbolType getVariableType(SymbolTable *table, char *varName);
 
 void freeTable(SymbolTable *table);
 
-int isSongDefined(SymbolTable *entry);
+int isSongDefined(SymbolEntry *currentEntry);
 #endif

@@ -1,4 +1,3 @@
-#include "../../backend/domain-specific/calculator.h"
 #include "../../backend/support/logger.h"
 #include "bison-actions.h"
 #include <stdio.h>
@@ -22,35 +21,53 @@ void yyerror(const char *string) {
 	LogErrorRaw("\n\n");
 }
 
-
-static int checkSubDivAndMult(VariableName *variableNameLeft, VariableName *variableNameRight){
-	if( !isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
+static int checkCombine(VariableName *variableNameLeft, VariableName *variableNameRight){
+	if(!isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
+		state.errorFound = variable_undefined_error;
 		return false;
 	}
 
-	if ( isVariableOfType(state.table,variableNameLeft->name,TRACK_SYMBOL)){
-		if( isVariableOfType(state.table,variableNameRight->name,NOTE_SYMBOL)) {
+	if (isVariableOfType(state.table,variableNameLeft->name, NOTE_SYMBOL)){
+		if(isVariableOfType(state.table,variableNameRight->name, NOTE_SYMBOL)) {
 			return true;
 		}
 	}
+	state.errorFound = wrong_variable_type_error;
+	return false;
+}
+
+static int checkSubDivAndMult(VariableName *variableNameLeft, VariableName *variableNameRight){
+	if(!isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
+		state.errorFound = variable_undefined_error;
+		return false;
+	}
+
+	if (isVariableOfType(state.table,variableNameLeft->name, TRACK_SYMBOL)){
+		if(isVariableOfType(state.table,variableNameRight->name, NOTE_SYMBOL)) {
+			return true;
+		}
+	}
+	state.errorFound = wrong_variable_type_error;
 	return false;
 }
 
 //Chequeo que ambas variables existan, despues chequeo la compatibilidad
 static int checkAddition(VariableName *variableNameLeft,VariableName *variableNameRight){
 	if(!isVariableInTable(state.table,variableNameLeft->name) || !isVariableInTable(state.table,variableNameRight->name)){
+		state.errorFound = variable_undefined_error;
 		return false;
 	}
-
-	if (isVariableOfType(state.table,variableNameLeft->name,TRACK_SYMBOL)){
-		if(isVariableOfType(state.table,variableNameRight->name,TRACK_SYMBOL) || isVariableOfType(state.table,variableNameRight->name,NOTE_SYMBOL)){
+ 
+	if (isVariableOfType(state.table,variableNameLeft->name, TRACK_SYMBOL)){
+		if(isVariableOfType(state.table,variableNameRight->name, TRACK_SYMBOL) || isVariableOfType(state.table,variableNameRight->name,NOTE_SYMBOL)){
 			return true;
 		}
-	}else if(isVariableOfType(state.table, variableNameLeft->name,SONG_SYMBOL)) {
-		if(isVariableOfType(state.table,variableNameRight->name,TRACK_SYMBOL)) {
+	}else if(isVariableOfType(state.table, variableNameLeft->name, SONG_SYMBOL)) {
+		if(isVariableOfType(state.table,variableNameRight->name, TRACK_SYMBOL)) {
 			return true;
 		}
 	}
+	state.errorFound = wrong_variable_type_error;
 	return false;
 }
 
@@ -125,9 +142,10 @@ Definitions *DefinitionGrammarAction(Definition *definitionParam) {
 }
 
 Definition *SongGrammarAction(VariableName *variableName) {
-	if(isSongDefined(state.table)){
+	if(isSongDefined(state.table->top)){
 		LogDebug("\tERROR SongGrammarAction(%s, %s) only one song can be defined", "SONG", variableName->name);
 		state.failed=true;
+		state.errorFound = duplicate_song_variable_error;
 	}
 	
 	Definition *songDefinition = (Definition *) calloc(1, sizeof(Definition));
@@ -143,6 +161,7 @@ Definition *TrackGrammarAction(VariableName *variableName) {
 	if(isVariableInTable(state.table, variableName->name)){
 		LogDebug("\tERROR TrackGrammarAction(%s, %s) this variable already exists", "TRACK", variableName->name);
 		state.failed=true;
+		state.errorFound = variable_redefined_error;
 	}
 	
 	Definition *trackDefinition = (Definition *) calloc(1, sizeof(Definition));
@@ -157,6 +176,7 @@ Definition *NoteGrammarAction(VariableName *variableName) {
 	if(isVariableInTable(state.table,variableName->name)){
 		LogDebug("\tERROR NoteGrammarAction(%s, %s) this variable already exists", "NOTE", variableName->name);
 		state.failed=true;
+		state.errorFound = variable_redefined_error;
 	}
 	Definition *noteDefinition = (Definition *) calloc(1, sizeof(Definition));
 	noteDefinition->variableName = variableName;
@@ -203,9 +223,14 @@ Instruction *BinaryExpressionGrammarAction(BinaryExpression *binaryExpression) {
 }
 
 UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, Note *noteValue) {
-	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
+	if(!isVariableInTable(state.table,variableName->name)){
 		LogDebug("\tERROR NoteValueExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	}else if(!isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
+		LogDebug("\tERROR NoteValueExpressionGrammarAction variable %s is not a note",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -234,9 +259,14 @@ UnaryExpression *NoteValueExpressionGrammarAction(VariableName *variableName, No
 }
 
 UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue) {
-	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
+	if(!isVariableInTable(state.table,variableName->name)){
 		LogError("\tFailed RhythmExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	}else if(!isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
+		LogError("\tFailed RhythmExpressionGrammarAction variable %s is not a note",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -274,9 +304,14 @@ UnaryExpression *RhythmExpressionGrammarAction(VariableName *variableName, Note 
 }
 
 UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variableName, Note *noteValue, Rhythm *rythmValue, int *chordValue) {
-	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
-		LogDebug("\tERROR NoteFullDefinitionExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+	if(!isVariableInTable(state.table,variableName->name)){
+		LogError("\tFailed RhythmExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	} else if(!isVariableOfType(state.table,variableName->name,NOTE_SYMBOL)){
+		LogError("\tFailed RhythmExpressionGrammarAction variable %s is not a note",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -323,8 +358,13 @@ UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName *variabl
 
 UnaryExpression * TrackInstrumentGrammarAction(VariableName *variableName, Instrument *instrumentValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
-		LogDebug("\tERROR TrackInstrumentGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR TrackInstrumentGrammarAction variable %s is not defined or is not a track",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	}else if(!isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
+		LogDebug("\tERROR TrackInstrumentGrammarAction variable %s is not a track",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression * unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -351,10 +391,16 @@ UnaryExpression * TrackInstrumentGrammarAction(VariableName *variableName, Instr
 	return unaryExpression;
 }
 
+//acelera o desacelera la velocidad de una track
 UnaryExpression * TempoExpressionGrammarAction(VariableName *variableName, double *tempoValue) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name, TRACK_SYMBOL)){
 		LogDebug("\tERROR TempoExpressionGrammarAction variable %s is not defined or is not a track",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	}else if(!isVariableOfType(state.table,variableName->name, TRACK_SYMBOL)){
+		LogDebug("\tERROR TempoExpressionGrammarAction variable %s is not a track",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -379,11 +425,16 @@ UnaryExpression * TempoExpressionGrammarAction(VariableName *variableName, doubl
 	return unaryExpression;
 }
 
-
+//repite la track "repetition" veces
 UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableName, int *repetition) {
 	if(!isVariableInTable(state.table,variableName->name) || !isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
-		LogDebug("\tERROR MultiplicationExpressionGrammarAction variable %s is not defined or is not a note",variableName->name);
+		LogDebug("\tERROR MultiplicationExpressionGrammarAction variable %s is not defined",variableName->name);
 		state.failed=true;
+		state.errorFound = variable_undefined_error;
+	}else if(!isVariableOfType(state.table,variableName->name,TRACK_SYMBOL)){
+		LogDebug("\tERROR MultiplicationExpressionGrammarAction variable %s is not a track",variableName->name);
+		state.failed=true;
+		state.errorFound = wrong_variable_type_error;
 	}
 	
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
@@ -409,18 +460,25 @@ UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableNam
 	return unaryExpression;
 }
 
-UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName) {
-	UnaryExpression * unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
-	unaryExpression->variableName = variableName;
-	unaryExpression->firstValueType = NULL;
-	unaryExpression->secondValueType = NULL;
-	unaryExpression->thirdValueType = NULL;
-	unaryExpression->type = PARENTHESIS;
-	LogDebug("\tParentesisExpressionGramarAction(%s)", unaryExpression->variableName->name);
-	return unaryExpression;
+//Tocar dos variables en simultaneo (van a ser notas xq tracks ya lo hacemos)
+BinaryExpression *ParentesisExpressionGramarAction(VariableName *variableNameLeft, VariableName *variableNameRight) {
+	if( !checkCombine(variableNameLeft,variableNameRight)){
+		LogError("\tERROR ParentesisExpressionGramarAction ('(%s  %s )') the combination of variables is not compatible or one of the is not defined", variableNameLeft->name, variableNameRight->name);
+		state.failed=true;
+	}
+
+	BinaryExpression *binaryExpression = (BinaryExpression *) calloc(1, sizeof(BinaryExpression));
+	binaryExpression->variableNameLeft = variableNameLeft;
+	binaryExpression->variableNameRight = variableNameRight;
+	binaryExpression->type = PARENTHESIS;
+	binaryExpression->binaryExpression = NULL;
+	binaryExpression->unaryExpression = NULL;
+	LogDebug("\tParentesisExpressionGramarAction(%s, %s)", binaryExpression->variableNameLeft->name,  binaryExpression->variableNameRight->name);
+	return binaryExpression;
 }
 
-UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repetition){
+//duracion de una cancion en segundos (con un tempo de 1)
+UnaryExpression *DurationGrammarAction(VariableName *variableName, int *repetition){
 	UnaryExpression *unaryExpression = (UnaryExpression *) calloc(1, sizeof(UnaryExpression));
 	unaryExpression->variableName = variableName;
 	unaryExpression->type = DURATION_ASSIGNMENT;
@@ -438,7 +496,7 @@ UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repeti
 	unaryExpression->secondValueType = NULL;
 	unaryExpression->thirdValueType = NULL;
 
-	LogDebug("\tRepetitionGrammarAction(%s, repetition: (%d))", unaryExpression->variableName->name, *(unaryExpression->firstValueType->repetition));
+	LogDebug("\tDurationGrammarAction(%s, repetition: (%d))", unaryExpression->variableName->name, *(unaryExpression->firstValueType->repetition));
 	return unaryExpression;
 }
 

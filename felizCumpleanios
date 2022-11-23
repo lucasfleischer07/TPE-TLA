@@ -1,0 +1,54 @@
+note note1
+note note2
+note note3
+note note4
+note note5
+note note6
+note note7
+note note8
+
+track track1
+song song1
+
+note1 do 
+note2 re 
+note3 fa 
+note4 mi 
+note5 sol 
+note6 si 
+note7 la 
+note8 sleep
+
+track1 + note1
+track1 + note1
+track1 + note2
+track1 + note1
+track1 + note3
+track1 + note4
+track1 + note8
+track1 + note1
+track1 + note1
+track1 + note2
+track1 + note1
+track1 + note5
+track1 + note3
+track1 + note8
+track1 + note1
+track1 + note1
+track1 + note6
+track1 + note5
+track1 + note4
+track1 + note2
+track1 + note7
+track1 + note7
+track1 + note3
+track1 + note5
+track1 + note3
+track1 + note8
+track1 + note8
+
+track1 * 2
+
+song1 + track1
+
+song1 {15}

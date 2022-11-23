@@ -87,12 +87,11 @@ static SymbolEntry *findVariableRecursive(SymbolEntry *currentEntry,char *varNam
 }
 
 int isSongDefined(SymbolEntry *currentEntry){
-    if(currentEntry==NULL){
+    if(currentEntry == NULL){
         return 0;
     }
-    if(currentEntry->type==SONG_SYMBOL){
+    if(currentEntry->type == SONG_SYMBOL){
         return 1;
     }
-    return isSongDefined(currentEntry->next)
-
+    return isSongDefined(currentEntry->next);
 }

@@ -1,13 +1,23 @@
 note note1 
 note note2
+note note3
+note note4
+note note5
 track track1
 song song1
 
 note1 do q
-note2 si w
+note2 re w
+note3 mi w 
+note4 fa w 
+note5 sol w
 
 track1 + note1 
 track1 + note2
+track1 + note3
+track1 + note4
+track1 + note5
+
 
 song1 + track1
 song1 {3}

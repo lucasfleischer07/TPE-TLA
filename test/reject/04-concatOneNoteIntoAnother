@@ -1,3 +1,13 @@
-note nota1 do qqq
-note note2 re w
-track track1 + nota1 + note2
+note nota1 
+note note2 
+note note3
+
+note1 do qqq
+note2 re w 
+note3 mi w 
+
+note note1 + note2
+
+track1 + note1 + note3
+
+

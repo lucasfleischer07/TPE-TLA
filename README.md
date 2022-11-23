@@ -39,7 +39,29 @@ Para compilar un programa, primero cree un archivo vacío denominado `program` (
 
 ```
 track nombreTrack
+note nombreNote
+note nombreNote2
+song nombreSong
+
+nombreNote valorDeNota valorDeRitmo valorDeAcorde
+nombreNota2 valordeNota2 valorDeRitmo valorDeAcorde
+
+nombreTrack + nombreNote
+nombreTrack + nombreNota2
+nombreTrack - nombreNota
+
+nombreTrack * 2.0
+nombreTrack F
+
+nombreSong + nombreTrack
+
+nombreSong {5}
 ```
+
+Hay multiples herramientas para modificar las melodias, y se pueden definir indefinidas notas y tracks como el usuario desee. Canciones hay solo una.
+En cuanto a las herramientas se encuentra la adicion (+), para agregar notas a una track, o tracks a las canciones. Tambien se puede remover notas de una track (-), o eliminarlas por completo de la misma (/). Aumentar o disminuir la velocidad de una track (*), la duracion de una cancion {duracion} y tocar notas al mismo tiempo (nota1 noa2). Se puede cambiar el instrumento a tocar en la track(P de piano o F de flauta).
+Para mas informacion ver la implementacion de los 11 tests aceptados y los 3 programas ya provistos.
+
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 
@@ -52,8 +74,6 @@ En Windows:
 ```bash
 user@machine:path/ $ script\start.bat program
 ```
-
-Debería obtener el resultado correcto de evaluar el programa anterior: `122318`.
 
 ## Testing
 

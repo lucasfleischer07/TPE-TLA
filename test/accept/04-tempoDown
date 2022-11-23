@@ -2,15 +2,23 @@ track track1
 note nota1
 note nota2
 note nota3
+note note4
+note note5
 song finalSong
 
 nota1 re q C7
 nota2 do h C7
 nota3 mi qqq C2
+note4 re q C1
+note5 la h C3
 
 track1 + nota1
 track1 + nota2
 track1 + nota3
+track1 + note4
+track1 + note5
 track1 0.4
 
 finalSong + track1
+
+

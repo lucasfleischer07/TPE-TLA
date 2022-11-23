@@ -4,12 +4,14 @@ note note2
 track track1
 
 song finalSong
+song otherSong
 
 note1 re w
-note2 pa q
+note2 mi q
 
 track1 + note1
 track1 + note2
 track1 + note1
 
 finalSong + track1
+otherSong + track1

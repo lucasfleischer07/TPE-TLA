@@ -60,7 +60,7 @@ void Generator(Program *program) {
 }
 
 void GenerateCode(Code *code) {
-	if (code != NULL) {
+	if (code != NULL || state.failed ) {
 		GenerateDefinitions(code->definitions);
 		GenerateInstructions(code->instructionArray);
 		free(code);
@@ -68,7 +68,7 @@ void GenerateCode(Code *code) {
 }
 
 void GenerateDefinitions(Definitions *definitions) {
-	if (definitions != NULL) {
+	if (definitions != NULL || state.failed ) {
 		GenerateDefinition(definitions->definition);
 		GenerateDefinitions(definitions->definitions);
 		free(definitions);
@@ -76,7 +76,7 @@ void GenerateDefinitions(Definitions *definitions) {
 }
 
 void GenerateDefinition(Definition *definition) {
-	if (definition != NULL) {
+	if (definition != NULL || state.failed ) {
 		if (definition->variableType == SONG_VAR) {
 			fprintf(yyout, "\t\tString %s = outputUtils.defineSong();\n", definition->variableName->name);
 			songName = definition->variableName->name;
@@ -90,7 +90,7 @@ void GenerateDefinition(Definition *definition) {
 }
 
 void GenerateInstructions(InstructionsArray *instructionsArray) {
-	if (instructionsArray != NULL) {
+	if (instructionsArray != NULL || state.failed ) {
 		GenerateInstruction(instructionsArray->instruction);
 		GenerateInstructions(instructionsArray->instructionArray);
 		free(instructionsArray);
@@ -98,7 +98,7 @@ void GenerateInstructions(InstructionsArray *instructionsArray) {
 }
 
 void GenerateInstruction(Instruction *instruction) {
-	if (instruction != NULL) {
+	if (instruction != NULL || state.failed ) {
 		if (instruction->unaryExpression != NULL) {
 			GenerateUnaryExpression(instruction->unaryExpression);
 		} else {
@@ -109,7 +109,7 @@ void GenerateInstruction(Instruction *instruction) {
 }
 
 void GenerateBinaryExpression(BinaryExpression *binaryExpression) {
-	if (binaryExpression != NULL) {
+	if (binaryExpression != NULL  || state.failed ) {
 		SymbolType symbolLeft = getVariableType(state.table, binaryExpression->variableNameLeft->name);
 		SymbolType symbolRight = getRightType(binaryExpression);
 
@@ -129,13 +129,17 @@ void GenerateBinaryExpression(BinaryExpression *binaryExpression) {
 			if (symbolLeft == TRACK_SYMBOL && symbolRight == NOTE_SYMBOL) {
 				fprintf(yyout, "\t\t%s = outputUtils.tracktrackDivision(%s, %s);\n", binaryExpression->variableNameLeft->name, binaryExpression->variableNameLeft->name, binaryExpression->variableNameRight->name);
 			}
+		} else if (binaryExpression->type == PARENTHESIS) {
+			if (symbolLeft == NOTE_SYMBOL && symbolRight == NOTE_SYMBOL) {
+				fprintf(yyout, "\t\t%s = outputUtils.combine(%s, %s);\n", binaryExpression->variableNameLeft->name, binaryExpression->variableNameLeft->name, binaryExpression->variableNameRight->name);
+			}
 		}
 		freeBinaryExpression(binaryExpression);
 	}
 }
 
 void GenerateUnaryExpression(UnaryExpression *unaryExpression) {
-	if (unaryExpression != NULL) {
+	if (unaryExpression != NULL || state.failed ) {
 		SymbolType symbol = getVariableType(state.table, unaryExpression->variableName->name);
 
 		if (unaryExpression->type == MULTIPLICATION) {

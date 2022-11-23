@@ -36,6 +36,14 @@ typedef enum {
 	true = 1
 } boolean;
 
+typedef enum{
+	no_error,
+	wrong_variable_type_error,
+	variable_undefined_error,
+	variable_redefined_error,
+	duplicate_song_variable_error
+} checkError;
+
 // El tipo de los tokens emitidos por Flex.
 typedef int token;
 
@@ -52,6 +60,7 @@ typedef struct {
 	// El nodo raíz del AST (se usará cuando se implemente el backend).
 	Program * program;
 	SymbolTable * table;
+	checkError errorFound;
 	// Agregar lo que sea necesario para el compilador.
 	// Agregar una pila para manipular scopes.
 	// Agregar una tabla de símbolos.

@@ -1,15 +1,19 @@
-track track1
-
 note nota1
 note nota2
 note nota3
 
+track track1
+
 song song1
 
-nota1 re q C6
-nota2 do h C7
-nota3 mi qqq C8
+nota1 re q C3
+nota2 do h C4
+nota3 mi qqq C5
 
+(nota1 nota2)
+(nota2 nota3)
+
+track1 + nota1
 track1 + nota1
 track1 + nota2
 track1 + nota3

@@ -116,8 +116,7 @@ unaryExpression: variableName NOTE_VALUE										{$$ = NoteValueExpressionGramm
 	| variableName INSTRUMENT													{$$ = TrackInstrumentGrammarAction($1, $2);}
 	| variableName TEMPO_VALUE													{$$ = TempoExpressionGrammarAction($1, $2);}
 	| variableName MULT REPETITION												{$$ = MultiplicationExpressionGrammarAction($1,$3);}
-	| OPEN_PARENTHESIS variableName CLOSE_PARENTHESIS							{$$ = ParentesisExpressionGramarAction($2);}
-	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = RepetitionGrammarAction($1,$3);}
+	| variableName OPEN_BRACE REPETITION CLOSE_BRACE							{$$ = DurationGrammarAction($1,$3);}
 	;
 
 binaryExpression: variableName ADD binaryExpression								{$$ = BinaryExpressionAdditionExpressionGrammarAction($1, $3);}
@@ -125,6 +124,7 @@ binaryExpression: variableName ADD binaryExpression								{$$ = BinaryExpressio
 	| variableName ADD variableName												{$$ = VariableAdditionVariableGrammarAction($1, $3);}
 	| variableName SUB variableName												{$$ = SubstractionExpressionGrammarAction($1, $3);}
 	| variableName DIV variableName												{$$ = DivisionExpressionGrammarAction($1, $3);}
+	| OPEN_PARENTHESIS variableName variableName CLOSE_PARENTHESIS  			{$$ = ParentesisExpressionGramarAction($2, $3);}
 	;
 
 

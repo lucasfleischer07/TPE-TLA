@@ -1,0 +1,18 @@
+note note1
+note note2
+track track1
+song song1
+
+note1 mi q
+note2 do w
+
+track1 + note1
+track1 + note1
+track1 + note1
+track1 + note2
+
+track1 * 2
+
+song1 + track1
+
+song1 {4}

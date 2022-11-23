@@ -1,9 +1,10 @@
 song mySong
 track track1
 track track2
-note1 note do C4
+note note1
+note1 do q C4
 
-track1 track2 add note1
+track1 track2 + note1
 
 mySong + track1
 mySong + track2

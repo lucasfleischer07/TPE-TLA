@@ -6,12 +6,15 @@ note nota3
 
 song song1
 
-nota1 re q C6
-nota2 do h C7
-nota3 mi qqq C8
+nota1 re q C3
+nota2 do h C4
+nota3 mi qqq C5
 
+track1 + nota1
 track1 + nota1
 track1 + nota2
 track1 + nota3
+
+track1 * 3
 
 song1 + track1

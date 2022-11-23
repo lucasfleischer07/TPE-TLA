@@ -36,14 +36,14 @@ UnaryExpression *NoteFullDefinitionExpressionGrammarAction(VariableName * variab
 UnaryExpression *TrackInstrumentGrammarAction(VariableName *variableName, Instrument *instrumentValue);
 UnaryExpression *TempoExpressionGrammarAction(VariableName *variableName, double *tempoValue);
 UnaryExpression *MultiplicationExpressionGrammarAction(VariableName *variableName, int *repetition);
-UnaryExpression *ParentesisExpressionGramarAction(VariableName *variableName);
-UnaryExpression *RepetitionGrammarAction(VariableName *variableName, int *repetition);
+UnaryExpression *DurationGrammarAction(VariableName *variableName, int *repetition);
 
 BinaryExpression *BinaryExpressionAdditionExpressionGrammarAction(VariableName *variableNameLeft, BinaryExpression *binaryExpressionRight);
 BinaryExpression *VariableAdditionVariableGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
 BinaryExpression *VariableAdditionExpressionGrammarAction(VariableName *variableNameLeft, UnaryExpression *unaryExpressionRight);
 BinaryExpression *SubstractionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
 BinaryExpression *DivisionExpressionGrammarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
+BinaryExpression *ParentesisExpressionGramarAction(VariableName *variableNameLeft, VariableName *variableNameRight);
 
 VariableName *VariableNameGrammarAction(char *variable);
 
