@@ -24,8 +24,28 @@ const int main(const int argumentCount, const char ** arguments) {
 
 	// Compilar el programa de entrada.
 	LogInfo("Compilando...\n");
-	const int result = yyparse();
+	 int result = yyparse();
 	
+	switch(state.errorFound){
+		case wrong_variable_type_error:
+			LogError("Se produjo un error en la aplicacion. Se utilizo una variable con el tipo incorrecto");
+			result = 1;
+			break;
+		case variable_undefined_error:
+			LogError("Se produjo un error en la aplicacion. Se utilizo una variable que no fue previamente definida");
+			result = 1;
+			break;
+		case variable_redefined_error:
+			LogError("Se produjo un error en la aplicacion. Se intento redefinir una variable");
+			result = 1;
+			break;
+		case duplicate_song_variable_error:
+			LogError("Se produjo un error en la aplicacion. Se definieron dos song's en el programa");
+			result = 1;
+			break;
+		default:
+			break;
+	}
 
 	switch (result) {
 		case 0:
@@ -36,23 +56,6 @@ const int main(const int argumentCount, const char ** arguments) {
 				Generator(state.result);
 			}
 			else {
-				switch(state.errorFound){
-					case wrong_variable_type_error:
-						LogError("Se produjo un error en la aplicacion. Se utilizo una variable con el tipo incorrecto");
-						break;
-					case variable_undefined_error:
-						LogError("Se produjo un error en la aplicacion. Se utilizo una variable que no fue previamente definida");
-						break;
-					case variable_redefined_error:
-						LogError("Se produjo un error en la aplicacion. Se intento redefinir una variable");
-						break;
-					case duplicate_song_variable_error:
-						LogError("Se produjo un error en la aplicacion. Se definieron dos song's en el programa");
-						break;
-					default:
-						LogError("Se produjo un error en la aplicacion.");
-						break;
-				}
 				return -1;
 			}
 			break;
