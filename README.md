@@ -58,9 +58,13 @@ nombreSong + nombreTrack
 nombreSong {5}
 ```
 
-Hay multiples herramientas para modificar las melodias, y se pueden definir indefinidas notas y tracks como el usuario desee. Canciones hay solo una.
-En cuanto a las herramientas se encuentra la adicion (+), para agregar notas a una track, o tracks a las canciones. Tambien se puede remover notas de una track (-), o eliminarlas por completo de la misma (/). Aumentar o disminuir la velocidad de una track (*), la duracion de una cancion {duracion} y tocar notas al mismo tiempo (nota1 noa2). Se puede cambiar el instrumento a tocar en la track(P de piano o F de flauta).
-Para mas informacion ver la implementacion de los 11 tests aceptados y los 3 programas ya provistos.
+Hay multiples herramientas para modificar las melodias, y se pueden definir notas y tracks. Canciones hay solo una.
+
+En cuanto a las herramientas se encuentra la adicion (+), para agregar notas a una track, o tracks a las canciones. 
+Tambien se puede remover notas de una track (-), o eliminarlas por completo de la misma (/). 
+Aumentar o disminuir la velocidad de una track (*), la duracion de una cancion {duracion} y tocar notas al mismo tiempo (nota1 noa2). 
+Se puede cambiar el instrumento a tocar en la track(P de piano o F de flauta).
+Para mas informacion ver la implementacion de los 12 tests aceptados y los 3 programas ya provistos.
 
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
